@@ -13,4 +13,3 @@ mv dotfiles .dotfiles
 # Dotfile symlinks
 ln -fs ~/.dotfiles/.zshrc ~/.zshrc
 ln -fs ~/.dotfiles/.gitconfig ~/.gitconfig
-
