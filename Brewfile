@@ -1,8 +1,6 @@
 tap "buo/cask-upgrade"
 tap "homebrew/bundle"
-tap "homebrew/cask"
 tap "homebrew/cask-fonts"
-tap "homebrew/core"
 brew "gh"
 brew "git"
 brew "github-keygen"
