@@ -1,5 +1,8 @@
 EDITOR='nvim'
 
+# Upgrade
+alias update='brew update && brew upgrade && brew cu && brew cleanup'
+
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY
 unsetopt BG_NICE		# do NOT nice bg commands
