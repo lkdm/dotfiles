@@ -1,9 +1,7 @@
 tap "buo/cask-upgrade"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
-brew "gh"
 brew "git"
-brew "github-keygen"
 brew "htop"
 brew "mas"
 brew "neovim"
@@ -13,19 +11,15 @@ brew "tree"
 brew "wget"
 cask "1password"
 cask "appcleaner"
-cask "cryptomator"
 cask "firefox"
 cask "font-caskaydia-cove-nerd-font"
 cask "iina"
-mas "1Password for Safari", id: 1569813296
-mas "Baking Soda", id: 1601151613
-mas "Dark Reader for Safari", id: 1438243180
-mas "GoodLinks", id: 1474335294
-mas "Hush", id: 1544743900
-mas "JavaSnipt", id: 1561868291
-mas "NextDNS", id: 1464122853
-mas "Vinegar", id: 1591303229
-mas "Wipr", id: 1320666476
+cask "slack"
+cask "loom"
+cask "visual-studio-code"
+cask "chromium"
+cask "postman"
+cask "zoom"
 vscode "asvetliakov.vscode-neovim"
 vscode "charliermarsh.ruff"
 vscode "christian-kohler.path-intellisense"
@@ -38,7 +32,6 @@ vscode "firefox-devtools.vscode-firefox-debug"
 vscode "GitHub.copilot"
 vscode "GitHub.copilot-chat"
 vscode "GitHub.copilot-labs"
-vscode "golang.go"
 vscode "kenhowardpdx.vscode-gist"
 vscode "ms-azuretools.vscode-docker"
 vscode "ms-dotnettools.csharp"
