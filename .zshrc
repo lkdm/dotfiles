@@ -26,7 +26,7 @@ unsetopt bgnice autoparamslash
 zmodload -a zsh/stat stat
 zmodload -a zsh/zpty zpty
 zmodload -a zsh/zprof zprof
-zmodload -ap zsh/mapfile map
+# zmodload -ap zsh/mapfile map
 
 # Autocomplete
 autoload -U compinit
