@@ -17,3 +17,17 @@ git clone git@github.com:lkdm/dotfiles.git ~/.dotfiles
 ```
 ~/.dotfiles/setup.sh
 ```
+
+3. Choose a Brewfile to load
+
+Personal
+
+```
+brew bundle --file ~/.dotfiles/brewfile/personal
+```
+
+Work
+
+```
+brew bundle --file ~/.dotfiles/brewfile/work
+```
