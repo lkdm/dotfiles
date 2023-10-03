@@ -1,5 +1,8 @@
 EDITOR='nvim'
 
+# Add Homebrew to path
+export PATH="/opt/homebrew/bin:$PATH"
+
 # Upgrade
 alias update='brew update && brew upgrade && brew cu && brew cleanup'
 
