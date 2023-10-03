@@ -22,3 +22,5 @@ set ttyfast                 " Speed up scrolling in Vim
 " set spell                 " enable spell check (may need to download language package)
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
+
+:set so=999                 " Keep the cursor in the centre of the screen
