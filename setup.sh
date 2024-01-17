@@ -7,4 +7,4 @@ brew update
 # Dotfile symlinks
 ln -fs ~/.dotfiles/.zshrc ~/.zshrc
 ln -fs ~/.dotfiles/.gitconfig ~/.gitconfig
-mkdir ~/.config/nvim && ln -fs ~/.dotfiles/init.vim ~/.config/nvim/init.vim
+ln -fs ~/.dotfiles/init.vim ~/.config/nvim/init.vim
