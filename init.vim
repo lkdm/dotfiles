@@ -38,7 +38,7 @@ call plug#begin('~/.config/nvim/plugins')
 "   - e.g. `call plug#begin('~/.vim/plugged')`
 "   - Avoid using standard Vim directory names like 'plugin'
 
-Plug 'junegunn/goyo.vim'
+Plug 'junegunn/goyo.vim', { 'for': ['txt', 'md']}
 
 " Initialize plugin system
 " - Automatically executes `filetype plugin indent on` and `syntax enable`.
