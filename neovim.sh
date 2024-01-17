@@ -1,6 +1,7 @@
 # Installs Neovim and its dependencies
 
 brew install neovim
+mkdir ~/.config/nvim/plugins
 
 # Install vimplug
 # https://github.com/junegunn/vim-plug
