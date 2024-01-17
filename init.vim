@@ -29,7 +29,7 @@ set ttyfast                 " Speed up scrolling in Vim
 :set regexpengine=1	    " Use old rendering engine. Perf for large files.
 
 
-call plug#begin([PLUGIN_DIR])
+call plug#begin('~/.config/nvim/plugins')
 " The default plugin directory will be as follows:
 "   - Vim (Linux/macOS): '~/.vim/plugged'
 "   - Vim (Windows): '~/vimfiles/plugged'
