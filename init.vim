@@ -52,4 +52,4 @@ call plug#end()
 
 
 noremap! <expr> ,d strftime("%Y-%m-%d")
-noremap! <expr> ,n "["+strftime("%Y-%m-%d %H:%M:%S")+"]"
+noremap! <expr> ,n "[" . strftime("%Y-%m-%d %H:%M:%S") . "]"
