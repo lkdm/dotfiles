@@ -1,0 +1,37 @@
+[window]
+decorations = "None"
+decorations_theme_variant = "Dark"
+
+[scrolling]
+history = 65535
+multiplier = 3
+
+[font]
+normal = { family = "JetBrainsMono NerdFont", style = "Regular" }
+
+[colors]
+selection = { background = "#4A4A4A", text = "#ffffff" }
+
+[colors.search]
+matches = { background = "#4A4A4A"}
+
+[colors.normal]
+black = "#050505"
+red = "#AC8A8C"
+green = "#8AAC8B"
+yellow = "#ACA98A"
+blue = "#8F8AAC"
+magenta = "#AC8AAC"
+cyan = "#8AABAC"
+white = "#f0f0f0"
+
+[colors.bright]
+black = "#191919"
+red = "#C49EA0"
+green = "#9EC49F"
+yellow = "#C4C19E"
+blue = "#A39EC4"
+magenta = "#C49EC4"
+cyan = "#C49EC4"
+white = "#fafafa"
+
