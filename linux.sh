@@ -7,4 +7,4 @@ ln -fs $(pwd)/alacritty.toml ~/.config/alacritty/alacritty.toml
 # Reset the existing bashrc by copying Ubuntu's
 cat /etc/skel/.bashrc > ~/.bashrc
 # Execute sh.sh from bashrc
-echo "$(pwd)/sh.sh" >> .bashrc
+echo "source $(pwd)/sh.sh" >> ~/.bashrc
