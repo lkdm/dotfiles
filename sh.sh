@@ -17,7 +17,19 @@ export PATH=$PATH:/usr/bin/python3
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 
 # Alias to instantiate dev containers
-alias cont="docker exec -it $(docker ps -q --filter name=minitol-app) zsh"
+function cont () {
+    container_id=$(docker ps -q --filter name=minitol-app)
+    if [ -n "$container_id" ]; then
+        echo "Found container with ID ${container_id}. Attempting to run..."
+        docker exec -it "$container_id" zsh
+    else
+        echo "No running container found with the name 'minitol-app'."
+    fi
+}
+
+alias cont=cont
+
+# alias cont="docker exec -it $(docker ps -q --filter name=minitol-app) zsh"
 # Ensures container user and group id is mapped to host user and group id
 export DOCKER_USER="$(id -u):$(id -g)"
 
