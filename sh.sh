@@ -30,6 +30,21 @@ function cont () {
 alias cont=cont
 
 # TODO: alias to quickly install vim and set it as git default on container
+function cont_vim() {
+    container_id=$(docker ps -q --filter name=minitol-app)
+    if [ -n "$container_id" ]; then
+    docker exec -it "$container_id" bash -c "
+        sudo apt-get update
+        sudo apt-get install vim
+        git config --global core.editor 'vim'
+        export GIT_EDITOR=vim
+        echo 'Installed Vim in the container'
+    "
+    else
+        echo "Container not found."
+    fi
+}
+
 # TODO: alias to run sql command in container
 
 # TODO: Alias to mirror host git stuff in container
@@ -43,7 +58,9 @@ function git_mirror() {
     if [ -n "$container_id" ]; then
         docker exec -it "$container_id" bash -c "
             git config --global user.email '$host_email' &&
-            git config --global user.name '$host_name'
+            git config --global user.name '$host_name' &&
+            git config --global gpg.ssh.allowedsignersfile ~/.ssh/allowed_signers
+            echo 'Set up Git in the container'
         "
     else
         echo "Container not found."
