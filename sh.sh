@@ -16,44 +16,46 @@ export PATH=$PATH:/usr/bin/python3
 # Force GNOME windows to be dark
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 
+# Returns the ID for the Minitol dev container
+function mid () {
+    docker ps -q --filter name=minitol-app
+}
+
 # Alias to instantiate dev containers
 # TODO: Make a function to just return the container's id.
 function cont () {
-    container_id=$(docker ps -q --filter name=minitol-app)
+    container_id=$(mid)
     if [ -n "$container_id" ]; then
-        echo "Found container with ID ${container_id}. Attempting to run..."
+        echo "Found Minitol container with ID ${container_id}. Attempting to run..."
         docker exec -it "$container_id" zsh
     else
-        echo "No running container found with the name 'minitol-app'."
+        echo "No running Minitol container found."
     fi
 }
-alias cont=cont
 
-# TODO: alias to quickly install vim and set it as git default on container
+# Installs vim in the dev container
 function cont_vim() {
-    container_id=$(docker ps -q --filter name=minitol-app)
+    container_id=$(mid)
     if [ -n "$container_id" ]; then
     docker exec -it "$container_id" bash -c "
         sudo apt-get update
         sudo apt-get install vim
         git config --global core.editor 'vim'
         export GIT_EDITOR=vim
-        echo 'Installed Vim in the container'
+        echo 'Success: Installed Vim in the container'
     "
     else
-        echo "Container not found."
+        echo "Minitol container not found."
     fi
 }
 
 # TODO: alias to run sql command in container
 
-# TODO: Alias to mirror host git stuff in container
-function git_mirror() {
-    # Step 1 - Get host Git info
+# Replicates host git configuration in the dev container
+function cont_git() {
     host_name=$(git config --list | awk -F= '/^user.name=/ {print $2}')
     host_email=$(git config --list | awk -F= '/^user.email=/ {print $2}')
-    # Step 2 - Get minitol container ID
-    container_id=$(docker ps -q --filter name=minitol-app)
+    container_id=$(mid)
     # Step 3 - Execute update config commands in container
     if [ -n "$container_id" ]; then
         docker exec -it "$container_id" bash -c "
@@ -63,7 +65,7 @@ function git_mirror() {
             echo 'Set up Git in the container'
         "
     else
-        echo "Container not found."
+        echo "Minitol container not found."
     fi
 }
 
