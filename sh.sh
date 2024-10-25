@@ -16,14 +16,14 @@ export PATH=$PATH:/usr/bin/python3
 # Force GNOME windows to be dark
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 
+alias mup="docker compose -p minitol -f ~/trionline/.devcontainer/docker-compose.yml up"
 # Returns the ID for the Minitol dev container
 function mid () {
     docker ps -q --filter name=minitol-app
 }
 
-# Alias to instantiate dev containers
-# TODO: Make a function to just return the container's id.
-function cont () {
+# Opens a shell in the dev container
+function msh () {
     container_id=$(mid)
     if [ -n "$container_id" ]; then
         echo "Found Minitol container with ID ${container_id}. Attempting to run..."
@@ -34,7 +34,7 @@ function cont () {
 }
 
 # Installs vim in the dev container
-function cont_vim() {
+function mvim() {
     container_id=$(mid)
     if [ -n "$container_id" ]; then
     docker exec -it "$container_id" bash -c "
@@ -52,7 +52,7 @@ function cont_vim() {
 # TODO: alias to run sql command in container
 
 # Replicates host git configuration in the dev container
-function cont_git() {
+function mgit() {
     host_name=$(git config --list | awk -F= '/^user.name=/ {print $2}')
     host_email=$(git config --list | awk -F= '/^user.email=/ {print $2}')
     container_id=$(mid)
