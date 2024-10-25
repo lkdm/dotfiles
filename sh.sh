@@ -17,7 +17,9 @@ export PATH=$PATH:/usr/bin/python3
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 
 # Alias to instantiate dev containers
-alias cont="docker exec -it $(docker ps -q --filter expose=8001) zsh"
+alias cont="docker exec -it $(docker ps -q --filter name=minitol-app) zsh"
+# Ensures container user and group id is mapped to host user and group id
+export DOCKER_USER="$(id -u):$(id -g)"
 
 # Set the default editor to Neovim
 export VISUAL=nvim
