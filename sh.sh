@@ -17,6 +17,7 @@ export PATH=$PATH:/usr/bin/python3
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 
 # Alias to instantiate dev containers
+# TODO: Make a function to just return the container's id.
 function cont () {
     container_id=$(docker ps -q --filter name=minitol-app)
     if [ -n "$container_id" ]; then
@@ -26,8 +27,28 @@ function cont () {
         echo "No running container found with the name 'minitol-app'."
     fi
 }
-
 alias cont=cont
+
+# TODO: alias to quickly install vim and set it as git default on container
+# TODO: alias to run sql command in container
+
+# TODO: Alias to mirror host git stuff in container
+function git_mirror() {
+    # Step 1 - Get host Git info
+    host_name=$(git config --list | awk -F= '/^user.name=/ {print $2}')
+    host_email=$(git config --list | awk -F= '/^user.email=/ {print $2}')
+    # Step 2 - Get minitol container ID
+    container_id=$(docker ps -q --filter name=minitol-app)
+    # Step 3 - Execute update config commands in container
+    if [ -n "$container_id" ]; then
+        docker exec -it "$container_id" bash -c "
+            git config --global user.email '$host_email' &&
+            git config --global user.name '$host_name'
+        "
+    else
+        echo "Container not found."
+    fi
+}
 
 # alias cont="docker exec -it $(docker ps -q --filter name=minitol-app) zsh"
 # Ensures container user and group id is mapped to host user and group id
