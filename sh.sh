@@ -16,15 +16,21 @@ export PATH=$PATH:/usr/bin/python3
 # Force GNOME windows to be dark
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 
-# > ~/logs/minitol.out
+# Docker compose up container and output log to file
 alias mup="nohup docker compose -p minitol -f ~/trionline/.devcontainer/docker-compose.yml up > ~/logs/minitol.out &"
+
+# Open the Minitol log, ignoring storage-1 spam
+alias mlog="echo \"Listening to container logs...\" && tail -f ~/logs/minitol.out | grep -v storage-1"
+
 # Returns the ID for the Minitol dev container
 function mid () {
     docker ps -q --filter name=minitol-app
 }
 
+
 # Opens SQL shell
 function msql () {
+    # TODO: Pass password to mysql from env
     container_id=$(docker ps -q --filter name=minitol-mariadb)
     if [ -n "$container_id" ]; then
         echo "Found Minitol MariaDB container with ID ${container_id}. Attempting to run..."
@@ -58,26 +64,6 @@ function mvim() {
         export GIT_EDITOR=vim
         echo 'Success: Installed Vim in the container'
     "
-    else
-        echo "Minitol container not found."
-    fi
-}
-
-# TODO: alias to run sql command in container
-
-# Replicates host git configuration in the dev container
-function mgit() {
-    host_name=$(git config --list | awk -F= '/^user.name=/ {print $2}')
-    host_email=$(git config --list | awk -F= '/^user.email=/ {print $2}')
-    container_id=$(mid)
-    # Step 3 - Execute update config commands in container
-    if [ -n "$container_id" ]; then
-        docker exec -it "$container_id" bash -c "
-            git config --global user.email '$host_email' &&
-            git config --global user.name '$host_name' &&
-            git config --global gpg.ssh.allowedsignersfile ~/.ssh/allowed_signers
-            echo 'Set up Git in the container'
-        "
     else
         echo "Minitol container not found."
     fi
