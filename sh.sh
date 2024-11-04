@@ -16,10 +16,24 @@ export PATH=$PATH:/usr/bin/python3
 # Force GNOME windows to be dark
 gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 
-alias mup="docker compose -p minitol -f ~/trionline/.devcontainer/docker-compose.yml up"
+# > ~/logs/minitol.out
+alias mup="nohup docker compose -p minitol -f ~/trionline/.devcontainer/docker-compose.yml up > ~/logs/minitol.out &"
 # Returns the ID for the Minitol dev container
 function mid () {
     docker ps -q --filter name=minitol-app
+}
+
+# Opens SQL shell
+function msql () {
+    container_id=$(docker ps -q --filter name=minitol-mariadb)
+    if [ -n "$container_id" ]; then
+        echo "Found Minitol MariaDB container with ID ${container_id}. Attempting to run..."
+        docker exec -it "$container_id" bash -c "
+            mysql -p
+        "
+    else
+        echo "No running Minitol container found."
+    fi
 }
 
 # Opens a shell in the dev container
