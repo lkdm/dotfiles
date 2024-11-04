@@ -27,9 +27,31 @@ function mid () {
     docker ps -q --filter name=minitol-app
 }
 
-
-# Opens SQL shell
+# Executes the input as SQL
 function msql () {
+    if [ -z "$MINITOL_DB_PASSWORD" ]; then
+        echo "Error: MINITOL_DB_PASSWORD environment variable is not set."
+        return 1
+    fi
+
+    container_id=$(docker ps -q --filter name=minitol-mariadb)
+    if [ -n "$container_id" ]; then
+        echo "Found Minitol MariaDB container with ID ${container_id}. Executing command..."
+
+        # Join all arguments into a single command
+        command="$*"
+
+        # Execute the MySQL command and print the output
+        docker exec -it "$container_id" bash -c "
+            mysql -p'$MINITOL_DB_PASSWORD' -e \"$command\"
+        "
+    else
+        echo "No running Minitol container found."
+    fi
+}
+
+# Opens the MySQL shell
+function msqlsh () {
     if [ -z "$MINITOL_DB_PASSWORD" ]; then
         echo "Error: MINITOL_DB_PASSWORD environment variable is not set."
         return 1
