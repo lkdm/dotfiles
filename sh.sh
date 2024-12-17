@@ -1,6 +1,9 @@
 #!/bin/bash
 # Stuff that starts up when shell starts up
 
+# Map Caps Lock to Escape
+setxkbmap -option caps:escape
+
 # Fix incompatibility issue with Docker and Ubuntu 22.04 LTS
 sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 \
 	&& echo "Enabled Docker compatibility mode for newer Ubuntu" \
