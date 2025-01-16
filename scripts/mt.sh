@@ -125,6 +125,9 @@ case "$subcommand" in
     sqlsh)
         open_sql_repl_in_container "$@"
         ;;
+    branch-sync)
+        execute_branch_sync "$@"
+        ;;
     start)
         start "$@"
         ;;
