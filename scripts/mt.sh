@@ -87,7 +87,7 @@ start() {
 
 help() {
 	echo "MINITOL DEV CONTAINER MULTITOOL
-A selection of tools to assist in the development of Minitol on POSIX-based systems.
+A selection of tools to assist in the development of Minitol on POSIX-based systems, such as Linux or Mac OS.
 
 Usage: mt <subcommand> [options]
 
