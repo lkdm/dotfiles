@@ -118,8 +118,7 @@ Note: Ensure Docker engine is installed and properly configured on your system b
 }
 # Main script logic
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 <subcommand> [options]"
-    echo "mt help      For a list of subcommands"
+    help
     exit 1
 fi
 
@@ -150,8 +149,7 @@ case "$subcommand" in
     	help "$@"
     	;;
     *)
-        echo "Error: Unknown subcommand '$subcommand'"
-        echo "Usage: $0 {compile|debug|mogrify} [options]"
+        echo "mt: $subcommand is not a subcommand. See: mt help"
         exit 1
         ;;
 esac
