@@ -22,22 +22,6 @@ gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 # Open the Minitol log, ignoring storage-1 spam
 alias mlog="echo \"Listening to container logs...\" && tail -f ~/logs/minitol.out | grep -v storage-1"
 
-# Installs vim in the dev container
-function mvim() {
-    container_id=$(mid)
-    if [ -n "$container_id" ]; then
-    docker exec -it "$container_id" bash -c "
-        sudo apt-get update
-        sudo apt-get install vim
-        git config --global core.editor 'vim'
-        export GIT_EDITOR=vim
-        echo 'Success: Installed Vim in the container'
-    "
-    else
-        echo "Minitol container not found."
-    fi
-}
-
 # Ensures container user and group id is mapped to host user and group id
 export DOCKER_USER="$(id -u):$(id -g)"
 
