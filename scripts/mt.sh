@@ -86,32 +86,32 @@ start() {
 }
 
 help() {
-	echo "MINITOL DEV CONTAINER MULTITOOL
-A comprehensive suite of tools to streamline Minitol development on POSIX-based systems (Linux, macOS).
+	echo "mt is a comprehensive suite of tools to streamline Minitol development on POSIX-based systems (Linux, macOS).
 
 Usage: mt <subcommand> [options]
 
 AVAILABLE SUBCOMMANDS
 
-Development Environment:
-  start          Start docker engine and initialise dev app in the dev container
-  sh             Start a ZSH shell inside the dev container
-  id             Get the ID of the dev container
+development environment
+    start          Start docker engine and initialise dev app in the dev container
+    sh             Start a ZSH shell inside the dev container
+    id             Get the ID of the dev container
 
-Database Operations:
-  sql            Execute a SQL script on the dev database
-  slqsh          Open a SQL REPL, connected to the dev database
+perform database operations
+    sql            Execute a SQL script on the dev database
+    slqsh          Open a SQL REPL, connected to the dev database
 
-Version Control:
-  branch-sync    Executes branch-sync script inside a container
+version control
+    branch-sync    Executes branch-sync script inside a container
 
-General:
-  help           Display this help
+general
+    help           Display this help
 
 EXAMPLES
-  mt start
-  mt sql 'SELECT * FROM table LIMIT 1;'
-  mt branch-sync
+
+    mt start
+    mt sql 'SELECT * FROM table LIMIT 1;'
+    mt branch-sync
 
 Note: Ensure Docker engine is installed and properly configured on your system before using this tool.
 	"
