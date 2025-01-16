@@ -87,10 +87,12 @@ start() {
 
 help() {
 	echo "MINITOL DEV CONTAINER MULTITOOL
+A selection of tools to assist in the development of Minitol on POSIX-based systems.
 
 Usage: mt <subcommand> [options]
 
-These are common Mt commands used in various situations:
+These are common mt subcommands used in various situations:
+
 start          Start docker engine and initialise dev app in the dev container
 sh             Start a ZSH shell inside the dev container
 id             Get the ID of the dev container
@@ -102,6 +104,7 @@ branch-sync    Executes branch-sync script inside a container
 # Main script logic
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <subcommand> [options]"
+    echo "mt help      For a list of subcommands"
     exit 1
 fi
 
