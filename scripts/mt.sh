@@ -58,6 +58,18 @@ open_minitol_shell() {
     fi
 }
 
+execute_branch_sync() {
+    container_id=$(get_minitol_container_id)
+    if [ -n "$container_id" ]; then
+        echo "Found Minitol container with ID ${container_id}. Attempting to run..."
+        docker exec -it "$container_id" bash -c "
+            branch-sync
+        "
+    else
+        echo "No running Minitol container found."
+    fi
+}
+
 # Starts Docker Engine then starts the dev app in the container
 start() {
 	nohup docker compose -p minitol -f ~/trionline/.devcontainer/docker-compose.yml up -d > ~/logs/minitol.out 2>&1 </dev/null &
@@ -73,23 +85,26 @@ start() {
     fi
 }
 
+help() {
+	echo "MINITOL DEV CONTAINER MULTITOOL
+
+Usage: mt <subcommand> [options]
+
+These are common Mt commands used in various situations:
+start          Start docker engine and initialise dev app in the dev container
+sh             Start a ZSH shell inside the dev container
+id             Get the ID of the dev container
+sql            Execute a SQL script on the dev database
+slqsh          Open a SQL REPL, connected to the dev database
+branch-sync    Executes branch-sync script inside a container
+	"
+}
 # Main script logic
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <subcommand> [options]"
     exit 1
 fi
 
-help() {
-	echo "MINITOL DEV CONTAINER MULTITOOL
-
-These are common Mt commands used in various situations:
-start      Start docker engine and initialise dev app in the dev container
-sh         Start a ZSH shell inside the dev container
-id         Get the ID of the dev container
-sql        Execute a SQL script on the dev database
-slqsh      Open a SQL REPL, connected to the dev database
-	"
-}
 
 subcommand="$1"
 shift
