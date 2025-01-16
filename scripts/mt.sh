@@ -113,7 +113,8 @@ EXAMPLES
     mt sql 'SELECT * FROM table LIMIT 1;'
     mt branch-sync
 
-Note: Ensure Docker engine is installed and properly configured on your system before using this tool.
+Ensure Docker engine is installed and properly configured on your system before using this tool.
+See: https://docs.docker.com/engine/install/
 	"
 }
 # Main script logic
