@@ -93,19 +93,19 @@ Usage: mt <subcommand> [options]
 AVAILABLE SUBCOMMANDS
 
 development environment
-    start          Start docker engine and initialise dev app in the dev container
-    sh             Start a ZSH shell inside the dev container
-    id             Get the ID of the dev container
+    start          Launch Docker engine and initialise the dev environment
+    sh             Access a ZSH shell within the dev container
+    id             Get the dev container's ID
 
-perform database operations
+database operations
     sql            Execute a SQL script on the dev database
-    slqsh          Open a SQL REPL, connected to the dev database
+    slqsh          Launch an interactive SQL shell connected to the dev database
 
 version control
-    branch-sync    Executes branch-sync script inside a container
+    branch-sync    Run branch synchronisation script inside the dev container
 
 general
-    help           Display this help
+    help           Display this help message
 
 EXAMPLES
 
