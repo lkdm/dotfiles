@@ -10,4 +10,5 @@ cat /etc/skel/.bashrc > ~/.bashrc
 echo "source $(pwd)/sh.sh" >> ~/.bashrc
 
 # Set up a script to automatically open your dev setup in regolith
-echo -e "\nregolith.exec.1: ~/github.com/lkdm/dotfiles/i3.sh" >> ~/.config/regolith/Xresources
+sudo ln -s /home/luke/github.com/lkdm/dotfiles/scripts/i3.sh /usr/local/bin/i3-start
+echo -e "\ni3-wm.program.1: /usr/local/bin/i3-start" >> ~/.config/regolith3/Xresources
