@@ -21,7 +21,7 @@ sleep 1 && i3-msg '[class="firefox"] focus'
 sleep 0.5 && i3-msg 'resize grow width 100 px'
 
 
-sleep 1.5 && i3-msg 'workspace 2'
+sleep 0.5 && i3-msg 'workspace 2'
 sleep 0.5 && i3-msg 'exec alacritty'
 sleep 0.5 && i3-msg '[class="Alacritty"] focus'
-sleep 0.5 && i3-msg 'exec --no-startup-id xdotool type "cd ~/trionline/ && nvim" && xdotool key Return'
+sleep 0.5 && i3-msg 'exec --no-startup-id xdotool type "nvim ~/trionline" && xdotool key Return'

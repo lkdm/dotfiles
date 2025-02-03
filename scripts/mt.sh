@@ -70,6 +70,22 @@ execute_branch_sync() {
     fi
 }
 
+execute_clone_db() {
+    container_id=$(get_minitol_container_id)
+    if [ -n "$container_id" ]; then
+        echo "Found Minitol container with ID ${container_id}. Attempting to run..."
+
+        # Join all arguments into a single command
+        command="$*"
+
+        docker exec -it "$container_id" bash -c "
+            dbclone $command
+        "
+    else
+        echo "No running Minitol container found."
+    fi
+}
+
 # Starts Docker Engine then starts the dev app in the container
 start() {
 	nohup docker compose -p minitol -f ~/trionline/.devcontainer/docker-compose.yml up -d > ~/logs/minitol.out 2>&1 </dev/null &
@@ -100,6 +116,7 @@ development environment
 database operations
     sql            Execute a SQL script on the dev database
     slqsh          Launch an interactive SQL shell connected to the dev database
+    clone          Clone databases from production, separated by spaces
 
 version control
     branch-sync    Run branch synchronisation script inside the dev container
@@ -111,6 +128,7 @@ EXAMPLES
 
     mt start
     mt sql 'SELECT * FROM table LIMIT 1;'
+    mt clone hr_166 hr_338
     mt branch-sync
 
 Ensure Docker engine is installed and properly configured on your system before using this tool.
@@ -142,6 +160,9 @@ case "$subcommand" in
         ;;
     branch-sync)
         execute_branch_sync "$@"
+        ;;
+    clone)
+        execute_clone_db "$@"
         ;;
     start)
         start "$@"
