@@ -86,6 +86,10 @@ execute_clone_db() {
     fi
 }
 
+configure_ts() {
+    echo "Not implemented"
+}
+
 # Starts Docker Engine then starts the dev app in the container
 start() {
 	nohup docker compose -p minitol -f ~/trionline/.devcontainer/docker-compose.yml up -d > ~/logs/minitol.out 2>&1 </dev/null &
@@ -109,20 +113,23 @@ Usage: mt <subcommand> [options]
 AVAILABLE SUBCOMMANDS
 
 development environment
-    start          Launch Docker engine and initialise the dev environment
-    sh             Access a ZSH shell within the dev container
-    id             Get the dev container's ID
+    start                     Launch Docker engine and initialise the dev environment
+    sh                        Access a ZSH shell within the dev container or run a command
+    id                        Get the dev container's ID
 
 database operations
-    sql            Execute a SQL script on the dev database
-    slqsh          Launch an interactive SQL shell connected to the dev database
-    clone          Clone databases from production, separated by spaces
+    sql                       Execute a SQL script on the dev database
+    slqsh \"<sh>\"              Launch an interactive SQL shell connected to the dev database
+    clone <db1> [<db2>, ...]  Clone databases from production, separated by spaces
 
 version control
-    branch-sync    Run branch synchronisation script inside the dev container
+    branch-sync               Run branch synchronisation script inside the dev container
+
+linting
+    ts <1,0>                  Enable or disable strict type checking for the Typescript compiler
 
 general
-    help           Display this help message
+    help                      Display this help message
 
 EXAMPLES
 
@@ -130,6 +137,7 @@ EXAMPLES
     mt sql 'SELECT * FROM table LIMIT 1;'
     mt clone hr_166 hr_338
     mt branch-sync
+    mt ts 1
 
 Ensure Docker engine is installed and properly configured on your system before using this tool.
 See: https://docs.docker.com/engine/install/
@@ -163,6 +171,9 @@ case "$subcommand" in
         ;;
     clone)
         execute_clone_db "$@"
+        ;;
+    ts)
+        configure_ts "$@"
         ;;
     start)
         start "$@"
