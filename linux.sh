@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Setup tmux
+ln -s $(pwd)/tmux.conf ~/.tmux.conf
+sudo apt install fzf
+
 # Setup alacritty terminal
 mkdir -p ~/.config/alacritty/
 ln -fs $(pwd)/alacritty.toml ~/.config/alacritty/alacritty.toml
