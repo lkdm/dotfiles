@@ -19,3 +19,7 @@ echo -e "\ni3-wm.program.1: /usr/local/bin/wkup" >> ~/.config/regolith3/Xresourc
 
 # Set up mt cli tool
 sudo ln -s /home/luke/github.com/lkdm/dotfiles/scripts/mt.sh /usr/local/bin/mt
+
+# Set up gitui
+mkdir -p $HOME/.config/gitui
+ln -s ~/$(pwd)/gitui.ron $HOME/.config/gitui/keybindings.ron
