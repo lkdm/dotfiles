@@ -92,7 +92,7 @@ configure_ts() {
 
 # Starts Docker Engine then starts the dev app in the container
 start() {
-	nohup docker compose -p minitol -f ~/trionline/.devcontainer/docker-compose.yml up -d > ~/logs/minitol.out 2>&1 </dev/null &
+	nohup docker compose -p minitol -f ~/trionline/.devcontainer/docker-compose.yml up -d > /tmp/minitol.log 2>&1 </dev/null &
 	sleep 0.5
 	container_id=$(get_minitol_container_id)
     if [ -n "$container_id" ]; then
@@ -100,8 +100,26 @@ start() {
         docker exec -it "$container_id" bash -c "
         	start
         "
+        echo "Minitol logs can be watched using:
+        tail -f /tmp/minitol.log"
     else
         echo "Could not start Minitol container."
+    fi
+}
+
+
+logs() {
+    local log_file="/tmp/minitol.log"
+
+    if [[ "$1" == "--watch" ]]; then
+        echo "Watching logs..."
+        tail -f "$log_file"
+    elif [[ "$1" == "--tail" ]]; then
+        echo "Displaying last 10 lines of logs..."
+        tail "$log_file"
+    else
+        echo "Paging logs (default)..."
+        less "$log_file"  # Default to less
     fi
 }
 
@@ -122,6 +140,11 @@ database operations
     slqsh \"<sh>\"              Launch an interactive SQL shell connected to the dev database
     clone <db1> [<db2>, ...]  Clone databases from production, separated by spaces
 
+debugging
+    logs                      Display application logs (default: paginated).
+      --watch                 Watch logs in real-time.
+      --tail                  Display only the last 10 lines of logs.
+
 version control
     branch-sync               Run branch synchronisation script inside the dev container
 
@@ -138,6 +161,7 @@ EXAMPLES
     mt clone hr_166 hr_338
     mt branch-sync
     mt ts 1
+    mt logs --watch
 
 Ensure Docker engine is installed and properly configured on your system before using this tool.
 See: https://docs.docker.com/engine/install/
@@ -174,6 +198,9 @@ case "$subcommand" in
         ;;
     ts)
         configure_ts "$@"
+        ;;
+    logs)
+        logs "$@"
         ;;
     start)
         start "$@"
