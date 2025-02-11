@@ -1,0 +1,9 @@
+# Specifies that chezmoi should listen to this directory
+sourceDir = "~/github.com/lkdm/dotfiles"
+
+# Use symlinks instead of file copying
+# mode = "symlink"
+
+# Automatically push to git on change
+# [git]
+#	autoPush - true

@@ -1,0 +1,20 @@
+[init]
+       defaultBranch = main
+[user]
+       name = Luke M
+       email = 44519853+lkdm@users.noreply.github.com
+       signingkey = /home/luke/.ssh/id_ed25519.pub
+[gpg "ssh"]
+       allowedSignersFile = /home/luke/.ssh/allowed_signers
+[commit]
+       gpgsign = true
+[safe]
+       directory = /home/luke/trionline
+[alias]
+       adog = log --all --decorate --oneline --graph
+[gpg]
+       format = ssh
+[tag]
+       gpgsign = true
+[format]
+       signoff = true
