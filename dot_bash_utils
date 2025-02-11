@@ -1,9 +1,9 @@
-# Simpler version of a man-page
-wtfis() { curl "https://cheat.sh/$1"} # Example: wtfis curl
-  
+# # Simpler version of a man-page
+wtfis() { curl "https://cheat.sh/$1"; } # Example: wtfis curl
+
 # Copy to clipboard
 alias copy='xclip -selection clipboard' # Example: echo "Hello" | copy
-  
+
 # Move 'up' so many directories instead of using several cd ../../, etc.
 up() { cd $(eval printf '../'%.0s {1..$1}) && pwd; }
 
