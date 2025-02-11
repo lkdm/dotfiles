@@ -1,7 +1,9 @@
+# Set the source directory for chezmoi
 sourceDir = {{ .chezmoi.config.sourceDir | quote }}
 
+# Prompt the user for their email address if not already set
 {{- $email := promptStringOnce . "email" "Email address" -}}
 
 [data]
+    # Store the email address in the data section
     email = {{ $email | quote }}
-
