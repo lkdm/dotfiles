@@ -1,33 +1,16 @@
 # dotfiles
 
-1. Install Apple's Commandline Tools, which is a prerequisite for using Git and Homebrew.
+Luke's dotfiles managed with [`chezmoi`].
 
-```
-xcode-select --install
-```
+Install with:
 
-2. Clone the repository
-
-```
-git clone git@github.com:lkdm/dotfiles.git ~/.dotfiles
+```sh
+git clone git@github.com:lkdm/dotfiles.git
+chezmoi init --source=~/path/to/repo
 ```
 
-3. Run the setup script.
+1Password information
 
-```
-~/.dotfiles/setup.sh
-```
+```sh
 
-3. Choose a Brewfile to load
-
-Personal
-
-```
-brew bundle --file ~/.dotfiles/brewfile/personal
-```
-
-Work
-
-```
-brew bundle --file ~/.dotfiles/brewfile/work
 ```
