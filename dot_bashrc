@@ -4,6 +4,14 @@ if [[ "$(uname)" == "Darwin" ]]; then
     export icloud=~/Library/Mobile\ Documents/com~apple~CloudDocs/
 fi
 
+# Handy things
+wtfis() { curl "https://cheat.sh/$1"}
+
+
+export TERM=xterm-256color
+export COLORTERM=truecolor
+
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
