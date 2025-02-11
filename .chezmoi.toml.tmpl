@@ -1,4 +1,4 @@
-sourceDir: {{ .chezmoi.config.sourceDir | quote }}
+sourceDir = {{ .chezmoi.config.sourceDir | quote }}
 
 {{- $email := promptStringOnce . "email" "Email address" -}}
 
