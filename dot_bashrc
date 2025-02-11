@@ -1,6 +1,7 @@
 if [[ "$(uname)" == "Darwin" ]]; then
     # Add Homebrew to path
     export PATH="/opt/homebrew/bin:$PATH"
+    export icloud=~/Library/Mobile\ Documents/com~apple~CloudDocs/
 fi
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
