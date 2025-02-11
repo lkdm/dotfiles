@@ -5,8 +5,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
 fi
 
 # Handy things
-wtfis() { curl "https://cheat.sh/$1"}
-
+wtfis() { curl "https://cheat.sh/$1"} # Example: wtfis curl
+alias copy='xclip -selection clipboard' # Example: echo "Hello" | copy
 
 export TERM=xterm-256color
 export COLORTERM=truecolor
