@@ -1,0 +1,3 @@
+!regolith.look.path: /usr/share/regolith-look/i3-default
+regolith.look.path: /usr/share/regolith-look/i3-default
+i3-wm.program.1: /usr/local/bin/wkup
