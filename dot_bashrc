@@ -11,6 +11,9 @@ wtfis() { curl "https://cheat.sh/$1"} # Example: wtfis curl
 alias copy='xclip -selection clipboard' # Example: echo "Hello" | copy
 # Move 'up' so many directories instead of using several cd ../../, etc.
 up() { cd $(eval printf '../'%.0s {1..$1}) && pwd; }
+#Tail all logs in /var/log
+alias logs="find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
+
 
 export TERM=xterm-256color
 export COLORTERM=truecolor
