@@ -3,10 +3,33 @@
 
 # TODO: Might be a good idea to write a simpler version of this tool and put it in a container, then alias `mt` to connect
 
-# Returns the ID for the Minitol Dev Container
+# Returns the ID for the Dev Container
 get_minitol_container_id() {
     docker ps -q --filter name=minitol-app
 }
+
+# Attempts to execute a script on the Docker container, given an ID, subcommand, and arguments
+_execute_sh() {
+    if [ $# -lt 2 ]; then
+        echo "Error: Insufficient arguments. Usage: _execute_sh <container_id> <command> [args...]" >&2
+        return 1
+    fi
+
+    local container_id="$1"
+    shift
+    local command="$1"
+    shift
+    local args="$@"
+
+    if ! docker ps -q --filter "id=$container_id" | grep -q .; then
+        echo "Error: No running container found with ID ${container_id}." >&2
+        return 1
+    fi
+
+    echo "Found container with ID ${container_id}. Attempting to run command..."
+    docker exec -it "$container_id" bash -c "$command $args"
+}
+
 
 # Executes the input as SQL
 execute_sql_in_container() {
@@ -17,7 +40,7 @@ execute_sql_in_container() {
 
     container_id=$(docker ps -q --filter name=minitol-mariadb)
     if [ -n "$container_id" ]; then
-        echo "Found Minitol MariaDB container with ID ${container_id}. Executing command..."
+        echo "Found MariaDB container with ID ${container_id}. Executing command..."
 
         # Join all arguments into a single command
         command="$*"
@@ -27,7 +50,7 @@ execute_sql_in_container() {
             mysql -p'$MINITOL_DB_PASSWORD' -e \"$command\"
         "
     else
-        echo "No running Minitol container found."
+        echo "No running container found."
     fi
 }
 
@@ -37,77 +60,52 @@ open_sql_repl_in_container() {
         echo "Error: MINITOL_DB_PASSWORD environment variable is not set."
         return 1
     fi
-    container_id=$(docker ps -q --filter name=minitol-mariadb)
-    if [ -n "$container_id" ]; then
-        echo "Found Minitol MariaDB container with ID ${container_id}. Attempting to run..."
-        docker exec -it "$container_id" bash -c "
-            mysql -p'$MINITOL_DB_PASSWORD'
-        "
-    else
-        echo "No running Minitol container found."
-    fi
+    cid=$(docker ps -q --filter name=minitol-mariadb)
+    _execute_sh $cid mysql -p'$MINITOL_DB_PASSWORD'
 }
 
-# Opens ZSH in minitol
+
 open_minitol_shell() {
-    container_id=$(get_minitol_container_id)
-    if [ -n "$container_id" ]; then
-        echo "Found Minitol container with ID ${container_id}. Attempting to run..."
-        docker exec -it "$container_id" zsh
+    local cid=$(get_minitol_container_id)
+
+    if [ -z "$cid" ]; then
+        echo "Error: No running Minitol container found." >&2
+        return 1
+    fi
+
+    if [ $# -eq 0 ]; then
+        # No arguments provided, open zsh shell
+        _execute_sh "$cid" "zsh"
     else
-        echo "No running Minitol container found."
+        # Command and arguments provided, execute them
+        local command="$1"
+        shift
+        local args="$@"
+        _execute_sh "$cid" "$command" "$args"
     fi
 }
 
 execute_branch_sync() {
-    container_id=$(get_minitol_container_id)
-    if [ -n "$container_id" ]; then
-        echo "Found Minitol container with ID ${container_id}. Attempting to run..."
-        docker exec -it "$container_id" bash -c "
-            branch-sync
-        "
-    else
-        echo "No running Minitol container found."
-    fi
+    cid=$(get_minitol_container_id)
+    _execute_sh $cid branch-sync
 }
 
 execute_clone_db() {
-    container_id=$(get_minitol_container_id)
-    if [ -n "$container_id" ]; then
-        echo "Found Minitol container with ID ${container_id}. Attempting to run..."
-
-        # Join all arguments into a single command
-        command="$*"
-
-        docker exec -it "$container_id" bash -c "
-            dbclone $command
-        "
-    else
-        echo "No running Minitol container found."
-    fi
+    cid=$(get_minitol_container_id)
+    # Join all arguments into a single command
+    command="$*"
+    _execute_sh $cid dbclone $command
 }
 
 configure_ts() {
-    container_id=$(get_minitol_container_id)
-    if [ -n "$container_id" ]; then
-        echo "Found Minitol container with ID ${container_id}. Attempting to run..."
-        if [[ "$1" == "1" ]]; then
-            docker exec -it "$container_id" bash -c "
-                strict
-            "
-        elif [[ "$1" == "0" ]]; then
-            docker exec -it "$container_id" bash -c "
-                unstrict
-            "
-        else
-            #TODO: Show whether it is currently enabled or disabled
-            echo "Unrecognised argument, try 1 to enable or 0 to disable."
-        fi
-
+    cid=$(get_minitol_container_id)
+    if [[ "$1" == "1" ]]; then
+        _execute_sh $cid strict
+    elif [[ "$1" == "0" ]]; then
+        _execute_sh $cid unstrict
     else
-        echo "No running Minitol container found."
+        echo "Unrecognised argument, try 1 to enable or 0 to disable."
     fi
-
 }
 
 # Starts Docker Engine then starts the dev app in the container
@@ -116,14 +114,14 @@ start() {
 	sleep 0.5
 	container_id=$(get_minitol_container_id)
     if [ -n "$container_id" ]; then
-        echo "Started Minitol container with ID ${container_id}. Attempting to run..."
+        echo "Started container with ID ${container_id}. Attempting to run..."
         docker exec -it "$container_id" bash -c "
         	start
         "
-        echo "Minitol logs can be watched using:
-        tail -f /tmp/minitol.log"
+        echo "Logs are available by running:
+mt log"
     else
-        echo "Could not start Minitol container."
+        echo "Could not start container."
     fi
 }
 
@@ -153,6 +151,7 @@ AVAILABLE SUBCOMMANDS
 development environment
     start                     Launch Docker engine and initialise the dev environment
     sh                        Access a ZSH shell within the dev container or run a command
+    sh <subcmd> [<arg1>, ...] Execute a specified command with optional arguments in the container's shell
     id                        Get the dev container's ID
 
 database operations
@@ -182,6 +181,7 @@ EXAMPLES
     mt branch-sync
     mt ts 1
     mt logs --watch
+    mt sh cat ~/README.md | less
 
 Ensure Docker engine is installed and properly configured on your system before using this tool.
 See: https://docs.docker.com/engine/install/
