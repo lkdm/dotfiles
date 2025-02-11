@@ -1,6 +1,7 @@
 #!/bin/bash
 # Minitol CLI tool
 
+# TODO: Might be a good idea to write a simpler version of this tool and put it in a container, then alias `mt` to connect
 
 # Returns the ID for the Minitol Dev Container
 get_minitol_container_id() {
@@ -87,7 +88,26 @@ execute_clone_db() {
 }
 
 configure_ts() {
-    echo "Not implemented"
+    container_id=$(get_minitol_container_id)
+    if [ -n "$container_id" ]; then
+        echo "Found Minitol container with ID ${container_id}. Attempting to run..."
+        if [[ "$1" == "1" ]]; then
+            docker exec -it "$container_id" bash -c "
+                strict
+            "
+        elif [[ "$1" == "0" ]]; then
+            docker exec -it "$container_id" bash -c "
+                unstrict
+            "
+        else
+            #TODO: Show whether it is currently enabled or disabled
+            echo "Unrecognised argument, try 1 to enable or 0 to disable."
+        fi
+
+    else
+        echo "No running Minitol container found."
+    fi
+
 }
 
 # Starts Docker Engine then starts the dev app in the container
