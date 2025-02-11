@@ -181,7 +181,7 @@ EXAMPLES
     mt branch-sync
     mt ts 1
     mt logs --watch
-    mt sh cat ~/README.md | less
+    mt sh \"cat ~/README.md\" | less
 
 Ensure Docker engine is installed and properly configured on your system before using this tool.
 See: https://docs.docker.com/engine/install/
