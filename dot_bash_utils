@@ -19,6 +19,7 @@ alias l='ls -CF'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+
 ##############################################################################
 # mark/jump support + completion
 # un/mark name : bookmark a directory or remove one (unmark)
@@ -37,11 +38,25 @@ function unmark {
 function marks {
     ls -l $MARKPATH | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
 }
+
 _completemarks() {
-  local curw=${COMP_WORDS[COMP_CWORD]}
-  local wordlist=$(find $MARKPATH -type l -printf "%f\n")
-  COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
-  return 0
+    local curw
+    if [ "$SHELL" = "/bin/bash" ]; then
+        curw=${COMP_WORDS[COMP_CWORD]}
+    else
+        curw=${words[CURRENT]}
+    fi
+    local wordlist=$(find $MARKPATH -type l -printf "%f\n")
+    if [ "$SHELL" = "/bin/bash" ]; then
+        COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
+    else
+        compadd -X "Marks:" ${(f)wordlist}
+    fi
 }
 
-complete -F _completemarks jump unmark
+if [ -n "$BASH_VERSION" ]; then
+    complete -F _completemarks jump unmark
+elif [ -n "$ZSH_VERSION" ]; then
+    compctl -K _completemarks jump unmark
+fi
+
