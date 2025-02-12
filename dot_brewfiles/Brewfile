@@ -1,3 +1,4 @@
+file Linux.Brewfile Darwin.Brewfile
 tap "homebrew/bundle"
 tap "jesseduffield/lazygit"
 tap "macos-fuse-t/cask"
@@ -25,11 +26,4 @@ brew "tree"
 brew "universal-ctags"
 brew "zola"
 brew "jesseduffield/lazygit/lazygit"
-cask "1password-cli"
-cask "aerospace"
-cask "font-jetbrains-mono"
-cask "font-monaspace"
-cask "fuse-t"
-cask "fuse-t-sshfs"
-cask "iina"
-cask "iterm2"
+
