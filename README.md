@@ -46,3 +46,9 @@ Apply changes to the host system
 ```sh
 chezmoi apply
 ```
+
+Adopt an existing config file or directory
+
+```sh
+chezmoi add --follow file_name
+```
