@@ -22,3 +22,5 @@ export PATH="/usr/bin/python3:$PATH"
 export TERM=xterm-256color
 export COLORTERM=truecolor
 
+# Atuin
+$HOME/.atuin/bin/env

@@ -67,21 +67,19 @@ function setup_macos() {
     install_cask_package alacritty
 
     echo "Installing cargo packages..."
-    update_cargo_package create-tauri-app
-    update_cargo_package tauri-cli
     update_cargo_package trunk
 
-    echo "Installing atuin...."
-    if ! command -v atuin &>/dev/null; then
+    if ! command -v &>/dev/null; then
         echo "Installing atuin..."
         bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
     fi
 
-    echo "Installing uv packages..."
     if ! command -v uv &>/dev/null; then
-      curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "Installing uv packages..."
+        curl -LsSf https://astral.sh/uv/install.sh | sh
     fi
     uv tool install harlequin
+
 	echo "Configuring Mac OS with sane defaults..."
 	defaults write com.apple.Finder AppleShowAllFiles true
 	killall Finder
@@ -129,8 +127,6 @@ function setup_linux() {
     install_snap_package obsidian
 
     echo "Installing cargo packages..."
-    update_cargo_package create-tauri-app
-    update_cargo_package tauri-cli
     update_cargo_package trunk
 
     echo "Installing uv packages..."
@@ -139,7 +135,7 @@ function setup_linux() {
     fi
     uv tool install harlequin
 
-    if ! command -v atuin &>/dev/null; then
+    if ! command -v &>/dev/null; then
         echo "Installing atuin..."
         bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
     fi

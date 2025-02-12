@@ -1,0 +1,5 @@
+# https://docs.atuin.sh/configuration/config/
+key_path = "~/.atuin-key"
+# dialect = "uk"
+keymap_mode="vim-normal"
+auto_sync = true
