@@ -93,24 +93,9 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-export PATH=$HOME/.local/bin:$PATH
-export PATH=$PATH:/snap/bin
-
-# Install Go
-export PATH=$PATH:/usr/local/go/bin
-# Make Python3 available to Nvim
-export PATH=$PATH:/usr/bin/python3
 
 # Ensures container user and group id is mapped to host user and group id
 export DOCKER_USER="$(id -u):$(id -g)"
-
-# Set the default editor to Neovim
-export VISUAL=nvim
-export EDITOR="$VISUAL"
-export GIT_EDITOR="$VISUAL"
 
 # Remove unsightly green highlight from directories
 # This made the text illegible
@@ -122,7 +107,3 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-
-# FOr Nvim
-export PATH=$PATH:/home/luke/bin
-export PATH="$HOME/.local/bin:$PATH"

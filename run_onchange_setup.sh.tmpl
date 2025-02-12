@@ -1,0 +1,180 @@
+#!/bin/bash
+
+
+function update_cargo_package() {
+    package="$1"
+    installed_version=$(cargo install --list | grep "^$package v" | awk '{print $2}')
+    if [ -z "$installed_version" ]; then
+        echo "Installing $package..."
+        cargo install "$package"
+    else
+        latest_version=$(cargo search "$package" | grep "^$package =" | awk '{print $3}' | tr -d '"')
+        if [ "$installed_version" != "$latest_version" ]; then
+            echo "Updating $package from $installed_version to $latest_version..."
+            cargo install "$package"
+        else
+            echo "$package is already up to date ($installed_version)"
+        fi
+    fi
+}
+
+
+   function install_brew_package() {
+       package="$1"
+       if brew list "$package" >/dev/null 2>&1; then
+           echo "Package '$package' is already installed."
+       else
+           echo "Installing '$package'..."
+           brew install "$package"
+       fi
+   }
+
+   function install_cask_package() {
+       package="$1"
+       if brew list --cask "$package" >/dev/null 2>&1; then
+           echo "Cask '$package' is already installed."
+       else
+           echo "Installing cask '$package'..."
+           brew install --cask "$package"
+       fi
+   }
+
+
+function setup_macos() {
+	echo "Setting up for macOS"
+
+	if ! command -v brew &>/dev/null; then
+		sudo xcode-select --install
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
+	echo "Installing brew packages..."
+	install_brew_package 1password-cli
+    install_brew_package git
+    install_brew_package rustup
+    install_brew_package tmux
+    install_brew_package fzf
+    install_brew_package btop
+    install_brew_package jq
+    install_brew_package ripgrep
+    install_brew_package nvim
+    install_brew_package sevenzip
+    install_brew_package jesseduffield/lazygit/lazygit
+    install_brew_package go
+
+	echo "Installing cask packages..."
+    install_cask_package firefox
+    install_cask_package obsidian
+    install_cask_package 1password
+    install_cask_package alacritty
+
+    echo "Installing cargo packages..."
+    update_cargo_package create-tauri-app
+    update_cargo_package tauri-cli
+    update_cargo_package trunk
+
+    echo "Installing uv packages..."
+    if ! command -v uv &>/dev/null; then
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+    fi
+    uv tool install harlequin
+	echo "Configuring Mac OS with sane defaults..."
+	defaults write com.apple.Finder AppleShowAllFiles true
+	killall Finder
+}
+
+function install_apt_package() {
+    package="$1"
+    if dpkg -s "$package" >/dev/null 2>&1; then
+        echo "APT package '$package' is already installed."
+    else
+        echo "Installing APT package '$package'..."
+        sudo apt install -y "$package"
+    fi
+}
+
+function install_snap_package() {
+    package="$1"
+    if snap list "$package" >/dev/null 2>&1; then
+        echo "Snap package '$package' is already installed."
+    else
+        echo "Installing Snap package '$package'..."
+        sudo snap install "$package" --classic
+    fi
+}
+
+function setup_linux() {
+	echo "Setting up for Linux"
+	# Install Rustup
+    if ! command -v rustup &>/dev/null; then
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    fi
+
+    echo "Installing apt packages..."
+    sudo apt update # Keep this.  It's generally good practice.
+    install_apt_package tmux
+    install_apt_package fzf
+    install_apt_package btop
+    install_apt_package jq
+    install_apt_package ripgrep
+    install_apt_package p7zip
+
+    echo "Installing snap packages..."
+    install_snap_package nvim
+    install_snap_package firefox
+    install_snap_package obsidian
+
+    echo "Installing cargo packages..."
+    update_cargo_package create-tauri-app
+    update_cargo_package tauri-cli
+    update_cargo_package trunk
+
+    echo "Installing uv packages..."
+    if ! command -v uv &>/dev/null; then
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+    fi
+    uv tool install harlequin
+
+    echo "Installing Lazygit..."
+    if ! command -v lazygit &>/dev/null; then
+      LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \
+                        grep -Po '"tag_name": *"v\K[^"]*')
+      curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+      tar xf lazygit.tar.gz lazygit
+      sudo install lazygit -D -t /usr/local/bin/
+    fi
+
+
+	# TODO: Install Linux/deb app if not headless
+	# https://support.1password.com/install-linux/#debian-or-ubuntu
+	# echo "Attempting to install 1Password <https://support.1password.com/install-linux/#debian-or-ubuntu>"
+	# curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+	# echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | sudo tee /etc/apt/sources.list.d/1password.list
+	# sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
+	# curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+	# sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+	# curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+	# sudo apt update && sudo apt install 1password
+
+	# TODO: Install 1Password CLI [`op`] if not headless
+	# curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+  	# sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg && \
+  	# echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$(dpkg --print-architecture) stable main" | \
+  	# sudo tee /etc/apt/sources.list.d/1password.list && \
+  	# sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/ && \
+  	# curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
+  	# sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol && \
+  	# sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22 && \
+  	# curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+  	# sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg && \
+  	# sudo apt update && sudo apt install 1password-cli
+}
+
+{{ if eq .chezmoi.os "darwin" -}}
+setup_macos
+{{ else if eq .chezmoi.os "linux" -}}
+setup_linux
+{{ else if eq .chezmoi.os "windows" -}}
+echo "Windows is not supported"
+{{ else -}}
+echo "Unknown operating system not supported"
+{{ end }}

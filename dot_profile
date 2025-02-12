@@ -1,0 +1,24 @@
+# .profile is run once per login
+
+# Set the default editor to Neovim
+export VISUAL=nvim
+export EDITOR="$VISUAL"
+export GIT_EDITOR="$VISUAL"
+
+# Add Bun to PATH
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Add local binaries to PATH
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+
+# Add system paths to PATH
+export PATH="/usr/local/go/bin:$PATH"
+export PATH="/snap/bin:$PATH"
+export PATH="/usr/bin/python3:$PATH"
+
+# Terminal settings
+export TERM=xterm-256color
+export COLORTERM=truecolor
+
