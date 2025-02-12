@@ -1,5 +1,12 @@
 # .profile is run once per login
 
+{{ if eq .chezmoi.os "darwin" -}}
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+{{ else if eq .chezmoi.os "linux" -}}
+export SSH_AUTH_SOCK=~/.1password/agent.sock
+{{ else -}}
+{{ end }}
+
 # Set the default editor to Neovim
 export VISUAL=nvim
 export EDITOR="$VISUAL"
@@ -22,5 +29,4 @@ export PATH="/usr/bin/python3:$PATH"
 export TERM=xterm-256color
 export COLORTERM=truecolor
 
-# Atuin
-$HOME/.atuin/bin/env
+export PATH="$PATH:$HOME/.atuin/bin"
