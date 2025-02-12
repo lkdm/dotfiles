@@ -10,10 +10,9 @@ function update_cargo_package() {
     else
         latest_version=$(cargo search "$package" | grep "^$package =" | awk '{print $3}' | tr -d '"')
         if [ "$installed_version" != "$latest_version" ]; then
-            echo "Updating $package from $installed_version to $latest_version..."
-            cargo install "$package"
+            echo "Cargo package $package $installed_version can be updated to $latest_version. Run: `cargo install $package`."
         else
-            echo "$package is already up to date ($installed_version)"
+            echo "Cargo package $package is up to date ($installed_version)"
         fi
     fi
 }
@@ -71,6 +70,12 @@ function setup_macos() {
     update_cargo_package create-tauri-app
     update_cargo_package tauri-cli
     update_cargo_package trunk
+
+    echo "Installing atuin...."
+    if ! command -v atuin &>/dev/null; then
+        echo "Installing atuin..."
+        bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
+    fi
 
     echo "Installing uv packages..."
     if ! command -v uv &>/dev/null; then
@@ -133,6 +138,11 @@ function setup_linux() {
       curl -LsSf https://astral.sh/uv/install.sh | sh
     fi
     uv tool install harlequin
+
+    if ! command -v atuin &>/dev/null; then
+        echo "Installing atuin..."
+        bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
+    fi
 
     echo "Installing Lazygit..."
     if ! command -v lazygit &>/dev/null; then
