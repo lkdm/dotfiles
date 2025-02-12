@@ -1,5 +1,7 @@
 # TODO
 
+- [x] Fix Atuin on Linux
+- [ ] Install 1P on Linux
 - [ ] Try Homebrew/brewfile on Linux
 
   - https://gist.github.com/ChristopherA/a579274536aab36ea9966f301ff14f3f
