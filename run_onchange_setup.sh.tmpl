@@ -69,7 +69,7 @@ function setup_macos() {
     echo "Installing cargo packages..."
     update_cargo_package trunk
 
-    if ! command -v &>/dev/null; then
+    if ! command -v atuin &>/dev/null; then
         echo "Installing atuin..."
         bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
     fi
@@ -128,6 +128,7 @@ function setup_linux() {
 
     echo "Installing cargo packages..."
     update_cargo_package trunk
+    update_cargo_package atuin
 
     echo "Installing uv packages..."
     if ! command -v uv &>/dev/null; then

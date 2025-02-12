@@ -1,0 +1,28 @@
+{{- if ne .sysarea "server" }}
+{{-   $fontDir := "" }}
+{{-   if eq .chezmoi.os "darwin" }}
+{{-     $fontDir = "Library/Fonts" }}
+{{-   else if eq .chezmoi.os "linux" }}
+{{-     $fontDir = ".local/share/fonts" }}
+{{-   end }}
+["{{ $fontDir }}/JetBrainsMonoNerdFontMono-Regular.ttf"]
+	type = "archive"
+	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.tar.xz"
+    exact = true
+    strip_components = 1
+["{{ $fontDir }}/JetBrainsMonoNerdFontMono-Bold.ttf"]
+	type = "archive"
+	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.tar.xz"
+    exact = true
+    strip_components = 1
+["{{ $fontDir }}/JetBrainsMonoNerdFontMono-Italic.ttf"]
+	type = "archive"
+	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.tar.xz"
+    exact = true
+    strip_components = 1
+["{{ $fontDir }}/JetBrainsMonoNerdFontMono-BoldItalic.ttf"]
+	type = "archive"
+	url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/JetBrainsMono.tar.xz"
+    exact = true
+    strip_components = 1
+{{- end }}

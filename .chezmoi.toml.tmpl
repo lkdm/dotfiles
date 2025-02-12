@@ -1,9 +1,25 @@
 # Set the source directory for chezmoi
 sourceDir = {{ .chezmoi.config.sourceDir | quote }}
 
-# Prompt the user for their email address if not already set
-{{- $email := promptStringOnce . "email" "Email address" -}}
+{{/* work around unreliable hostname on darwin */}}
+{{- $hostname := .chezmoi.hostname -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $computerName := output "scutil" "--get" "ComputerName" | trim -}}
+{{-   if eq $computerName "Luke’s MacBook Pro" -}}
+{{-     $hostname = "Lukes-MBP" -}}
+{{-   else -}}
+{{-     $hostname = $computerName -}}
+{{-   end -}}
+{{- end -}}
 
 [data]
-    # Store the email address in the data section
-    email = {{ $email | quote }}
+name = "Luke M"
+email = "44519853+lkdm@users.noreply.github.com"
+hostname = {{ $hostname | quote }}
+{{ if eq .chezmoi.hostname "Lukes-MBP" }}
+sysarea = "home"
+{{ else if eq .chezmoi.hostname "linux-work" }}
+sysarea = "work"
+{{ else }}
+sysarea = "server"
+{{ end }}
