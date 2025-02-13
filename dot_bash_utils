@@ -28,9 +28,10 @@ cheatsrs() {
     w3m "https://cheats.rs"
 }
 
-trynvim() {
+tryvim() {
     NVIM_APPNAME=$0 nvim
 }
+alias trynvim="tryvim"
 
 
 ##############################################################################
