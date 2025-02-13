@@ -1,6 +1,16 @@
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  tmux new-session -A -s main
+  tmux new-session -A -s launchpad
 fi
+
+# PS1='%n@%m %F{red}%/%f $ ' # david@macbook /tmp $
+git_branch() {
+    branch=$(git symbolic-ref HEAD 2> /dev/null | cut -d'/' -f3-)
+    if [[ -n $branch ]]; then
+        echo " ($branch)"
+    fi
+}
+setopt PROMPT_SUBST
+PS1='%n@%m %F{red}${PWD/#$HOME/~}%f$(git_branch) $ '
 
 
 # Upgrade
