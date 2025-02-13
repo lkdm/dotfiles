@@ -3,15 +3,23 @@ if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] &&
 fi
 
 # PS1='%n@%m %F{red}%/%f $ ' # david@macbook /tmp $
-git_branch() {
-    branch=$(git symbolic-ref HEAD 2> /dev/null | cut -d'/' -f3-)
+git_branch_with_color() {
+    local branch=$(git symbolic-ref HEAD 2> /dev/null | cut -d'/' -f3-)
     if [[ -n $branch ]]; then
-        echo " ($branch)"
+        local git_status=$(git status --porcelain 2> /dev/null)
+        local color
+        if [[ -n $git_status ]]; then
+            color="yellow"  # Changes present
+        elif [[ $branch == "main" || $branch == "master" || $branch == "staging" ]]; then
+            color="red"   # On main/master branch
+        else
+            color="cyan"    # On other branches
+        fi
+        echo " %F{$color}($branch)%f"
     fi
 }
 setopt PROMPT_SUBST
-PS1='%n@%m %F{red}${PWD/#$HOME/~}%f$(git_branch) $ '
-
+PS1='%n@%m %F{240}${PWD/#$HOME/~}%f$(git_branch_with_color) $ '
 
 # Upgrade
 
