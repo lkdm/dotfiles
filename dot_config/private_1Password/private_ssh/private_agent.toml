@@ -30,3 +30,5 @@
 #  https://developer.1password.com/docs/ssh/agent/config
 [[ssh-keys]]
 vault = "Dev"
+[[ssh-keys]]
+vault = "Employee"
