@@ -1,0 +1,47 @@
+function update() {
+	if command -v brew &> /dev/null; then
+        echo 'Updating packages with Homebrew/Linuxbrew...'
+        brew update
+        brew upgrade
+        brew cask update
+        brew cleanup
+    fi
+
+
+	if [[ "$1" == 'all' ]]; then
+        if command -v mas &> /dev/null; then
+            echo 'Updating App Store applications...'
+            mas upgrade
+        fi
+    fi
+
+	if ! [[ "$OSTYPE" =~ ^darwin ]]; then
+        if command -v apt &> /dev/null; then
+            echo 'Updating packages with apt...'
+            apt update
+            apt full-upgrade
+            apt autoremove
+            apt clean
+            apt autoclean
+        fi
+
+        if command -v apt-get &> /dev/null; then
+            echo 'Updating packages with apt-get...'
+            apt-get update
+            apt-get upgrade
+            apt-get dist-upgrade
+        fi
+
+		if command -v rustup &> /dev/null; then
+            echo 'Updating packages with rustup...'
+            rustup update
+        fi
+
+		if command -v uv &> /dev/null; then
+			echo "Updating packages with uv..."
+			uv self update
+		fi
+
+    fi
+}
+

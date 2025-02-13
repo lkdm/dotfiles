@@ -1,10 +1,9 @@
-EDITOR='nvim'
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  tmux new-session -A -s main
+fi
 
-# Add Homebrew to path
-export PATH="/opt/homebrew/bin:$PATH"
 
 # Upgrade
-alias update='brew update && brew upgrade && brew cu && brew cleanup'
 
 [ -f ~/.bash_utils ] && . ~/.bash_utils
 
@@ -40,6 +39,8 @@ unsetopt ALL_EXPORT
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+# UV Autocompletion
+echo 'eval "$(uv generate-shell-completion zsh)"' >> ~/.zshrc
 
 source $HOME/.atuin/bin/env
 eval "$(atuin init zsh)"
