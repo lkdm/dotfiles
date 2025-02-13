@@ -52,3 +52,7 @@ Adopt an existing config file or directory
 ```sh
 chezmoi add --follow file_name
 ```
+
+## Trying out other Neovim configs
+
+https://old.reddit.com/r/neovim/comments/13s7pvr/which_distro_do_you_prefer/jlqs2f7/
