@@ -16,5 +16,5 @@ function map(mode, lhs, rhs, opts, desc)
 	end
 end
 
--- Example usage
-map("n", "<leader>fd", ":Telescope live_grep search_dirs=<CR>", nil, "Live Grep in Directory")
+-- map("n", "<leader>e", ":lua require('config.sidebar').open_netrw_sidebar()<CR>", nil, "Open Netrw Sidebar")
+map("n", "<leader>e", ":lua require('config.sidebar').toggle_netrw()<CR>", nil, "Toggle Netrw sidebar")
