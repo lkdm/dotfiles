@@ -16,6 +16,19 @@ alias logs="find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
+# Wikipedia article in less view
+ wiki() {
+    w3m -B 1 -dump "https://en.m.wikipedia.org/wiki/$1" |
+    sed -n '/View source/,$p' |
+    awk 'NR>1{print last} {last=$0} END{print last}' |
+    less -R
+}
+
+cheatsrs() {
+    w3m "https://cheats.rs"
+}
+
+
 ##############################################################################
 # mark/jump support + completion
 # un/mark name : bookmark a directory or remove one (unmark)
