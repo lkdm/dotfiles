@@ -18,8 +18,12 @@ git_branch_with_color() {
         echo " %F{$color}($branch)%f"
     fi
 }
+# setopt PROMPT_SUBST
+# PS1='%n@%m %F{240}${PWD/#$HOME/~}%f$(git_branch_with_color) $ '
+
 setopt PROMPT_SUBST
-PS1='%n@%m %F{240}${PWD/#$HOME/~}%f$(git_branch_with_color) $ '
+PS1='%F{240}%n@%m%f %F{240}${PWD/#$HOME/~}%f$(git_branch_with_color) $ '
+
 
 # Upgrade
 
