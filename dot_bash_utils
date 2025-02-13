@@ -28,6 +28,10 @@ cheatsrs() {
     w3m "https://cheats.rs"
 }
 
+trynvim() {
+    NVIM_APPNAME=$0 nvim
+}
+
 
 ##############################################################################
 # mark/jump support + completion
