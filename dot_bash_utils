@@ -29,7 +29,7 @@ cheatsrs() {
 }
 
 tryvim() {
-    NVIM_APPNAME=$0 nvim
+    NVIM_APPNAME=$1 nvim
 }
 alias trynvim="tryvim"
 
