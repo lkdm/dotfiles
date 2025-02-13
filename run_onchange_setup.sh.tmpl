@@ -28,15 +28,21 @@ function update_cargo_package() {
        fi
    }
 
-   function install_cask_package() {
-       package="$1"
-       if brew list --cask "$package" >/dev/null 2>&1; then
-           echo "Cask '$package' is already installed."
-       else
-           echo "Installing cask '$package'..."
-           brew install --cask "$package"
-       fi
-   }
+    function install_cask_package() {
+        package="$1"
+        if brew list --cask "$package" >/dev/null 2>&1; then
+            echo "Cask '$package' is already installed."
+        else
+            # Check if the application exists in the Applications folder
+            app_name=$(brew info --cask "$package" | grep -m 1 "^$(brew --prefix)/Caskroom/$package/" | awk -F'/' '{print $NF}' | sed 's/\.app$//')
+            if [ -d "/Applications/${app_name}.app" ] || [ -d "$HOME/Applications/${app_name}.app" ]; then
+                echo "Application '$app_name' already exists in Applications folder."
+            else
+                echo "Installing cask '$package'..."
+                brew install --cask "$package"
+            fi
+        fi
+    }
 
 
 function setup_macos() {
@@ -79,6 +85,10 @@ function setup_macos() {
         curl -LsSf https://astral.sh/uv/install.sh | sh
     fi
     uv tool install harlequin
+
+    echo "Setting up tmux..."
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    tmux source ~/.tmux.conf
 
 	echo "Configuring Mac OS with sane defaults..."
 	defaults write com.apple.Finder AppleShowAllFiles true
@@ -150,6 +160,9 @@ function setup_linux() {
       sudo install lazygit -D -t /usr/local/bin/
     fi
 
+    echo "Setting up tmux..."
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    tmux source ~/.tmux.conf
 
 	# TODO: Install Linux/deb app if not headless
 	# https://support.1password.com/install-linux/#debian-or-ubuntu
