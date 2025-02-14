@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+echo "OK"
 function update_cargo_package() {
     package="$1"
     installed_version=$(cargo install --list | grep "^$package v" | awk '{print $2}')
@@ -52,26 +52,12 @@ function setup_macos() {
 		sudo xcode-select --install
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
-	echo "Installing brew packages..."
-	install_brew_package 1password-cli
-    install_brew_package git
-    install_brew_package rustup
-    install_brew_package tmux
-    install_brew_package fzf
-    install_brew_package btop
-    install_brew_package jq
-    install_brew_package ripgrep
-    install_brew_package nvim
-    install_brew_package sevenzip
-    install_brew_package jesseduffield/lazygit/lazygit
-    install_brew_package go
-    install_brew_package w3m
 
-	echo "Installing cask packages..."
-    install_cask_package firefox
-    install_cask_package obsidian
-    install_cask_package 1password
-    install_cask_package alacritty
+	echo "Managing brew packages..."
+    brew bundle --file=~/.brewfiles/Brewfile
+    brew bundle --file=~/.brewfiles/Brewfile --force cleanup
+    brew autoremove
+    brew cleanup
 
     echo "Installing cargo packages..."
     update_cargo_package trunk
