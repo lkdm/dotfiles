@@ -17,4 +17,4 @@ function map(mode, lhs, rhs, opts, desc)
 end
 
 -- map("n", "<leader>e", ":lua require('config.sidebar').open_netrw_sidebar()<CR>", nil, "Open Netrw Sidebar")
-map("n", "<leader>e", ":lua require('config.sidebar').toggle_netrw()<CR>", nil, "Toggle Netrw sidebar")
+-- map("n", "<leader>e", ":lua require('config.sidebar').toggle_netrw()<CR>", nil, "Toggle Netrw sidebar")
