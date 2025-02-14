@@ -1,8 +1,0 @@
-cask "1password-cli"
-cask "aerospace"
-cask "font-jetbrains-mono"
-cask "font-monaspace"
-cask "fuse-t"
-cask "fuse-t-sshfs"
-cask "iina"
-cask "iterm2"
