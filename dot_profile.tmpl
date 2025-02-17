@@ -1,37 +1,38 @@
 # .profile is run once per login
 
 {{ if eq .chezmoi.os "darwin" -}}
-export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 {{ else if eq .chezmoi.os "linux" -}}
-export SSH_AUTH_SOCK=~/.1password/agent.sock
+SSH_AUTH_SOCK=~/.1password/agent.sock
 {{ else -}}
 {{ end }}
 
 # Set the default editor to Neovim
-export VISUAL=nvim
-export EDITOR="$VISUAL"
-export GIT_EDITOR="$VISUAL"
+VISUAL=nvim
+EDITOR="$VISUAL"
+GIT_EDITOR="$VISUAL"
 
 # Add Bun to PATH
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+BUN_INSTALL="$HOME/.bun"
+PATH="$BUN_INSTALL/bin:$PATH"
 
 # Add local binaries to PATH
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
+PATH="$HOME/.local/bin:$PATH"
+PATH="$HOME/bin:$PATH"
 
 # Add system paths to PATH
-export PATH="/usr/local/go/bin:$PATH"
-export PATH="/snap/bin:$PATH"
-export PATH="/usr/bin/python3:$PATH"
+PATH="/usr/local/go/bin:$PATH"
+PATH="/snap/bin:$PATH"
+PATH="/usr/bin/python3:$PATH"
 
 # Terminal settings
-export TERM=xterm-256color
-export COLORTERM=truecolor
+# TERM=xterm-256color
+TERM="screen-256color"
+COLORTERM=truecolor
 
-export PATH="$PATH:$HOME/.atuin/bin"
+PATH="$PATH:$HOME/.atuin/bin"
 
 # Add Homebrew to path
-export PATH="/opt/homebrew/bin:$PATH"
+PATH="/opt/homebrew/bin:$PATH"
 
 
