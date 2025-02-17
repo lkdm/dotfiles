@@ -8,7 +8,15 @@ multiplier = 3
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font Mono", style = "Regular" }
-size = 14
+bold = { family = "JetBrainsMono Nerd Font Mono", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Bold Italic" }
+size = 12.0
+# normal = { family = "MonaspiceNe NFM", style = "Regular" }
+# bold = { family = "MonaspiceNe NFM", style = "Bold" }
+# italic = { family = "MonaspiceNe NFM", style = "Italic" }
+# bold_italic = { family = "MonaspiceNe NFM", style = "Bold Italic" }
+# offset = { x = 0, y = 3 }
 
 # [terminal.shell]
 # By default, create or attach to an existing tmux session `main` if it exists

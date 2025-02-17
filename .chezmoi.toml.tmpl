@@ -18,7 +18,7 @@ email = "44519853+lkdm@users.noreply.github.com"
 hostname = {{ $hostname | quote }}
 {{ if eq .chezmoi.hostname "macbook" }}
 sysarea = "home"
-{{ else if eq .chezmoi.hostname "linux-work" }}
+{{ else if eq .chezmoi.hostname "workbook" }}
 sysarea = "work"
 {{ else }}
 sysarea = "server"
