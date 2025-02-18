@@ -30,6 +30,11 @@ _execute_sh() {
     docker exec -it "$container_id" bash -c "$command $args"
 }
 
+_git_worktree() {
+    git rev-parse --show-toplevel 2>/dev/null
+}
+
+echo "Executing from worktree: $(_git_worktree)"
 
 # Executes the input as SQL
 execute_sql_in_container() {
@@ -108,9 +113,19 @@ configure_ts() {
     fi
 }
 
+
+
+
 # Starts Docker Engine then starts the dev app in the container
 start() {
-	nohup docker compose -p minitol -f ~/github.com/SoftwareNorth/TriOnline/.devcontainer/docker-compose.yml up -d > /tmp/minitol.log 2>&1 </dev/null &
+    worktree=$(_git_worktree)
+    if [ "$worktree" == "" ]; then
+        echo "Must execute this script from a valid git worktree"
+        exit 1
+    fi
+    echo "Using worktree: $worktree"
+
+	nohup docker compose -p minitol -f "$(_git_worktree)/.devcontainer/docker-compose.yml" up -d > /tmp/minitol.log 2>&1 </dev/null &
 	sleep 0.5
 	container_id=$(get_minitol_container_id)
     if [ -n "$container_id" ]; then
