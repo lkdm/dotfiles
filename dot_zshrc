@@ -1,8 +1,18 @@
+# By default, attach to the launchpad session
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   tmux new-session -A -s launchpad
 fi
 
 [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    # Add Homebrew to path
+    PATH="/opt/homebrew/bin:$PATH"
+    icloud=~/Library/Mobile\ Documents/com~apple~CloudDocs/
+fi
+
+[ -f ~/.bash_utils ] && . ~/.bash_utils
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
 
 # Fix Tmux issues with highlighting code comments
 # if [[ $TERM == xterm ]]; then TERM=xterm-256color; fi
@@ -23,16 +33,9 @@ git_branch_with_color() {
         echo " %F{$color}($branch)%f"
     fi
 }
-# setopt PROMPT_SUBST
-# PS1='%n@%m %F{240}${PWD/#$HOME/~}%f$(git_branch_with_color) $ '
-
 setopt PROMPT_SUBST
 PS1='%F{245}%n@%m%f %F{245}${PWD/#$HOME/~}%f$(git_branch_with_color) %F{245}$%f '
 
-
-# Upgrade
-
-[ -f ~/.bash_utils ] && . ~/.bash_utils
 
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY
@@ -59,15 +62,18 @@ zmodload -a zsh/zprof zprof
 # Autocomplete
 autoload -U compinit
 compinit
-
 unsetopt ALL_EXPORT
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-# UV Autocompletion
-echo 'eval "$(uv generate-shell-completion zsh)"' >> ~/.zshrc
+# Autocompletion options
+#
+# Autocompletion - NVM
+# export NVM_DIR="$HOME/.nvm"
+#   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+#   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+#
+# Autocompletion - UV
+# echo 'eval "$(uv generate-shell-completion zsh)"' >> ~/.zshrc
 
+# Atuin
 source $HOME/.atuin/bin/env
 eval "$(atuin init zsh)"

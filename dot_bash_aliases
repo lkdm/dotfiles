@@ -1,5 +1,5 @@
 # Chezmoi
-alias cm = 'chezmoi'
+alias cm='chezmoi'
 
 # ls
 alias ll='ls -alF'
