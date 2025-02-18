@@ -34,8 +34,6 @@ _git_worktree() {
     git rev-parse --show-toplevel 2>/dev/null
 }
 
-echo "Executing from worktree: $(_git_worktree)"
-
 # Executes the input as SQL
 execute_sql_in_container() {
     if [ -z "$MINITOL_DB_PASSWORD" ]; then
@@ -130,6 +128,11 @@ start() {
 	container_id=$(get_minitol_container_id)
     if [ -n "$container_id" ]; then
         echo "Started container with ID ${container_id}. Attempting to run..."
+        # Keep track of which worktree the container was initialised from
+        docker exec -it "$container_id" bash -c "
+            echo '$worktree' > /tmp/worktree
+        "
+        # Start the minotol server
         docker exec -it "$container_id" bash -c "
         	start
         "
@@ -138,6 +141,11 @@ mt log"
     else
         echo "Could not start container."
     fi
+}
+
+which_worktree() {
+    cid=$(get_minitol_container_id)
+    docker exec "$cid" cat /tmp/worktree 2>/dev/null || echo "No worktree information stored"
 }
 
 
@@ -165,6 +173,7 @@ AVAILABLE SUBCOMMANDS
 
 development environment
     start                     Launch Docker engine and initialise the dev environment
+    which                     Output the git worktree the start subcommand was executed from.
     sh                        Access a ZSH shell within the dev container or run a command
     sh <subcmd> [<arg1>, ...] Execute a specified command with optional arguments in the container's shell
     id                        Get the dev container's ID
@@ -227,6 +236,9 @@ case "$subcommand" in
         ;;
     branch-sync)
         execute_branch_sync "$@"
+        ;;
+    which)
+        which_worktree "$@"
         ;;
     clone)
         execute_clone_db "$@"
