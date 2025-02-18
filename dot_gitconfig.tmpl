@@ -15,12 +15,15 @@
 [commit]
        gpgsign = true
 [safe]
-       directory = /home/luke/trionline
+       directory = /home/luke/github.com/SoftwareNorth/*
 [alias]
+       o = log --oneline
        adog = log --all --decorate --oneline --graph
 [tag]
        gpgsign = true
 [format]
        signoff = true
+[push]
+       autoSetupRemote = true
 [pull]
        rebase = true
