@@ -6,7 +6,15 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+hash -d lkdm=~/github.com/lkdm/
+{{- if eq .sysarea "work" }}
 hash -d sn=~/github.com/SoftwareNorth/
 hash -d tol=~/github.com/SoftwareNorth/TriOnline/
 hash -d sbrc=~/github.com/SoftwareNorth/TriOnline-sbrc/
-hash -d lkdm=~/github.com/lkdm/
+{{- end }}
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    # Add Homebrew to path
+    hash -d icloud=~/Library/Mobile\ Documents/com~apple~CloudDocs/
+fi
+

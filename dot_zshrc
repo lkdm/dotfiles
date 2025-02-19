@@ -5,14 +5,8 @@ fi
 
 [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
 
-if [[ "$(uname)" == "Darwin" ]]; then
-    # Add Homebrew to path
-    PATH="/opt/homebrew/bin:$PATH"
-    icloud=~/Library/Mobile\ Documents/com~apple~CloudDocs/
-fi
-
-[ -f ~/.bash_utils ] && . ~/.bash_utils
-[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+[ -f ~/.zsh_utils ] && . ~/.zsh_utils
+[ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
 
 # Fix Tmux issues with highlighting code comments
 # if [[ $TERM == xterm ]]; then TERM=xterm-256color; fi
