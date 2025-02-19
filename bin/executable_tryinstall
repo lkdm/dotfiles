@@ -1,0 +1,128 @@
+#!/bin/bash
+
+# Function to check the operating system
+check_os() {
+    os_type=$(uname)
+    if [ "$os_type" = "Linux" ]; then
+        echo "linux"
+    elif [ "$os_type" = "Darwin" ]; then
+        echo "darwin"
+    else
+        echo "unknown"
+    fi
+}
+
+# Parse command-line arguments
+platform=""
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --platform|-p)
+            platform="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+done
+
+# Get the current OS
+current_os=$(check_os)
+
+# Check if platform argument is provided
+if [ -z "$platform" ]; then
+    echo "No platform specified. Running script for current OS: $current_os"
+else
+    # Check if the platform matches the current OS
+    if [ "$platform" = "$current_os" ]; then
+        echo "Platform matches the current OS. Executing the script..."
+    else
+        echo "Platform does not match the current OS. Terminating."
+        exit 1
+    fi
+fi
+
+##### Package manager functions
+
+# If package is not installed, install it
+# If package can be updated, tell the user
+function cargo_install() {
+    package="$1"
+    installed_version=$(cargo install --list | grep "^$package v" | awk '{print $2}')
+    if [ -z "$installed_version" ]; then
+        echo "Installing $package..."
+        cargo install "$package"
+    else
+        latest_version=$(cargo search "$package" | grep "^$package =" | awk '{print $3}' | tr -d '"')
+        if [ "$installed_version" != "$latest_version" ]; then
+            echo "Cargo package $package $installed_version can be updated to $latest_version. Run: `cargo install $package`."
+        else
+            echo "Cargo package $package is up to date ($installed_version)"
+        fi
+    fi
+}
+
+
+
+
+
+
+
+##### Remaining script
+
+help() {
+	echo "tryinstall is a cross-platform utility for installing packages
+
+Usage: tryinstall <packagemanager> <package> [options]
+
+AVAILABLE PACKAGE MANAGERS
+
+all
+	cargo
+	uv
+	brew                      Homebrew
+
+linux
+	apt                       Linux debian aptitude
+	snap                      Ubuntu snap
+
+Darwin (Mac OS)
+    brew-cask
+    mas
+
+ARGUMENTS
+    --platform
+    	linux
+    	darwin
+
+EXAMPLES
+    tryinstall cargo atuin
+    tryinstall brew btop --platform=darwin
+    tryinstall apt btop --platform=linux/deb
+"
+}
+
+
+# Main script logic
+if [ $# -eq 0 ]; then
+    help
+    exit 1
+fi
+
+
+subcommand="$1"
+shift
+
+case "$subcommand" in
+    cargo)
+    	cargo_install "$@"
+    	;;
+    *)
+        echo "mt: $subcommand is not a package manager."
+    	help "$@"
+        exit 1
+        ;;
+esac
+
+
