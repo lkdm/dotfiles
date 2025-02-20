@@ -7,6 +7,11 @@ function update() {
         brew cleanup
     fi
 
+    if command -v rustup &> /dev/null; then
+        echo "Updating packages with Cargo..."
+        rustup update
+    fi
+
 
 	if [[ "$1" == 'all' ]]; then
         if command -v mas &> /dev/null; then
