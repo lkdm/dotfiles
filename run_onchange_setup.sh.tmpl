@@ -60,6 +60,8 @@ function setup_macos() {
     brew cleanup
 
     echo "Installing cargo packages..."
+    update_cargo_package rustlings
+    update_cargo_package atuin
     update_cargo_package trunk
 
     if ! command -v atuin &>/dev/null; then
@@ -127,6 +129,10 @@ function setup_linux() {
     echo "Installing cargo packages..."
     update_cargo_package trunk
     update_cargo_package atuin
+
+    echo "Installing Rustlings..."
+    install_apt_package gcc
+    update_cargo_package rustlings
 
     echo "Installing uv packages..."
     if ! command -v uv &>/dev/null; then
