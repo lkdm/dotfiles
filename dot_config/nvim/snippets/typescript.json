@@ -1,0 +1,15 @@
+{
+	"mt_lodash": {
+		"prefix": "tsx",
+		"body": "_.chain(DATA.$1)
+				.values()
+				// Filter by this entity
+				.filter(x => x.ID === id)
+				// Filter by expired date
+				.filter(x => x.ExpiryDate > DateObj.today().fmt())
+				// Sort by date in reverse chronological order
+				.sortBy(x => x.Date || 'last')
+				.reverse()
+				.value()"
+	}
+}
