@@ -29,6 +29,8 @@ cheatsrs() {
 }
 
 ## Guard against dangerous git actions
+# TODO: Move this to its own dot_gitguard file
+# TODO: 
 git () {
     local proceed
 

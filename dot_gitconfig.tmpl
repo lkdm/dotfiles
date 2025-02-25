@@ -22,8 +22,10 @@
 [alias]
        o = log --oneline
        adog = log --all --decorate --oneline --graph
+[log]
+       date = iso
 [tag]
-       gpgsign = true
+       gpgsign = false
 [format]
        signoff = true
 [push]
@@ -41,9 +43,6 @@
 [fetch]
        # Prune branches deleted on origin upon fetch
        prune = true
-       # Prune tags deleted on origin upon fetch
-       pruneTags = true
-       all = true
 [help]
        autocorrect = prompt
 [rerere]
@@ -62,3 +61,10 @@
        # Makes diffs 3-way, by including the code before either current or incoming change.
        # TODO: Use zdiff3 after upgrading git
        # conflictstyle diff3
+[url "git@github.com:"]
+       # Use SSH remote urls rather than http
+       # You can use pushInsteadOf to only use SSH urls on push, so you can still use HTTP for public repos
+       insteadOf = "https://github.com/"
+[apply]
+       # Remote trailing whitespaces
+       whitespace = fix
