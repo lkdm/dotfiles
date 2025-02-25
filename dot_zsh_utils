@@ -30,14 +30,27 @@ cheatsrs() {
 
 ## Guard against dangerous git actions
 git () {
-    if [ "$1" = "checkout" ]
-    then
+    local proceed
+
+    if [[ "$1" == "checkout" ]]; then
         echo "Don't use checkout; use switch or restore." >&2
-        return 1
-    else
-        command git "$@"
+        echo -n "Do you still want to proceed with 'git checkout'? (y/N) "
+        read proceed
+        if [[ ! $proceed =~ ^[Yy]$ ]]; then
+            return 1
+        fi
+    elif [[ "$1" == "push" && "$2" == "--force" ]]; then
+        echo "Use --force-with-lease instead." >&2
+        echo -n "Do you still want to proceed with 'git push --force'? (y/N) "
+        read proceed
+        if [[ ! $proceed =~ ^[Yy]$ ]]; then
+            return 1
+        fi
     fi
+
+    command git "$@"
 }
+
 
 ##############################################################################
 # mark/jump support + completion
