@@ -14,6 +14,7 @@
 {{ end }}
 [commit]
        gpgsign = true
+       verbose = true
 [safe]
        directory = /home/luke/github.com/SoftwareNorth/*
 [alias]
@@ -24,6 +25,38 @@
 [format]
        signoff = true
 [push]
+       # Automatically set up a remote branch if it doesn't exist
        autoSetupRemote = true
 [pull]
+       # Should be the default Git pull strategy
        rebase = true
+[diff]
+       # Diff whole blocks of code, rather than line-by-line
+       algorithm = histogram
+       colorMoved = plain
+       mnemonicPrefix = true
+       renames = true
+[fetch]
+       # Prune branches deleted on origin upon fetch
+       prune = true
+       # Prune tags deleted on origin upon fetch
+       pruneTags = true
+       all = true
+[help]
+       autocorrect = prompt
+[rerere]
+       # Re-use recorded resolution
+       #
+       # Basically, if you are rebasing and continually fixing conflicts the same way, it will
+       # repeat that resolution.
+       enabled = true
+       autoupdate = true
+[rebase]
+       # Automatically squashes commits marked with `fixup!` or `squash!`
+       autoSquash = true
+       # Automatically stash on rebase, then pop. Allows you to rebase on dirty worktree
+       autoStash = true
+[merge]
+       # Makes diffs 3-way, by including the code before either current or incoming change.
+       # TODO: Use zdiff3 after upgrading git
+       # conflictstyle diff3
