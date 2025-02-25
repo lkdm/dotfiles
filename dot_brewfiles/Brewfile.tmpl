@@ -21,6 +21,8 @@ brew "tree"
 brew "jesseduffield/lazygit/lazygit"
 {{- if eq .sysarea "home"}}
 brew "zola"
+brew "podman"
+brew "yt-dlp"
 {{end -}}
 {{- if eq .chezmoi.os "darwin"}}
 brew "mas"
