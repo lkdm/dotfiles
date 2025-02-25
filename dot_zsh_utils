@@ -28,6 +28,16 @@ cheatsrs() {
     w3m "https://cheats.rs"
 }
 
+## Guard against dangerous git actions
+git () {
+    if [ "$1" = "checkout" ]
+    then
+        echo "Don't use checkout; use switch or restore." >&2
+        return 1
+    else
+        command git "$@"
+    fi
+}
 
 ##############################################################################
 # mark/jump support + completion
