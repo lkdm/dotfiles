@@ -30,24 +30,32 @@ cheatsrs() {
 
 ## Guard against dangerous git actions
 # TODO: Move this to its own dot_gitguard file
-# TODO: 
+# TODO: Discourage -m
 git () {
     local proceed
 
     if [[ "$1" == "checkout" ]]; then
-        echo "Don't use checkout; use switch or restore." >&2
+        echo "Don't use checkout; use switch or restore, because their behaviours are more predictable." >&2
         echo -n "Do you still want to proceed with 'git checkout'? (y/N) "
         read proceed
         if [[ ! $proceed =~ ^[Yy]$ ]]; then
             return 1
         fi
     elif [[ "$1" == "push" && "$2" == "--force" ]]; then
-        echo "Use --force-with-lease instead." >&2
+        echo "Use --force-with-lease instead, because it checks for changes on remote first." >&2
         echo -n "Do you still want to proceed with 'git push --force'? (y/N) "
         read proceed
         if [[ ! $proceed =~ ^[Yy]$ ]]; then
             return 1
         fi
+    elif [[ "$1" == "commit" && "$2" == "-m" ]]; then
+        echo "Use -v instead, because it shows commit diff." >&2
+        echo -n "Do you still want to proceed with 'git commit -m'? (y/N) "
+        read proceed
+        if [[ ! $proceed =~ ^[Yy]$ ]]; then
+            return 1
+        fi
+
     fi
 
     command git "$@"
