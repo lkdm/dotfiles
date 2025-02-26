@@ -17,6 +17,11 @@ size = 12.0
 # italic = { family = "MonaspiceNe NFM", style = "Italic" }
 # bold_italic = { family = "MonaspiceNe NFM", style = "Bold Italic" }
 # offset = { x = 0, y = 3 }
+# normal = { family = "CaskaydiaMono Nerd Font Mono", style = "Regular" }
+# bold = { family = "CaskaydiaMono Nerd Font Mono", style = "Bold" }
+# italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Italic" }
+# bold_italic = { family = "CaskaydiaMono Nerd Font Mono", style = "Bold Italic" }
+
 
 # [terminal.shell]
 # By default, create or attach to an existing tmux session `main` if it exists
