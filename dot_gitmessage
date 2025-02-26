@@ -1,0 +1,15 @@
+
+
+# <type>([optional scope]): <subject>
+#
+# <optional body>
+#
+# <optional footer(s)>
+#
+# Types: feat, fix, docs, style, refactor, test, chore
+# Scope: The scope of the change (optional)
+# Subject: Short description in the imperative mood
+# Body: More detailed explanation if necessary
+# Footer: Mention any breaking changes or issue references
+#
+# - [^1]: [Conventional Commits](https://www.conventionalcommits.org/en/)
