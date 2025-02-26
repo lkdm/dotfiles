@@ -30,37 +30,64 @@ cheatsrs() {
 
 ## Guard against dangerous git actions
 # TODO: Move this to its own dot_gitguard file
-# TODO: Discourage -m
+
+
 git () {
     local proceed
 
-    if [[ "$1" == "checkout" ]]; then
-        echo "Don't use checkout; use switch or restore, because their behaviours are more predictable." >&2
-        echo -n "Do you still want to proceed with 'git checkout'? (y/N) "
-        read proceed
-        if [[ ! $proceed =~ ^[Yy]$ ]]; then
-            return 1
-        fi
-    elif [[ "$1" == "push" && "$2" == "--force" ]]; then
-        echo "Use --force-with-lease instead, because it checks for changes on remote first." >&2
-        echo -n "Do you still want to proceed with 'git push --force'? (y/N) "
-        read proceed
-        if [[ ! $proceed =~ ^[Yy]$ ]]; then
-            return 1
-        fi
-    elif [[ "$1" == "commit" && "$2" == "-m" ]]; then
-        echo "Use -v instead, because it shows commit diff." >&2
-        echo -n "Do you still want to proceed with 'git commit -m'? (y/N) "
-        read proceed
-        if [[ ! $proceed =~ ^[Yy]$ ]]; then
-            return 1
-        fi
+    # Define color codes
+    local RED='\033[0;31m'
+    local GREEN='\033[0;32m'
+    local YELLOW='\033[0;33m'
+    local LIGHT_GREY='\033[0;37m'  # Changed from GREY='\033[0;90m'
+    local NC='\033[0m' # No Color
 
-    fi
+    prompt_user() {
+        local message="$1"
+        local alternative="$2"
+        local explanation="$3"
+
+        # Check if the shell is interactive
+        if [[ $- == *i* ]]; then
+            echo -e "${YELLOW}$message${NC}" >&2
+            echo -e "Consider using '${GREEN}$alternative${NC}' instead." >&2
+
+            if [ -n "$explanation" ]; then
+                echo -e "${GREY}$explanation${NC}" >&2
+            fi
+
+            echo -en "${RED}Do you still want to proceed? (y/N) ${NC}"
+            read proceed
+            [[ $proceed =~ ^[Yy]$ ]]
+        else
+            # If not interactive, proceed without prompting
+            return 0
+        fi
+    }
+
+    case "$1" in
+        "checkout")
+            prompt_user "Don't use checkout; use switch or restore." \
+            "git switch" \
+            "Using 'git switch' is safer and more predictable for switching branches, while 'git restore' is better for discarding changes." \
+            || return 1
+            ;;
+        "push")
+            for arg in "$@"; do
+                if [[ "$arg" =~ ^(--force|-f)$ ]]; then
+                    prompt_user "Use --force-with-lease instead." "git push --force-with-lease" "This ensures that you're not overwriting changes made by others since your last pull, reducing the risk of losing work." || return 1
+                fi
+            done
+            ;;
+        "commit")
+            if [[ "$2" == "-m" ]]; then
+                prompt_user "Use -v instead." "git commit -v" "Using 'git commit -v' shows you the diff of your changes before committing, helping you ensure that you're committing what you intend." || return 1
+            fi
+            ;;
+    esac
 
     command git "$@"
 }
-
 
 ##############################################################################
 # mark/jump support + completion
