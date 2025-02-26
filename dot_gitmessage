@@ -1,10 +1,10 @@
 
-
-# <type>([optional scope]): <subject>
+# -----------------------------------------------| < 50 chars length
+# <type>[optional scope]: <description>
 #
-# <optional body>
+# [optional body]
 #
-# <optional footer(s)>
+# [optional footer(s)]
 #
 # Types: feat, fix, docs, style, refactor, test, chore
 # Scope: The scope of the change (optional)
@@ -12,4 +12,35 @@
 # Body: More detailed explanation if necessary
 # Footer: Mention any breaking changes or issue references
 #
-# - [^1]: [Conventional Commits](https://www.conventionalcommits.org/en/)
+# SemVer:
+# - `fix:` correlates to a `PATCH change`
+# - `feat:` correlates to a `MINOR` change
+# - `BREAKING CHANGE:` correlates to a `MAJOR` change
+#
+# Breaking changes:
+# - Add a `!` before the `:` to indicate a breaking change
+# - AND in the footer, write a reason `BREAKING CHANGE: [msg]`
+#
+# Revert commits:
+#
+# ```
+# revert: let us never again speak of the noodle incident.
+#
+# Refs: BAD_COMMIT_HASH1, BAD_COMMIT_HASH2
+# ````
+#
+# ## Examples
+#
+# - feat: send an email to a customer when the product is shipped
+# - feat(api)!: enable openteletry in endpoints
+# - chore: drop support for Node 6
+#
+# ## Other rules
+# - Footer keys must use `-` in place of whitespace characters.
+# - You can include a scope in parentheses, but it MUST be the name of part of the codebase it deals with.
+#
+# ## References
+# - [Conventional Commits](https://www.conventionalcommits.org/en/)
+# - [Git trailer convention](https://git-scm.com/docs/git-interpret-trailers)
+# - [Contributing to a project](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project)
+# - [Semantic Versioning 2.0.0](https://semver.org/)
