@@ -17,6 +17,8 @@
 [commit]
        gpgsign = true
        verbose = true
+       # When using git-commit, show my git message
+       # In this case, I've written a summary of conventional commits.
        template = ~/.gitmessage
 [safe]
        directory = /home/luke/github.com/SoftwareNorth/*
@@ -24,8 +26,10 @@
        o = log --oneline
        adog = log --all --decorate --oneline --graph
 [log]
+       # Use YYYY-MM-DD dates
        date = iso
 [tag]
+       # Had to turn this off due to lazygit never creating a tag
        gpgsign = false
 [format]
        signoff = true
