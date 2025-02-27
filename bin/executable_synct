@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+podman machine init
+podman machine start -v $HOME:$HOME
+unset SSH_AUTH_SOCK
+# https://docs.linuxserver.io/images/docker-syncthing/#volume-mappings-v
+podman run -d \
+  --name=syncthing \
+  --hostname=syncthing \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Australia/Sydney \
+  -v /home/luke/.config/syncthing:/config:Z \
+  -v /home/luke/syncthing/notes:/notes:Z \
+  -p 8384:8384 \
+  -p 22000:22000/tcp \
+  -p 22000:22000/udp \
+  -p 21027:21027/udp \
+  --restart=unless-stopped \
+  lscr.io/linuxserver/syncthing:latest
