@@ -34,6 +34,7 @@ PATH="$PATH:$HOME/.atuin/bin"
 
 # Add Homebrew to path
 PATH="/opt/homebrew/bin:$PATH"
+[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 PATH="$PATH:$HOME/.cargo/bin"
 
 # For NPM

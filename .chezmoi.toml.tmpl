@@ -16,7 +16,7 @@ sourceDir = {{ .chezmoi.config.sourceDir | quote }}
 name = "Luke M"
 email = "44519853+lkdm@users.noreply.github.com"
 hostname = {{ $hostname | quote }}
-{{ if eq .chezmoi.hostname "macbook" }}
+{{ if or (eq .chezmoi.hostname "macbook") (eq .chezmoi.hostname "polar") }}
 sysarea = "home"
 {{ else if eq .chezmoi.hostname "workbook" }}
 sysarea = "work"
