@@ -38,6 +38,8 @@ echo "Managing brew packages..."
     brew autoremove
     brew cleanup
 
+    gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
+
     if ! command -v &>/dev/null; then
         echo "Installing atuin..."
         bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)

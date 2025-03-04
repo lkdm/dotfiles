@@ -1,0 +1,21 @@
+# Start ZSH
+{{ if eq .chezmoi.os "darwin" -}}
+command = /opt/homebrew/bin/zsh --login --interactive
+{{ else if eq .chezmoi.os "linux" -}}
+command = /home/linuxbrew/.linuxbrew/bin/zsh --login --interactive
+{{ end }}
+
+# Ghostty Configuration for JetBrainsMono Nerd Font Mono
+
+font-family = "JetBrainsMono Nerd Font Mono"
+font-family-italic = "JetBrainsMono Nerd Font Mono Italic"
+font-family-bold = "JetBrainsMono Nerd Font Mono Bold"
+font-family-bold-italic = "JetBrainsMono Nerd Font Mono Bold Italic"
+
+# Optional: Adjust font size
+font-size = 14
+
+# Clipboard
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = true
