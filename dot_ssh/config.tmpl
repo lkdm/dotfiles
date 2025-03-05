@@ -6,4 +6,6 @@ Host *
   IdentityAgent ~/.1password/agent.sock
 {{ else -}}
 {{ end }}
+{{ if eq .sysarea "work" }}
   ForwardX11 = yes
+{{ end }}
