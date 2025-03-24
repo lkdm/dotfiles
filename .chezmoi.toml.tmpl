@@ -12,6 +12,7 @@ sourceDir = {{ .chezmoi.config.sourceDir | quote }}
 {{-   end -}}
 {{- end -}}
 
+
 [data]
 name = "Luke M"
 email = "44519853+lkdm@users.noreply.github.com"
@@ -20,6 +21,8 @@ hostname = {{ $hostname | quote }}
 sysarea = "home"
 {{ else if eq .chezmoi.hostname "workbook" }}
 sysarea = "work"
+{{ else if eq .chezmoi.username "vscode" }}
+sysarea = "devcontainer"
 {{ else }}
 sysarea = "server"
 {{ end }}

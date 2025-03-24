@@ -1,10 +1,12 @@
 # .profile is run once per login
 
+{{ if and (ne .sysarea "server") (ne .sysarea "devcontainer") }}
 {{ if eq .chezmoi.os "darwin" -}}
 SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 {{ else if eq .chezmoi.os "linux" -}}
 SSH_AUTH_SOCK=~/.1password/agent.sock
 {{ else -}}
+{{ end }}
 {{ end }}
 
 # Set the default editor to Neovim

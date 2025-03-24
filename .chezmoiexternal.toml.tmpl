@@ -1,4 +1,4 @@
-{{- if ne .sysarea "server" }}
+{{- if and (ne .sysarea "server") (ne .sysarea "devcontainer") }}
 {{-   $fontDir := "" }}
 {{-   if eq .chezmoi.os "darwin" }}
 {{-     $fontDir = "Library/Fonts" }}
