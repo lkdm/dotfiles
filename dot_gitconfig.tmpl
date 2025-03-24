@@ -10,11 +10,13 @@
 [gpg]
        format = ssh
 [gpg "ssh"]
+{{ if or (eq .sysarea "home") (eq .sysarea "work") }}
 {{   if eq .chezmoi.os "darwin" }}
        program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 {{   else if eq .chezmoi.os "linux" }}
        program = "/opt/1Password/op-ssh-sign"
 {{   end }}
+{{end}}
 [commit]
        gpgsign = true
        verbose = true

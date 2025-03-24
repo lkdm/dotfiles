@@ -1,12 +1,18 @@
-{{ if eq .chezmoi.os "darwin" -}}
+{{ if or (eq .sysarea "devcontainer") (eq .sysarea "server") }}
+Host *
+  ForwardAgent yes
+{{ else }}
+  {{ if eq .chezmoi.os "darwin" }}
 Host *
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-{{ else if eq .chezmoi.os "linux" -}}
+  {{ else if eq .chezmoi.os "linux" }}
 Host *
   IdentityAgent ~/.1password/agent.sock
-{{ else -}}
+  {{ end }}
 {{ end }}
-{{ if eq .sysarea "work" }}
+
+{{if eq .sysarea "work" }}
   ForwardAgent yes
-  ForwardX11 = yes
+  # Only include ForwardX11 if you need to run graphical applications
+  ForwardX11 yes
 {{ end }}
