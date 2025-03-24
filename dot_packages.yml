@@ -1,0 +1,55 @@
+packages:
+  common: &common_brews
+    - zsh
+    - atuin
+    - git
+    - curl
+    - fzf
+    - neovim
+    - ripgrep
+    - tmux
+    - tree
+    - lazygit
+
+  server:
+    brews: *common_brews
+
+  linux:
+    brews:
+      - *common_brews
+      - btop
+      - mosh
+      - sevenzip
+      - syncthing
+    flatpaks:
+      - discord
+      - obsidian
+
+  darwin:
+    brews:
+      - *common_brews
+      - btop
+      - mosh
+      - sevenzip
+      - syncthing
+      - podman
+      - mas
+    casks:
+      - alacritty
+      - firefox
+      - 1password
+      - 1password-cli
+      - iina
+      - freedom
+      - localsend
+      - discord
+      - obsidian
+      - scrivener
+      - calibre
+      - cryptomator
+    mas:
+      - Things 3: 904280696
+      - Amphetamine: 937984704
+      - NextDNS: 1464122853
+      - Mela: 1568924476
+
