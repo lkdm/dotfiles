@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 echo "Attempting to configure host..."
 set -e # -e: exit on error
 

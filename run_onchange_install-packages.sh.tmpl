@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Automatically detect changes to the Brewfile
+# Brewfile hash: {{ include "dot_Brewfile.tmpl" | sha256sum }}
+# If there is a change, it will trigger this to re-run
+
+echo "Installing packages in Brewfile..."
+brew bundle --file=~/.Brewfile --force cleanup
+brew autoremove
+brew cleanup
+echo "Done :)"

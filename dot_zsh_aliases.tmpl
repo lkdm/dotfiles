@@ -7,10 +7,13 @@ alias la='ls -A'
 alias l='ls -CF'
 
 hash -d lkdm=~/Repos/lkdm/
+hash -d dotfiles=~/Repos/lkdm/dotfiles
+hash -d lab=~/Repos/lkdm/lab
+hash -d notes=~/Repos/lkdm/notes
 {{- if eq .sysarea "work" }}
-hash -d sn=~/github.com/SoftwareNorth/
-hash -d tol=~/github.com/SoftwareNorth/TriOnline/
-hash -d sbrc=~/github.com/SoftwareNorth/TriOnline-sbrc/
+hash -d sn=~/Repos/SoftwareNorth/
+hash -d tol=~/Repos/SoftwareNorth/TriOnline/
+hash -d sbrc=~/github.com/SoftwareNorth/TriOnline/sbrc/
 {{- end }}
 
 if [[ "$(uname)" == "Darwin" ]]; then

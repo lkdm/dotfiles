@@ -10,17 +10,11 @@ function setup_macos() {
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
 
-	echo "Managing brew packages..."
-    brew bundle --file=~/.brewfiles/Brewfile
-    brew bundle --file=~/.brewfiles/Brewfile --force cleanup
-    brew autoremove
-    brew cleanup
-
     if ! command -v atuin &>/dev/null; then
         echo "Installing atuin..."
         bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
     fi
-    
+
     echo "Setting up tmux..."
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     tmux source ~/.tmux.conf
@@ -31,13 +25,6 @@ function setup_macos() {
 }
 
 function setup_linux() {
-
-echo "Managing brew packages..."
-    brew bundle --file=~/.brewfiles/Brewfile
-    brew bundle --file=~/.brewfiles/Brewfile --force cleanup
-    brew autoremove
-    brew cleanup
-
     gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
 
     if ! command -v &>/dev/null; then
@@ -48,13 +35,14 @@ echo "Managing brew packages..."
     echo "Setting up tmux..."
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     tmux source ~/.tmux.conf
-
 }
-#
+
 {{ if eq .chezmoi.os "darwin" -}}
 setup_macos
 {{ else if eq .chezmoi.os "linux" -}}
-setup_linux
+    {{- if ne .chezmoi.os "server"}}
+        setup_linux
+    {{ end }}
 {{ else if eq .chezmoi.os "windows" -}}
 echo "Windows is not supported"
 {{ else -}}
