@@ -27,6 +27,18 @@ function setup_macos() {
 function setup_linux() {
     gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
 
+	if ! command -v brew &>/dev/null; then
+	    # If Homebrew isn't installed, install it
+
+        if [ -f "/etc/debian_version" ]; then
+            # On Debian, some things must be installed first
+            echo "This system is running Debian or a Debian-based distribution."
+            sudo apt-get install build-essential procps curl file git
+        fi
+
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
+
     if ! command -v &>/dev/null; then
         echo "Installing atuin..."
         bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
