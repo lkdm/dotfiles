@@ -21,7 +21,7 @@ hostname = {{ $hostname | quote }}
 sysarea = "home"
 {{ else if eq .chezmoi.hostname "workbook" }}
 sysarea = "work"
-{{ else if eq .chezmoi.username "vscode" }}
+{{ else if or (eq .chezmoi.username "vscode") (ne (env "CONTAINER_ID") "") }}
 sysarea = "devcontainer"
 {{ else }}
 sysarea = "server"

@@ -12,12 +12,17 @@ brew "ripgrep"
 brew "tree"
 brew "jesseduffield/lazygit/lazygit"
 brew "tmux"
+brew "rustup"
 
-{{- if ne .chezmoi.os "server"}}
+{{- if and (ne .sysarea "server") (ne .sysarea "devcontainer")}}
 brew "btop"
 brew "mosh"
 brew "sevenzip"
 brew "syncthing"
+{{ end }}
+
+{{- if or (eq .sysarea "server") (eq .sysarea "devcontainer")}}
+brew "xsel"
 {{ end }}
 
 {{- if eq .chezmoi.os "darwin"}}
