@@ -45,3 +45,9 @@ export PATH="$PATH:$(brew --prefix rustup)/bin"
 export NVM_LAZY_LOAD=true # Speeds up loading of shell
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+
+# For dotnet
+export DOTNET_ROOT="/home/linuxbrew/.linuxbrew/opt/dotnet/libexec"
+
+# For Neovim
+export PATH="$HOME/.local/share/nvim/mason/bin/:$PATH"
