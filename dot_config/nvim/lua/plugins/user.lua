@@ -1,29 +1,14 @@
--- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- You can also add or configure plugins by creating files in this `plugins/` folder
+-- PLEASE REMOVE THE EXAMPLES YOU HAVE NO INTEREST IN BEFORE ENABLING THIS FILE
 -- Here are some examples:
 
 ---@type LazySpec
-
--- Ergonomic fn for declaring a remap
-function map(mode, lhs, rhs, opts)
-  local options = { noremap = true }
-  if opts then
-    -- merges options with opts dict
-    options = vim.tbl_extend("force", options, opts)
-  end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
-
--- Allows livegrep to be used in a particular directory
-map("n", "<leader>fd", ":Telescope live_grep search_dirs=")
-
 return {
 
   -- == Examples of Adding Plugins ==
-  -- { "github/copilot.vim" },
-  { "mg979/vim-visual-multi" },
-  -- { "ionide/Ionide-vim" },
+
   "andweeb/presence.nvim",
   {
     "ray-x/lsp_signature.nvim",
@@ -33,26 +18,28 @@ return {
 
   -- == Examples of Overriding Plugins ==
 
-  -- customize alpha options
+  -- customize dashboard options
   {
-    "goolord/alpha-nvim",
-    opts = function(_, opts)
-      -- customize the dashboard header
-      opts.section.header.val = {
-        " █████  ███████ ████████ ██████   ██████",
-        "██   ██ ██         ██    ██   ██ ██    ██",
-        "███████ ███████    ██    ██████  ██    ██",
-        "██   ██      ██    ██    ██   ██ ██    ██",
-        "██   ██ ███████    ██    ██   ██  ██████",
-        " ",
-        "    ███    ██ ██    ██ ██ ███    ███",
-        "    ████   ██ ██    ██ ██ ████  ████",
-        "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
-        "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
-        "    ██   ████   ████   ██ ██      ██",
-      }
-      return opts
-    end,
+    "folke/snacks.nvim",
+    opts = {
+      dashboard = {
+        preset = {
+          header = table.concat({
+            " █████  ███████ ████████ ██████   ██████ ",
+            "██   ██ ██         ██    ██   ██ ██    ██",
+            "███████ ███████    ██    ██████  ██    ██",
+            "██   ██      ██    ██    ██   ██ ██    ██",
+            "██   ██ ███████    ██    ██   ██  ██████ ",
+            "",
+            "███    ██ ██    ██ ██ ███    ███",
+            "████   ██ ██    ██ ██ ████  ████",
+            "██ ██  ██ ██    ██ ██ ██ ████ ██",
+            "██  ██ ██  ██  ██  ██ ██  ██  ██",
+            "██   ████   ████   ██ ██      ██",
+          }, "\n"),
+        },
+      },
+    },
   },
 
   -- You can disable default plugins as follows:
@@ -97,87 +84,5 @@ return {
         Rule("a", "a", "-vim")
       )
     end,
-  },
-  {
-    "kylechui/nvim-surround",
-    version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
-    config = function()
-      require("nvim-surround").setup {
-        -- Configuration here, or leave empty to use defaults
-      }
-    end,
-  },
-  -- {
-  --   "akinsho/flutter-tools.nvim",
-  --   lazy = false,
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "stevearc/dressing.nvim", -- optional for vim.ui.select
-  --   },
-  --   config = true,
-  -- },
-  -- {
-  --   "kndndrj/nvim-dbee",
-  --   dependencies = {
-  --     "MunifTanjim/nui.nvim",
-  --   },
-  --   build = function()
-  --     -- Install tries to automatically detect the install method.
-  --     -- if it fails, try calling it with one of these parameters:
-  --     --    "curl", "wget", "bitsadmin", "go"
-  --     require("dbee").install()
-  --   end,
-  --   config = function()
-  --     require("dbee").setup(--[[optional config]])
-  --   end,
-  -- },
-  "tpope/vim-dadbod",
-  "kristijanhusak/vim-dadbod-ui",
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "kristijanhusak/vim-dadbod-completion",
-    },
-    -- override the options table that is used in the `require("cmp").setup()` call
-    opts = function(_, opts)
-      -- opts parameter is the default options table
-      -- the function is lazy loaded so cmp is able to be required
-      local cmp = require "cmp"
-      -- modify the sources part of the options table
-      opts.sources = cmp.config.sources {
-        { name = "nvim_lsp", priority = 1000 },
-        { name = "luasnip", priority = 750 },
-        { name = "buffer", priority = 500 },
-        { name = "path", priority = 250 },
-        { name = "vim-dadbod-completion", priority = 700 }, -- add new source
-      }
-      -- return the new table to be used
-      return opts
-    end,
-  },
-  "ntpeters/vim-better-whitespace",
-  -- {
-  --   "mrcjkb/haskell-tools.nvim",
-  --   version = "^3", -- Recommended
-  --   lazy = false, -- This plugin is already lazy
-  -- },
-  {
-    "christoomey/vim-tmux-navigator",
-    lazy = false,
-    cmd = {
-      "TmuxNavigateLeft",
-      "TmuxNavigateDown",
-      "TmuxNavigateUp",
-      "TmuxNavigateRight",
-      "TmuxNavigatePrevious",
-    },
-    keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
-    },
   },
 }
