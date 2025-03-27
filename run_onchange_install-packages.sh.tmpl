@@ -5,7 +5,12 @@
 # If there is a change, it will trigger this to re-run
 
 echo "Installing packages in Brewfile..."
-brew bundle --file=~/.Brewfile --force cleanup
-brew autoremove
-brew cleanup
-echo "Done :)"
+brew bundle --file=~/.Brewfile
+echo "Done installing packages."
+
+echo "The following packages are no longer needed:"
+brew leaves | grep -vFf <(sed -n 's/^brew "\(.*\)"$/\1/p' ~/.Brewfile)
+
+echo "To remove these packages, run 'brew autoremove' manually."
+echo "To clean up old versions, run 'brew cleanup' manually."
+

@@ -10,7 +10,6 @@ Host *
   IdentityAgent ~/.1password/agent.sock
   {{ end }}
 {{ end }}
-
 {{if eq .sysarea "work" }}
   ForwardAgent yes
   # Only include ForwardX11 if you need to run graphical applications
