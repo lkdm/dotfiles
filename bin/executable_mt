@@ -1,7 +1,6 @@
-#!/bin/bash
-# Minitol CLI tool
+#!/usr/bin/env bash
 
-# TODO: Might be a good idea to write a simpler version of this tool and put it in a container, then alias `mt` to connect
+# Minitol CLI tool
 
 # Returns the ID for the Dev Container
 get_minitol_container_id() {
@@ -88,32 +87,6 @@ open_minitol_shell() {
     fi
 }
 
-execute_branch_sync() {
-    cid=$(get_minitol_container_id)
-    _execute_sh $cid branch-sync
-}
-
-execute_clone_db() {
-    cid=$(get_minitol_container_id)
-    # Join all arguments into a single command
-    command="$*"
-    _execute_sh $cid dbclone $command
-}
-
-configure_ts() {
-    cid=$(get_minitol_container_id)
-    if [[ "$1" == "1" ]]; then
-        _execute_sh $cid strict
-    elif [[ "$1" == "0" ]]; then
-        _execute_sh $cid unstrict
-    else
-        echo "Unrecognised argument, try 1 to enable or 0 to disable."
-    fi
-}
-
-
-
-
 # Starts Docker Engine then starts the dev app in the container
 start() {
     worktree=$(_git_worktree)
@@ -180,19 +153,7 @@ development environment
 
 database operations
     sql                       Execute a SQL script on the dev database
-    slqsh \"<sh>\"              Launch an interactive SQL shell connected to the dev database
-    clone <db1> [<db2>, ...]  Clone databases from production, separated by spaces
-
-debugging
-    logs                      Display application logs (default: paginated).
-      --watch                 Watch logs in real-time.
-      --tail                  Display only the last 10 lines of logs.
-
-version control
-    branch-sync               Run branch synchronisation script inside the dev container
-
-linting
-    ts <1,0>                  Enable or disable strict type checking for the Typescript compiler
+    slq \"<sh>\"              Launch an interactive SQL shell connected to the dev database
 
 general
     help                      Display this help message
@@ -201,10 +162,6 @@ EXAMPLES
 
     mt start
     mt sql 'SELECT * FROM table LIMIT 1;'
-    mt clone hr_166 hr_338
-    mt branch-sync
-    mt ts 1
-    mt logs --watch
     mt sh \"cat ~/README.md\" | less
 
 Ensure Docker engine is installed and properly configured on your system before using this tool.
@@ -231,23 +188,8 @@ case "$subcommand" in
     sh)
         open_minitol_shell "$@"
         ;;
-    sqlsh)
-        open_sql_repl_in_container "$@"
-        ;;
-    branch-sync)
-        execute_branch_sync "$@"
-        ;;
     which)
         which_worktree "$@"
-        ;;
-    clone)
-        execute_clone_db "$@"
-        ;;
-    ts)
-        configure_ts "$@"
-        ;;
-    logs)
-        logs "$@"
         ;;
     start)
         start "$@"
