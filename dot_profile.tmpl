@@ -9,6 +9,7 @@ SSH_AUTH_SOCK=~/.1password/agent.sock
 {{ end }}
 {{ end }}
 
+
 # Set the default editor to Neovim
 VISUAL=nvim
 EDITOR="$VISUAL"
@@ -34,17 +35,19 @@ COLORTERM=truecolor
 
 PATH="$PATH:$HOME/.atuin/bin"
 
-# Add Homebrew to path
-PATH="/opt/homebrew/bin:$PATH"
-[ -f "/home/linuxbrew/.linuxbrew/bin/brew" ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+#
+# Cross-platform way to export correct Homebrew environment variables
+#
+eval "$("$(which brew)" shellenv)"
+
+# Rust
 PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$(brew --prefix rustup)/bin"
 
-# For NPM
+# For NVM / NPM
 export NVM_LAZY_LOAD=true # Speeds up loading of shell
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
 
 # For dotnet
 export DOTNET_ROOT="/home/linuxbrew/.linuxbrew/opt/dotnet/libexec"
