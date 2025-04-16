@@ -15,6 +15,7 @@ return {
         "lua-language-server",
         "rust-analyzer",
         "omnisharp",
+        "typescript-language-server",
 
         -- install formatters
         "stylua",
