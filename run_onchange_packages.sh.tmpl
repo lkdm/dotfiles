@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+
+# This file declaratively installs packages. If it has changed between chezmoi applications,
+# this script will be executed.
+
+# Brew packages
+brew_packages=(
+  zsh
+  atuin
+  git
+  curl
+  fzf
+  neovim
+  ripgrep
+  tree
+  jesseduffield/lazygit/lazygit
+  tmux
+  rustup
+  zellij
+  {{- if or (eq .sysarea "home") (eq .sysarea "work")}}
+    btop
+    mosh
+    sevenzip
+    syncthing
+  {{- end }}
+
+  {{- if eq .chezmoi.os "linux" }}
+    {{- if or (eq .sysarea "server") (eq .sysarea "devcontainer")}}
+      # xsel works better when sshing into a container
+      xsel
+    {{- else }}
+      xclip
+    {{- end }}
+  {{- end }}
+
+)
+brew tap "homebrew/bundle"
+brew tap "jesseduffield/lazygit"
+brew tap "nikitabobko/tap"
+for package in "${brew_packages[@]}"; do
+  echo "Installing brew package: $package..."
+  $(which brew) install --quiet "$package" || echo "Failed: $package"
+done
+
+
+{{- if eq .chezmoi.os "darwin" }}
+# Install cask packages, available on MacOS
+brew_casks=(
+  #alacritty
+  ghostty
+  firefox
+  1password
+  1password-cli
+  iina
+  freedom
+  localsend
+  discord
+  obsidian
+{{- if eq .sysarea "home"}}
+  scrivener
+  calibre
+  cryptomator
+{{- end }}
+)
+for package in "${brew_casks[@]}"; do
+  echo "Installing brew cask: $package..."
+  $(which brew) install --cask --quiet "$package" || echo "Failed: $package"
+done
+
+# Install apps from the MacOS app store
+apps=(
+  904280696    # Things 3
+  937984704    # Amphetamine
+  1464122853   # NextDNS
+)
+brew install mas
+for package in "${apps[@]}"; do
+  echo "Installing App store app: $package..."
+  mas install "$package"
+done
+{{- end }}
+
+
+{{- if eq .chezmoi.os "linux" }}
+# Flatpak packages on Linux
+flatpak_packages=(
+  com.discordapp.Discord
+  com.spotify.Client
+  org.localsend.localsend_app
+  it.mijorus.gearlever
+  com.libreoffice.LibreOffice
+  {{- if eq .sysarea "home"}}
+    org.telegram.desktop
+    org.remmina.Remmina
+    it.fabiodistasio.AntaresSQL
+    org.chromium.Chromium
+  {{- end }}
+)
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+for package in "${flatpak_packages[@]}"; do
+  echo "Installing Flatpak package: $package..."
+  flatpak install -y flathub "$package"
+done
+{{- end }}
+
