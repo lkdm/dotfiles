@@ -10,11 +10,6 @@ function setup_macos() {
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
 
-    if ! command -v atuin &>/dev/null; then
-        echo "Installing atuin..."
-        bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
-    fi
-
     echo "Setting up tmux..."
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     tmux source ~/.tmux.conf
@@ -37,11 +32,6 @@ function setup_linux() {
         fi
 
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    fi
-
-    if ! command -v &>/dev/null; then
-        echo "Installing atuin..."
-        bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
     fi
 
     echo "Setting up tmux..."
