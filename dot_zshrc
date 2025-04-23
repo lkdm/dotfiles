@@ -2,6 +2,8 @@
 #if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
 #  tmux new-session -A -s launchpad
 #fi
+alias tmux='tmux -f ~/.config/tmux/tmux.conf' # Always open tmux using the custom tmux conf location
+
 if command -v zellij &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ zellij ]] && [ -z "$ZELLIJ" ]; then
   zellij attach -c launchpad || zellij -s launchpad
 fi

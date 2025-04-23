@@ -1,6 +1,6 @@
 [core]
        editor = "nvim"
-       hooksPath = ~/.git-hooks
+       hooksPath = ~/.config/git/hooks
 [init]
        defaultBranch = main
 [user]
@@ -22,7 +22,7 @@
        verbose = true
        # When using git-commit, show my git message
        # In this case, I've written a summary of conventional commits.
-       template = ~/.gitmessage
+       template = ~/.config/git/gitmessage
 [safe]
 {{ if eq .sysarea "work" }}
        directory = /home/luke/github.com/SoftwareNorth/*
