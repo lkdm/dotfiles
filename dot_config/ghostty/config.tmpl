@@ -3,7 +3,8 @@
 command = /opt/homebrew/bin/zsh --login --interactive
 {{ else if eq .chezmoi.os "linux" -}}
 # command = /home/linuxbrew/.linuxbrew/bin/zsh --login --interactive
-command = /usr/bin/zsh --login --interactive
+# command = /usr/bin/zsh --login --interactive
+command = /usr/bin/bash -c 'distrobox enter dev'
 {{ end }}
 
 # Ghostty Configuration for JetBrainsMono Nerd Font Mono
