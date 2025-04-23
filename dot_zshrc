@@ -1,6 +1,9 @@
 # By default, attach to the launchpad session
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  tmux new-session -A -s launchpad
+#if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#  tmux new-session -A -s launchpad
+#fi
+if command -v zellij &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ zellij ]] && [ -z "$ZELLIJ" ]; then
+  zellij attach -c launchpad || zellij -s launchpad
 fi
 
 [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
