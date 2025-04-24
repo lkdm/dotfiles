@@ -102,6 +102,21 @@ for package in "${flatpak_packages[@]}"; do
 done
 {{- end }}
 
-#### Scripts to install/update
-cargo install --git https://github.com/lkdm/scripts mt --force
+#### USER SCRIPTS
+cargo_userscripts=(
+  mt
+)
+for package in "${cargo_userscripts[@]}"; do
+  echo "Installing Cargo userscript: $package..."
+  cargo install --git https://github.com/lkdm/scripts $package --force 
+done
+
+sh_userscripts=(
+  hello
+)
+for package in "${sh_userscripts[@]}"; do
+  echo "Installing sh userscript: $package..."
+  curl -L -o ~/bin/$package https://raw.githubusercontent.com/lkdm/scripts/main/$package.sh
+  chmod +x ~/bin/$package
+done
 
