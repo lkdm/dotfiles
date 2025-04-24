@@ -6,3 +6,6 @@
 sudo mkdir -p /opt/1Password
 sudo ln -s /run/host/opt/1Password/op-ssh-sign /opt/1Password/
 git config --global gpg.ssh.program "/opt/1Password/op-ssh-sign"
+
+# Alias Docker socket
+sudo ln -s /var/run/docker.sock /run/host/var/run/docker.sock
