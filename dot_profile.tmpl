@@ -5,6 +5,10 @@
 SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 {{ else if eq .chezmoi.os "linux" -}}
 SSH_AUTH_SOCK=~/.1password/agent.sock
+
+# if [ -n "$DISTROBOX_ENTER_PATH" ]; then
+#  SSH_AUTH_SOCK="/run/host/home/$(whoami)/.1password/agent.sock"
+# fi
 {{ else -}}
 {{ end }}
 {{ end }}
