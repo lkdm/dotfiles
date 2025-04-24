@@ -6,11 +6,9 @@ export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 #fi
 alias tmux='tmux -f ~/.config/tmux/tmux.conf' # Always open tmux using the custom tmux conf location
 
-if command -v zellij >/dev/null && [ -z "$ZELLIJ" ] && [ -n "$PS1" ]; then
-  zellij attach -c launchpad 2>/dev/null || zellij
-fi
-
-
+#if command -v zellij >/dev/null && [ -z "$ZELLIJ" ] && [ -n "$PS1" ]; then
+#  zellij attach -c launchpad 2>/dev/null || zellij
+#fi
 
 [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
 
