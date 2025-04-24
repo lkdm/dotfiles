@@ -34,7 +34,6 @@ brew_packages=(
   {{- end }}
 
 )
-brew tap "homebrew/bundle"
 brew tap "jesseduffield/lazygit"
 brew tap "nikitabobko/tap"
 for package in "${brew_packages[@]}"; do
@@ -102,4 +101,7 @@ for package in "${flatpak_packages[@]}"; do
   flatpak install -y flathub "$package"
 done
 {{- end }}
+
+#### Scripts to install/update
+cargo install --git https://github.com/lkdm/scripts mt --force
 
