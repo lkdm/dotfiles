@@ -10,7 +10,6 @@ alias zj='zellij'
 if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     # In a Distrobox environment, we want some commands to reference the host
     alias host='distrobox-host-exec'
-    alias docker='host docker'
     alias ujust='host ujust'
     alias open='host open'
     alias code='host code'
@@ -19,19 +18,19 @@ if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     alias bootc='host bootc'
 fi
 
-hash -d lkdm=~/Repos/lkdm/
+hash -d lkdm=~/Repos/lkdm
 hash -d dotfiles=~/Repos/lkdm/dotfiles
 hash -d scripts=~/Repos/lkdm/scripts
 hash -d lab=~/Repos/lkdm/lab
 hash -d notes=~/Repos/lkdm/notes
 {{- if eq .sysarea "work" }}
-hash -d sn=~/Repos/SoftwareNorth/
-hash -d tol=~/Repos/SoftwareNorth/TriOnline/
-hash -d staging=~/Repos/SoftwareNorth/TriOnline/staging/
-hash -d betab=~/Repos/SoftwareNorth/TriOnline/betab/
-hash -d betap=~/Repos/SoftwareNorth/TriOnline/betap/
-hash -d betah=~/Repos/SoftwareNorth/TriOnline/betah/
-hash -d sbrc=~/github.com/SoftwareNorth/TriOnline/sbrc/
+hash -d sn=~/Repos/SoftwareNorth
+hash -d tol=~/Repos/SoftwareNorth/TriOnline
+hash -d staging=~/Repos/SoftwareNorth/TriOnline/staging
+hash -d betab=~/Repos/SoftwareNorth/TriOnline/betab
+hash -d betap=~/Repos/SoftwareNorth/TriOnline/betap
+hash -d betah=~/Repos/SoftwareNorth/TriOnline/betah
+hash -d sbrc=~/github.com/SoftwareNorth/TriOnline/sbrc
 {{- end }}
 
 if [[ "$(uname)" == "Darwin" ]]; then
