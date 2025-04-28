@@ -1,4 +1,4 @@
-if true then return end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- if true then return end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- This will run last in the setup process and is a good place to configure
 -- things like custom filetypes. This is just pure lua so anything that doesn't
@@ -38,3 +38,5 @@ vim.bo.shiftwidth = 4
 vim.bo.tabstop = 4
 vim.bo.softtabstop = 4
 vim.opt.cmdheight = 2 -- Make notifications 2 lines
+
+-- My functions
