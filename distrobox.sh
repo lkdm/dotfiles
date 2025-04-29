@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Run inside distrobox to set it up
+# [Useful tips for Distrobox](https://github.com/89luca89/distrobox/blob/main/docs/useful_tips.md)
 
 # Allow use of host 1Password
 sudo mkdir -p /opt/1Password
