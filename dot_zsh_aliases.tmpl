@@ -6,6 +6,8 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias zj='zellij'
+alias lg='lazygit'
+alias nv='nvim'
 
 if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     # In a Distrobox environment, we want some commands to reference the host
@@ -19,19 +21,21 @@ if [ -n "$DISTROBOX_ENTER_PATH" ]; then
 fi
 
 hash -d lkdm=~/Repos/lkdm
-hash -d dotfiles=~/Repos/lkdm/dotfiles
-hash -d scripts=~/Repos/lkdm/scripts
-hash -d lab=~/Repos/lkdm/lab
-hash -d notes=~/Repos/lkdm/notes
-{{- if eq .sysarea "work" }}
+hash -d dotfiles=~lkdm/dotfiles
+hash -d scripts=~lkdm/scripts
+hash -d lab=~lkdm/lab
+hash -d notes=~lkdm/notes
+
+# Work aliases
 hash -d sn=~/Repos/SoftwareNorth
 hash -d tol=~/Repos/SoftwareNorth/TriOnline
-hash -d staging=~/Repos/SoftwareNorth/TriOnline/staging
-hash -d betab=~/Repos/SoftwareNorth/TriOnline/betab
-hash -d betap=~/Repos/SoftwareNorth/TriOnline/betap
-hash -d betah=~/Repos/SoftwareNorth/TriOnline/betah
-hash -d sbrc=~/github.com/SoftwareNorth/TriOnline/sbrc
-{{- end }}
+hash -d staging=~tol/staging
+hash -d betab=~tol/betab
+hash -d betap=~tol/betap
+hash -d betah=~tol/betah
+hash -d sbrc=~tol/sbrc
+hash -d feature=~tol/feature
+hash -d hotfix=~tol/hotfix
 
 if [[ "$(uname)" == "Darwin" ]]; then
     # Add Homebrew to path
