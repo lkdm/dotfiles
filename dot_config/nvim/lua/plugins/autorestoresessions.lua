@@ -51,13 +51,13 @@ return {
           desc = "Restore previous directory session if neovim opened with no arguments",
           nested = true, -- trigger other autocommands as buffers open
           callback = function()
-            -- Only load the session if nvim was started with no args
             if vim.fn.argc(-1) == 0 then
-              -- try to load a directory session using the current working directory
-              require("resession").load(get_session_name(), { dir = "dirsession", silence_errors = true })
-
-              -- Redraw the buffer on load, otherwise it'll be blank
-              vim.cmd "bufdo e"
+              -- Handle empty sessions gracefully
+              local ok, err = pcall(
+                function() require("resession").load(get_session_name(), { dir = "dirsession", silence_errors = true }) end
+              )
+              -- If a valid buffer was loaded, redraw it (otherwise it will just be blank)
+              if ok and next(vim.fn.getbufinfo { listed = 1 }) ~= nil then vim.cmd "bufdo e" end
             end
           end,
         },
