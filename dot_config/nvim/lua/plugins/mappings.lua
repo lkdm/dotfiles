@@ -56,6 +56,12 @@ return {
           ["<Leader>b"] = { desc = "Buffers" },
           -- quick save
           -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+          ["<Leader>O"] = { desc = "Obsidian" },
+          ["<Leader>Od"] = { ":ObsidianToggleCheckbox<CR>", desc = "Toggle checkbox" },
+          ["<Leader>Of"] = { ":ObsidianQuickSwitch<CR>", desc = "Open a note by filename" },
+          ["<Leader>Ow"] = { ":ObsidianSearch<CR>", desc = "Search notes" },
+          ["<Leader>On"] = { ":ObsidianNew ", desc = "New note" },
+          ["<Leader>Ot"] = { ":ObsidianToday<CR>", desc = "Today's note" },
         },
         t = {
           -- setting a mapping to false will disable it
