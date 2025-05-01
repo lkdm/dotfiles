@@ -10,10 +10,6 @@ function setup_macos() {
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
 
-    echo "Setting up tmux..."
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    tmux source ~/.tmux.conf
-
 	echo "Configuring Mac OS with sane defaults..."
 	defaults write com.apple.Finder AppleShowAllFiles true
 	killall Finder
@@ -33,13 +29,6 @@ function setup_linux() {
 
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
-
-    echo "Setting up tmux..."
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    tmux source ~/.tmux.conf
-
-    # Set ZSH as the default shell
-    chsh -s $(which zsh)
 }
 
 {{ if eq .chezmoi.os "darwin" -}}
