@@ -37,6 +37,6 @@ vim.bo.expandtab = false
 vim.bo.shiftwidth = 4
 vim.bo.tabstop = 4
 vim.bo.softtabstop = 4
-vim.opt.cmdheight = 2 -- Make notifications 2 lines
+vim.opt.cmdheight = 1 -- Make notifications 2 lines
 
 -- My functions
