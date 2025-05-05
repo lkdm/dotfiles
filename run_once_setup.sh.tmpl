@@ -31,6 +31,12 @@ function setup_linux() {
     fi
 }
 
+# Create directories
+mkdir -p ~/Repos/lkdm
+mkdir -p ~/Repos/SoftwareNorth/TriOnline
+mkdir -p ~/Sync
+mkdir -p ~/Vaults
+
 {{ if eq .chezmoi.os "darwin" -}}
 setup_macos
 {{ else if eq .chezmoi.os "linux" -}}
