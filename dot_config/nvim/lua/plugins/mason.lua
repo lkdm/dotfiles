@@ -16,6 +16,8 @@ return {
         "rust-analyzer",
         "omnisharp",
         "typescript-language-server",
+        "pyright",
+        "gopls",
 
         -- install formatters
         "stylua",
