@@ -1,9 +1,8 @@
 ## Distrobox
 
-- [x] mto and mt scripts do not work correctly inside distrobox, because `docker-compose` does not work correctly
+- [~] mto and mt scripts do not work correctly inside distrobox, because `docker-compose` does not work correctly
 - [ ] Ensure distrobox is set up automatically on relevant systems (Atomic Desktops)
 - [ ] Ensure docker-compose is installed and configured automatically inside distrobox
-- [ ] Change PS1 to show host system
 
 ## Zellij
 
@@ -11,5 +10,5 @@
 
 ## Zsh
 
-- [ ] Shorten hostnames to two chars on all computers
-- [ ] PS1 - Indicate whether the terminal is in a container
+- [~] Shorten hostnames to two chars on all computers
+- [~] PS1 - Indicate whether the terminal is in a container

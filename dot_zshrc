@@ -44,9 +44,9 @@ dci() {
 # if [[ $TERM == xterm ]]; then TERM=xterm-256color; fi
 
 # PS1='%n@%m %F{red}%/%f $ ' # david@macbook /tmp $
+
 git_info_path() {
-  local toplevel repo branch relpath color branch_icon
-  branch_icon=""  # Or your preferred Nerd Font branch symbol
+  local toplevel repo branch relpath color
 
   if toplevel=$(git rev-parse --show-toplevel 2>/dev/null); then
     repo=${toplevel:t}
@@ -68,9 +68,8 @@ git_info_path() {
     fi
     relpath="${PWD#$toplevel}"
     relpath="${relpath#/}"
-    # Compose the condensed repo/branch group
-    local group="%F{245}(%f%F{245}${repo}%f %F{$color}${branch_icon} ${branch}%f%F{245})%f"
-    # local group="%F{245}(%f%F{245}${repo}%f %F{$color}${branch_icon}${branch}%f%F{245})%f"
+    # Compose the simplified repo:branch group with grey colon
+    local group="%F{245}${repo}%f%F{245}:%f%F{$color}${branch}%f"
     if [[ -n $relpath ]]; then
       echo "${group}%F{245}/${relpath}%f"
     else
@@ -80,6 +79,7 @@ git_info_path() {
     echo "%F{245}${PWD/#$HOME/~}%f"
   fi
 }
+
 
 container_indicator() {
   if [[ -e /run/.containerenv ]]; then
