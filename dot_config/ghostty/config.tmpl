@@ -1,7 +1,10 @@
 # Start ZSH
 {{ if eq .chezmoi.os "darwin" -}}
 command = /opt/homebrew/bin/zsh --login --interactive
+font-size = 12
 {{ else if eq .chezmoi.os "linux" -}}
+# Optional: Adjust font size
+font-size = 11
 # command = /home/linuxbrew/.linuxbrew/bin/zsh --login --interactive
 # command = /usr/bin/zsh --login --interactive
 command = /usr/bin/bash -c 'distrobox enter dev'
@@ -14,8 +17,6 @@ font-family-italic = "JetBrainsMono Nerd Font Mono Italic"
 font-family-bold = "JetBrainsMono Nerd Font Mono Bold"
 font-family-bold-italic = "JetBrainsMono Nerd Font Mono Bold Italic"
 
-# Optional: Adjust font size
-font-size = 11
 
 # Clipboard
 clipboard-read = allow
