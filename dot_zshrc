@@ -44,24 +44,75 @@ dci() {
 # if [[ $TERM == xterm ]]; then TERM=xterm-256color; fi
 
 # PS1='%n@%m %F{red}%/%f $ ' # david@macbook /tmp $
-git_branch_with_color() {
-    local branch=$(git symbolic-ref HEAD 2> /dev/null | cut -d'/' -f3-)
-    if [[ -n $branch ]]; then
-        local git_status=$(git status --porcelain 2> /dev/null)
-        local color
-        if [[ -n $git_status ]]; then
-            color="yellow"  # Changes present
-        elif [[ $branch == "main" || $branch == "master" || $branch == "staging" ]]; then
-            color="red"   # On main/master branch
-        else
-            color="cyan"    # On other branches
-        fi
-        echo " %F{$color}($branch)%f"
-    fi
-}
-setopt PROMPT_SUBST
-PS1='%F{245}%n@%m%f %F{245}${PWD/#$HOME/~}%f$(git_branch_with_color) %F{245}$%f '
+git_info_path() {
+  local toplevel repo branch relpath color branch_icon
+  branch_icon=""  # Or your preferred Nerd Font branch symbol
 
+  if toplevel=$(git rev-parse --show-toplevel 2>/dev/null); then
+    repo=${toplevel:t}
+    # Branch/state detection
+    if git rev-parse --abbrev-ref HEAD 2>/dev/null | grep -qv '^HEAD$'; then
+      branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+      if [[ $branch == "main" || $branch == "master" ]]; then
+        color="yellow"
+      else
+        color="green"
+      fi
+      if [[ -d "$toplevel/.git/rebase-merge" || -d "$toplevel/.git/rebase-apply" ]]; then
+        branch="REBASE"
+        color="red"
+      fi
+    else
+      branch="DETACHED"
+      color="red"
+    fi
+    relpath="${PWD#$toplevel}"
+    relpath="${relpath#/}"
+    # Compose the condensed repo/branch group
+    local group="%F{245}(%f%F{245}${repo}%f %F{$color}${branch_icon} ${branch}%f%F{245})%f"
+    # local group="%F{245}(%f%F{245}${repo}%f %F{$color}${branch_icon}${branch}%f%F{245})%f"
+    if [[ -n $relpath ]]; then
+      echo "${group}%F{245}/${relpath}%f"
+    else
+      echo "${group}"
+    fi
+  else
+    echo "%F{245}${PWD/#$HOME/~}%f"
+  fi
+}
+
+container_indicator() {
+  if [[ -e /run/.containerenv ]]; then
+    # Check for Distrobox (it sets $DISTROBOX_ENTER_PATH or $container variable)
+    if [[ -n $DISTROBOX_ENTER_PATH || -n $container ]]; then
+      echo " %F{magenta}%f"  # Nerd Font box icon for Distrobox
+    else
+      echo " %F{33}%f"        # Nerd Font Docker icon in blue
+    fi
+  fi
+}
+
+short_user() {
+  case "$USER" in
+    root) echo "ro" ;;
+    admin) echo "ad" ;;
+    docker) echo "do" ;;
+    luke) echo "lk" ;;
+    *) echo "${USER:0:2}" ;;
+  esac
+}
+
+short_host() {
+  case "$HOST" in
+    polar) echo "pl" ;;
+    workbook) echo "wb" ;;
+    macbook) echo "mb" ;;
+    *) echo "${HOST:0:2}" ;;
+  esac
+}
+
+setopt PROMPT_SUBST
+PS1='%F{245}$(short_user)@$(short_host)%f$(container_indicator) $(git_info_path) %F{245}$%f '
 
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY

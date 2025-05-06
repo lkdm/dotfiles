@@ -8,3 +8,8 @@
 ## Zellij
 
 - [ ] Install Zellij autolock and zellij.vim
+
+## Zsh
+
+- [ ] Shorten hostnames to two chars on all computers
+- [ ] PS1 - Indicate whether the terminal is in a container
