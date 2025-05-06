@@ -13,7 +13,6 @@ SSH_AUTH_SOCK=~/.1password/agent.sock
 {{ end }}
 {{ end }}
 
-
 # Set the default editor to Neovim
 VISUAL=nvim
 EDITOR="$VISUAL"
@@ -43,6 +42,8 @@ PATH="$PATH:$HOME/.atuin/bin"
 # Cross-platform way to export correct Homebrew environment variables
 #
 eval "$("$(which brew)" shellenv)"
+
+SHELL=$HOMEBREW_PREFIX/bin/zsh
 
 # Rust
 PATH="$PATH:$HOME/.cargo/bin"
