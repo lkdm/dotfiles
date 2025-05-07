@@ -153,3 +153,5 @@ unsetopt ALL_EXPORT
 
 # Atuin
 eval "$(atuin init zsh)"
+
+source ~/.config/zsh/plugins/zsh-zellij.zsh
