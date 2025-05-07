@@ -104,15 +104,26 @@ short_user() {
 
 short_host() {
   case "$HOST" in
-    polar) echo "pl" ;;
-    workbook) echo "wb" ;;
-    macbook) echo "mb" ;;
+    bluefin) echo "bf" ;;
+    polar) echo "polar" ;;
+    workbook) echo "work" ;;
+    macbook) echo "mac" ;;
     *) echo "${HOST:0:2}" ;;
   esac
 }
+show_ssh_host() {
+  if [[ -n $SSH_CLIENT || -n $SSH_CONNECTION || -n $SSH_TTY ]]; then
+    short_host
+  fi
+}
 
 setopt PROMPT_SUBST
-PS1='%F{245}$(short_user)@$(short_host)%f$(container_indicator) $(git_info_path) %F{245}$%f '
+
+# Function to show # for root, $ otherwise
+prompt_symbol() {
+  [[ $EUID -eq 0 ]] && echo "#" || echo "$"
+}
+PS1='%F{245}$(show_ssh_host)%f$(container_indicator) $(git_info_path) %F{245}$(prompt_symbol)%f '
 
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY
