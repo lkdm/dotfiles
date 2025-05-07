@@ -7,8 +7,12 @@
 ## Zellij
 
 - [ ] Install Zellij autolock and zellij.vim
+- [ ] Create Zellij plugin for custom command menu; takes commands from kdl, and
+  lists them in bar
 
 ## Zsh
 
 - [~] Shorten hostnames to two chars on all computers
 - [~] PS1 - Indicate whether the terminal is in a container
+
+- [ ] [Try Nushell](https://www.nushell.sh/) as a replacement of zsh
