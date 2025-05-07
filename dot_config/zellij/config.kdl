@@ -218,6 +218,18 @@ keybinds clear-defaults=true {
     renamepane {
         bind "esc" { UndoRenamePane; SwitchToMode "pane"; }
     }
+    shared {
+        bind "Alt l" {
+            Run "lazygit" {
+                close_on_exit true
+                floating true
+                x "10%"
+                y "15%"
+                width "80%"
+                height "70%"
+            }
+        }
+    }
 }
 
 // Plugin aliases - can be used to change the implementation of Zellij
