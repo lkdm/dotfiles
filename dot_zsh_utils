@@ -1,3 +1,6 @@
+# View largest disk usage
+alias largest='du -h 2> /dev/null | sort -hr | head -n20'
+
 # # Simpler version of a man-page
 wtfis() { curl "https://cheat.sh/$1"; } # Example: wtfis curl
 
