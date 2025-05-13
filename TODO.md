@@ -17,3 +17,11 @@
 - [ ] PS1 - If logged into root, replace $ with # (if not already), then
       consider removing username
 - [ ] [Try Nushell](https://www.nushell.sh/) as a replacement of zsh
+
+## Writing
+
+[Implement suggestions from this blogpost](https://nickjanetakis.com/blog/vim-is-saving-me-hours-of-work-when-writing-books-and-courses)
+
+- [ ] `set lazyredraw` and `set regexpengine=1`
+- [ ] Install [Vim Markdown](https://github.com/preservim/vim-markdown)
+- [ ] Install [Fastfold](https://github.com/Konfekt/FastFold)
