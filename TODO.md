@@ -9,6 +9,9 @@
 - [ ] Install Zellij autolock and zellij.vim
 - [~] Create Zellij plugin for custom command menu; takes commands from kdl, and
   lists them in bar
+- [ ] Fix empty line beneath command line
+- [ ] [Install zjstatus](https://github.com/dj95/zjstatus) to make zellij header
+      and footer rows more compact
 
 ## Zsh
 
