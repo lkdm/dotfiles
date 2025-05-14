@@ -12,17 +12,24 @@ sourceDir = {{ .chezmoi.config.sourceDir | quote }}
 {{-   end -}}
 {{- end -}}
 
+{{/* Detect Distrobox (either env var is non-empty) */}}
+{{- $isDistrobox := or (ne (env "DISTROBOX_ENTER_PATH") "") (ne (env "container") "") -}}
+{{/* Detect any devcontainer: Distrobox, VSCode, or CONTAINER_ID */}}
+{{- $isDevContainer := or $isDistrobox (eq .chezmoi.username "vscode") (ne (env "CONTAINER_ID") "") -}}
 
 [data]
 name = "Luke M"
 email = "44519853+lkdm@users.noreply.github.com"
 hostname = {{ $hostname | quote }}
-{{ if or (eq .chezmoi.hostname "macbook") (eq .chezmoi.hostname "polar") }}
+{{ if $isDevContainer }}
+sysarea = "devcontainer"
+{{ else if or (eq .chezmoi.hostname "macbook") (eq .chezmoi.hostname "polar") }}
 sysarea = "home"
 {{ else if eq .chezmoi.hostname "workbook" }}
 sysarea = "work"
-{{ else if or (eq .chezmoi.username "vscode") (ne (env "CONTAINER_ID") "") }}
-sysarea = "devcontainer"
 {{ else }}
 sysarea = "server"
 {{ end }}
+
+
+

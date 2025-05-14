@@ -3,6 +3,37 @@
 # This file declaratively installs packages. If it has changed between chezmoi applications,
 # this script will be executed.
 
+{{- if eq .sysarea "devcontainer" }}
+dev_packages=(
+  # Lua
+  lua luarocks
+  # JavaScript
+  bun nvm
+  # Docker
+  docker docker-compose
+  # Rust
+  rustup
+  # Python
+  uv pipx python
+  # Go
+  go gopls
+  # Dotnet
+  dotnet
+  # Lazygit
+  jesseduffield/lazygit/lazygit
+  # Data
+  jq fd bat
+)
+brew tap oven-sh/bun
+for package in "${dev_packages[@]}"; do
+  echo "Installing dev package: $package..."
+  $(which brew) install --quiet "$package" || echo "Failed: $package"
+done
+
+rustup update && rustup default stable
+nvm install node
+{{- end }}
+#
 # Brew packages
 brew_packages=(
   zsh
@@ -12,11 +43,10 @@ brew_packages=(
   fzf
   neovim
   ripgrep
-  tree
-  jesseduffield/lazygit/lazygit
-  tmux
-  rustup
   zellij
+  {{- if (eq .sysarea "home")}}
+  ffmpeg pandoc tree
+  {{- end }}
   {{- if or (eq .sysarea "home") (eq .sysarea "work")}}
     btop
     mosh
@@ -104,7 +134,9 @@ done
 
 #### USER SCRIPTS
 cargo_userscripts=(
+{{- if eq .sysarea "work"}}
   mt
+{{- end }}
 )
 for package in "${cargo_userscripts[@]}"; do
   echo "Installing Cargo userscript: $package..."
@@ -113,7 +145,6 @@ done
 
 sh_userscripts=(
   hello
-  mto
 )
 for package in "${sh_userscripts[@]}"; do
   echo "Installing sh userscript: $package..."
