@@ -17,7 +17,7 @@ return {
         "omnisharp",
         "typescript-language-server",
         "pyright",
-        "gopls",
+        -- "gopls", -- Cannot get this one to install for some reason
 
         -- install formatters
         "stylua",

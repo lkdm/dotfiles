@@ -20,8 +20,8 @@ return {
   opts = {
     workspaces = {
       {
-        name = "work",
-        path = "~/Repos/lkdm/notes",
+        name = "Developer",
+        path = "~/Vaults/Developer",
       },
       -- {
       --   name = "work",
