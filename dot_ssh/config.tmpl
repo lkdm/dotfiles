@@ -1,3 +1,12 @@
+# Obisidian's git plugin struggles with 1Password's IdentityAgent
+# Use the following remote URL instead:
+# git remote set-url origin git@github-obsidian:username/repo.git
+Host github-obsidian
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/obsidian_git_key
+    IdentitiesOnly yes
+    ForwardAgent no
 {{ if or (eq .sysarea "devcontainer") (eq .sysarea "server") }}
 Host *
   ForwardAgent yes
@@ -17,3 +26,4 @@ Host *
   ForwardX11 yes
   # ForwardX11Trusted yes
 {{ end }}
+

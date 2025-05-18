@@ -21,7 +21,7 @@ return {
     workspaces = {
       {
         name = "Developer",
-        path = "~/Vaults/Developer",
+        path = "~/Repos/lkdm/developer-notes",
       },
       -- {
       --   name = "work",
