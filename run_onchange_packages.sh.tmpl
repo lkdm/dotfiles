@@ -141,8 +141,9 @@ for package in "${cargo_userscripts[@]}"; do
   cargo install --git https://github.com/lkdm/scripts $package --force 
 done
 
+#
 sh_userscripts=(
-  hello
+  fic
 )
 for package in "${sh_userscripts[@]}"; do
   echo "Installing sh userscript: $package..."
