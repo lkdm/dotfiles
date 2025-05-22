@@ -1,0 +1,11 @@
+git:
+  overrideGpg: true
+customCommands:
+  - key: "<c-t>"
+    context: "Link Task"
+    prompts:
+      - type: "input"
+        title: "What is the task ID, after the `#`?"
+        key: "TaskKey"
+        initialValue: ""
+    command: "git-reword {{.SelectedCommit}} \"$(git log --format=%B -n 1 {{.SelectedCommit}})\nTask: {{.Form.TaskKey}}\""
