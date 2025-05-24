@@ -44,6 +44,8 @@ brew_packages=(
   neovim
   ripgrep
   zellij
+  # Drop-in replacement for ls
+  eza
   {{- if (eq .sysarea "home")}}
   ffmpeg pandoc tree
   {{- end }}
@@ -131,6 +133,24 @@ for package in "${flatpak_packages[@]}"; do
   flatpak install -y flathub "$package"
 done
 {{- end }}
+
+
+cargo_packages=(
+  rusty-man
+  bacon
+  delta
+  wiki-tui
+  yazi
+  hyperfine
+  xh
+  dua
+  ncspot
+)
+for package in "${cargo_packages[@]}"; do
+  echo "Installing Cargo tool: $package..."
+  cargo install --locked $package
+done
+
 
 #### USER SCRIPTS
 cargo_userscripts=(
