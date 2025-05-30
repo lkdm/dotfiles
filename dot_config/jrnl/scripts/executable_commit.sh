@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-JRNL_GIT_DIR=$JRNL
+JRNL_GIT_DIR="$JRNL"
 
-pushd $JRNL_GIT_DIR > /dev/null
+pushd "$JRNL_GIT_DIR" > /dev/null
 
 # Check for ongoing conflict. jrnl will still save, but don't make a commit
 if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; then
@@ -18,6 +18,7 @@ if [ -n "$(git status --porcelain)" ]; then
     --config-override colors.title none \
     | sed -r 's/^. //'`
 
+  git add .
   git commit -am "update(jrnl): $TITLE"
 fi
 
