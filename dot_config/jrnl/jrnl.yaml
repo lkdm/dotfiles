@@ -13,7 +13,8 @@ indent_character: "|"
 journals:
   default:
     journal: ~/Repos/lkdm/jrnl/
-    timeformat: "%H:%M"
+    # timeformat: "%H:%M"
+    folder: true
 linewrap: 79
 tagsymbols: "@"
 template: false
