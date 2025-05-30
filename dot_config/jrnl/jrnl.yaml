@@ -18,5 +18,5 @@ journals:
 linewrap: 79
 tagsymbols: "@"
 template: false
-timeformat: "%F %r"
+timeformat: "%F %R"
 version: v4.2.1
