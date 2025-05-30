@@ -11,7 +11,6 @@ alias tmux='tmux -f ~/.config/tmux/tmux.conf' # Always open tmux using the custo
 #fi
 
 [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
-
 [ -f ~/.zsh_utils ] && . ~/.zsh_utils
 [ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
 

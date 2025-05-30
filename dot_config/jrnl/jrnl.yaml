@@ -1,0 +1,19 @@
+colors:
+  body: none
+  date: none
+  tags: none
+  title: none
+default_hour: 9
+default_minute: 0
+# Hardened Neovim
+editor: "nvim -c 'set shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure'"
+encrypt: false
+highlight: true
+indent_character: "|"
+journals:
+  default: ~/Repos/lkdm/jrnl/dev.txt
+linewrap: 79
+tagsymbols: "@"
+template: false
+timeformat: "%F %r"
+version: v4.2.1
