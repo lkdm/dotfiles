@@ -6,7 +6,7 @@ colors:
 default_hour: 9
 default_minute: 0
 # Hardened Neovim
-editor: "nvim -c 'set shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure'"
+editor: "nvim -c 'set shada= noswapfile noundofile nobackup nowritebackup noshelltemp history=0 nomodeline secure | set wrap | set linebreak | set textwidth=80 | set colorcolumn=80'"
 encrypt: false
 highlight: true
 indent_character: "|"
