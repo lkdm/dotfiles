@@ -11,7 +11,9 @@ encrypt: false
 highlight: true
 indent_character: "|"
 journals:
-  default: ~/Repos/lkdm/jrnl/dev.txt
+  default:
+    journal: ~/Repos/lkdm/jrnl/
+    timeformat: "%H:%M"
 linewrap: 79
 tagsymbols: "@"
 template: false
