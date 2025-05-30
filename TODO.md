@@ -29,6 +29,11 @@
 - [~] Install [Vim Markdown](https://github.com/preservim/vim-markdown)
 - [ ] Install [Fastfold](https://github.com/Konfekt/FastFold)
 
-# Git
+## Git
 
 - [ ] Try delta as git diff handler
+
+## jrnl
+
+- [ ] Write Zellij plugin to indicate the amount of time since the journal was
+      last updated
