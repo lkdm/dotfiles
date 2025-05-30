@@ -30,3 +30,13 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 cheatsrs() {
     w3m "https://cheats.rs"
 }
+
+
+# Replaces @TMS with @TMS-ID
+dn() {
+  [[ $1 == "-h" || $1 == "--help" ]] && { echo 'Usage: dn "note with optional @TMS" (replaces @TMS with @TMS-{TMS_ID} from branch)'; return; }
+  tms_id="${$(git rev-parse --abbrev-ref HEAD 2>/dev/null)##*/}"
+  jrnl "$(echo "$1" | sed "s/@TMS/@TMS-$tms_id/g")"
+}
+
+
