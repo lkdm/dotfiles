@@ -18,6 +18,9 @@ if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     alias flatpak='host flatpak'
     alias rpm-ostree='host rpm-ostree'
     alias bootc='host bootc'
+
+    # Fedora atomic save location
+    hash -d factorio=/var/home/luke/.var/app/com.valvesoftware.Steam/.factorio/saves
 fi
 
 hash -d lkdm=~/Repos/lkdm
@@ -36,6 +39,8 @@ hash -d betah=~tol/betah
 hash -d sbrc=~tol/sbrc
 hash -d feature=~tol/feature
 hash -d hotfix=~tol/hotfix
+
+
 
 if [[ "$(uname)" == "Darwin" ]]; then
     # Add Homebrew to path
