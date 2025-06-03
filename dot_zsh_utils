@@ -20,7 +20,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 
 # Wikipedia article in less view
- wiki() {
+wiki() {
     w3m -B 1 -dump "https://en.m.wikipedia.org/wiki/$1" |
     sed -n '/View source/,$p' |
     awk 'NR>1{print last} {last=$0} END{print last}' |
@@ -39,4 +39,11 @@ dn() {
   jrnl "$(echo "$1" | sed "s/@TMS/@TMS-$tms_id/g")"
 }
 
+github() {
+  if [ $# -ne 2 ]; then
+    echo "Usage: github <username> <repository>"
+    return 1
+  fi
+  git clone git@github.com:$1/$2.git
+}
 
