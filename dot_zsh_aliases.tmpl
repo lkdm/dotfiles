@@ -47,18 +47,4 @@ if [[ "$(uname)" == "Darwin" ]]; then
     hash -d icloud=~/Library/Mobile\ Documents/com~apple~CloudDocs/
 fi
 
-# jrnl
-# Zsh function wrapper for automated journaling with Git integration:
-#
-# 1. Pulls the latest changes from the remote repository.
-# 2. Stages and commits changes if any modifications are detected.
-# 3. Pushes new commits to the remote repository.
-#
-# The function will skip committing and pushing if a rebase or merge conflict is detected,
-# ensuring that no actions are taken until the repository is in a clean state.
-jrnl() {
-    ~/.config/jrnl/scripts/pull.sh
-    command jrnl "$@"
-    ~/.config/jrnl/scripts/commit.sh
-    ~/.config/jrnl/scripts/push.sh
-}
+

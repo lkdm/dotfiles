@@ -39,6 +39,22 @@ dn() {
   jrnl "$(echo "$1" | sed "s/@TMS/@TMS-$tms_id/g")"
 }
 
+# jrnl
+# Zsh function wrapper for automated journaling with Git integration:
+#
+# 1. Pulls the latest changes from the remote repository.
+# 2. Stages and commits changes if any modifications are detected.
+# 3. Pushes new commits to the remote repository.
+#
+# The function will skip committing and pushing if a rebase or merge conflict is detected,
+# ensuring that no actions are taken until the repository is in a clean state.
+jrnl() {
+    ~/.config/jrnl/scripts/pull.sh || exit
+    command jrnl "$@" || exit
+    ~/.config/jrnl/scripts/commit.sh
+    ~/.config/jrnl/scripts/push.sh &
+}
+
 github() {
   if [ $# -ne 2 ]; then
     echo "Usage: github <username> <repository>"
