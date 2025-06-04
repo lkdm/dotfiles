@@ -32,6 +32,7 @@
 ## Git
 
 - [ ] Try delta as git diff handler
+- [ ] Make a custom command to search COMMIT_MSG contents in lazygit `git log --all --grep="TMS#a5898"` (I can't believe this isn't a feature)
 
 ## jrnl
 
