@@ -135,6 +135,14 @@ for package in "${flatpak_packages[@]}"; do
 done
 {{- end }}
 
+python_packages=(
+  baca
+)
+for package in "${python_packages[@]}"; do
+  echo "Installing Python tool through uv: $package..."
+  uv tool install $package
+done
+
 
 cargo_packages=(
   rusty-man
