@@ -23,11 +23,14 @@ if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     hash -d factorio=/var/home/luke/.var/app/com.valvesoftware.Steam/.factorio/saves
 fi
 
+# Obsidian
+hash -d vault=~/Documents/Brain
+alias notes='cd ~/Documents/Brain && nvim .'
+
 hash -d lkdm=~/Repos/lkdm
 hash -d dotfiles=~lkdm/dotfiles
 hash -d scripts=~lkdm/scripts
 hash -d lab=~lkdm/lab
-hash -d notes=~lkdm/notes
 
 # Work aliases
 hash -d sn=~/Repos/SoftwareNorth
