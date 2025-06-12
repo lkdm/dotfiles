@@ -49,6 +49,14 @@ cdgit() {
   fi
 }
 
+# Opens a chooser that lets you inspect 
+dci() {
+  local id
+  id=$(docker ps --filter "label=com.docker.compose.service" --format '{{.ID}}\t{{.Names}}\t{{.Label "com.docker.compose.service"}}' | \
+    fzf --no-multi --with-nth=3 --prompt='Service> ' --height=40% --reverse | cut -f1) || return
+
+  docker inspect "$id" | jq '.[0]'
+}
 
 # jrnl
 # Zsh function wrapper for automated journaling with Git integration:
