@@ -1,0 +1,140 @@
+# Custom Zsh Prompt
+#
+# DESCRIPTION:
+#   A minimal, context-aware Zsh prompt that displays only relevant information.
+#
+# FEATURES:
+#   - Shows full current directory path when outside a Git repository.
+#   - When inside a Git repository:
+#       • Displays the current branch or HEAD state.
+#       • Uses colors to indicate branch status (e.g., main/master, detached, rebase).
+#       • Shows the path relative to the Git worktree root.
+#   - Displays prompt symbols based on environment:
+#       • '#' for root user outside containers.
+#       • '$' for normal user outside containers.
+#       • Blue hexagon (⬢) for Docker/Podman containers.
+#       • Magenta hexagon (⬢) for Distrobox containers.
+#   - Shows the remote host name when connected via SSH.
+
+show_user_host() {
+  if [[ -n $SSH_CLIENT || -n $SSH_CONNECTION || -n $SSH_TTY ]]; then
+    # Show user@host when SSHing
+    echo "%F{cyan}${USER}@${HOST}%f "
+  else
+	# If the user is not `luke` (me, the author of this), then indicate the user
+    if [[ "$USER" != "luke" ]]; then
+      echo "%F{cyan}${USER}%f "
+    fi
+  fi
+}
+
+# Variables to hold cache
+typeset -g __GIT_INFO_CACHE_DIR=""
+typeset -g __GIT_INFO_CACHE_STR=""
+
+git_info_path() {
+  local toplevel repo branch relpath color
+
+  # If we are still in the same directory, return cached result
+  if [[ "$PWD" == "$__GIT_INFO_CACHE_DIR" && -n "$__GIT_INFO_CACHE_STR" ]]; then
+    echo "$__GIT_INFO_CACHE_STR"
+    return
+  fi
+
+  if toplevel=$(git rev-parse --show-toplevel 2>/dev/null); then
+    repo=${toplevel:t}  # basename of toplevel
+    # Branch/state detection
+    if git rev-parse --abbrev-ref HEAD 2>/dev/null | grep -qv '^HEAD$'; then
+      branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+      if [[ $branch == "main" || $branch == "master" ]]; then
+        color="yellow"
+      else
+        color="green"
+      fi
+      if [[ -d "$toplevel/.git/rebase-merge" || -d "$toplevel/.git/rebase-apply" ]]; then
+        branch="REBASE"
+        color="red"
+      fi
+    else
+      branch="DETACHED"
+      color="red"
+    fi
+    relpath="${PWD#$toplevel}"
+    relpath="${relpath#/}"
+    local group="%F{245}${repo}%f%F{245}:%f%F{$color}${branch}%f"
+    if [[ -n $relpath ]]; then
+      __GIT_INFO_CACHE_STR="${group}%F{245}/${relpath}%f"
+    else
+      __GIT_INFO_CACHE_STR="${group}"
+    fi
+  else
+    __GIT_INFO_CACHE_STR="%F{245}${PWD/#$HOME/~}%f"
+  fi
+
+  __GIT_INFO_CACHE_DIR="$PWD"
+  echo "$__GIT_INFO_CACHE_STR"
+}
+
+
+
+container_indicator() {
+  if [[ -e /run/.containerenv ]]; then
+    # Check for Distrobox (it sets $DISTROBOX_ENTER_PATH or $container variable)
+    if [[ -n $DISTROBOX_ENTER_PATH || -n $container ]]; then
+      echo " %F{magenta}%f"  # Nerd Font box icon for Distrobox
+    else
+      echo " %F{33}%f"        # Nerd Font Docker icon in blue
+    fi
+  fi
+}
+
+short_user() {
+  case "$USER" in
+    root) echo "ro" ;;
+    admin) echo "ad" ;;
+    docker) echo "do" ;;
+    luke) echo "lk" ;;
+    *) echo "${USER:0:2}" ;;
+  esac
+}
+
+short_host() {
+  case "$HOST" in
+    bluefin) echo "bf" ;;
+    polar) echo "polar" ;;
+    workbook) echo "work" ;;
+    macbook) echo "mac" ;;
+    *) echo "${HOST:0:2}" ;;
+  esac
+}
+show_ssh_host() {
+  if [[ -n $SSH_CLIENT || -n $SSH_CONNECTION || -n $SSH_TTY ]]; then
+    short_host
+  fi
+}
+
+setopt PROMPT_SUBST
+
+# Function to show # for root, $ otherwise
+#
+prompt_symbol() {
+  if [[ -n $DISTROBOX_ENTER_PATH || -n $container ]]; then
+    # Distrobox: magenta hexagon
+    echo '%F{magenta}⬢%f'
+  elif [[ -e /run/.containerenv ]]; then
+    # Docker/Podman container (but not distrobox): blue hexagon
+    echo '%F{blue}⬢%f'
+  elif [ "$EUID" -eq 0 ]; then
+    # Root user: red #
+    echo '%F{red}#%f'
+  else
+    # Normal user: $
+    echo '$'
+  fi
+}
+
+# prompt_symbol() {
+#   [[ $EUID -eq 0 ]] && echo "#" || echo "$"
+# }
+PS1='%F{245}$(show_user_host)%f $(git_info_path) %F{245}$(prompt_symbol)%f '
+
