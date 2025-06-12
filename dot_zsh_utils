@@ -39,6 +39,17 @@ dn() {
   jrnl "$(echo "$1" | sed "s/@TMS/@TMS-$tms_id/g")"
 }
 
+cdgit() {
+  local root
+  root=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ -n $root ]]; then
+    cd "$root" || return
+  else
+    echo "Not inside a Git repository." >&2
+  fi
+}
+
+
 # jrnl
 # Zsh function wrapper for automated journaling with Git integration:
 #
