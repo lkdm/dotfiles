@@ -91,13 +91,13 @@ return {
           -- quick save
           -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
           ["<Leader>O"] = { desc = "Obsidian" },
-          ["<Leader>Ob"] = { ":ObsidianBacklinks<CR>", desc = "Backlinks" },
-          ["<Leader>Ol"] = { ":ObsidianLinks<CR>", desc = "Links in this buffer" },
-          ["<Leader>Od"] = { ":ObsidianToggleCheckbox<CR>", desc = "Toggle checkbox" },
-          ["<Leader>Of"] = { ":ObsidianQuickSwitch<CR>", desc = "Open a note by filename" },
-          ["<Leader>Ow"] = { ":ObsidianSearch<CR>", desc = "Search notes" },
-          ["<Leader>On"] = { ":ObsidianNew ", desc = "New note" },
-          ["<Leader>Ot"] = { ":ObsidianToday<CR>", desc = "Today's note" },
+          ["<Leader>Ob"] = { ":Obsidian backlinks<CR>", desc = "Backlinks" },
+          ["<Leader>Ol"] = { ":Obsidian links<CR>", desc = "Links in this buffer" },
+          -- ["<Leader>Od"] = { ":ObsidianToggleCheckbox<CR>", desc = "Toggle checkbox" },
+          -- ["<Leader>Of"] = { ":ObsidianQuickSwitch<CR>", desc = "Open a note by filename" },
+          -- ["<Leader>Ow"] = { ":ObsidianSearch<CR>", desc = "Search notes" },
+          -- ["<Leader>On"] = { ":ObsidianNew ", desc = "New note" },
+          -- ["<Leader>Ot"] = { ":ObsidianToday<CR>", desc = "Today's note" },
 
           -- Opens or creates a TMS note for a given branch
           ["<Leader>OT"] = {
