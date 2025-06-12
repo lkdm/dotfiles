@@ -15,23 +15,6 @@ alias tmux='tmux -f ~/.config/tmux/tmux.conf' # Always open tmux using the custo
 [ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
 
 
-# Opens a fzf menu to attach to an existing Zellij session
-# If none exists, will just create a new one
-zj() {
-  if ! type fzf &> /dev/null; then
-    brew install fzf
-  fi
-  local session=$(zellij list-sessions --no-formatting | awk '{print $1}' | fzf --exit-0)
-  
-  if [[ -n "$session" ]]; then
-    zellij attach "$session"
-  else
-    zellij
-  fi
-}
-
-
-
 # Fix Tmux issues with highlighting code comments
 # if [[ $TERM == xterm ]]; then TERM=xterm-256color; fi
 
