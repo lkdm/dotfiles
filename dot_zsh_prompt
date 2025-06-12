@@ -15,14 +15,33 @@
 #   - Shows `user@host` when connected via SSH, or username if not `luke`.
 #   - Caches Git info per directory for performance.
 #   - Omits spacing between prompt elements when not needed.
+#   - Feature flags control git status, path compression, and short names.
+
+# ========== Feature flags ==========
+PROMPT_ENABLE_GIT_STATUS=true
+PROMPT_ENABLE_PATH_COMPRESSION=false
+PROMPT_ENABLE_SHORTEN_USER=true
+PROMPT_ENABLE_SHORTEN_HOST=true
 
 # ========== SSH and User Display ==========
 show_user_host() {
   if [[ -n $SSH_CLIENT || -n $SSH_CONNECTION || -n $SSH_TTY ]]; then
-    echo "%F{cyan}${USER}@${HOST}%f "
+    if [[ $PROMPT_ENABLE_SHORTEN_USER == true && $PROMPT_ENABLE_SHORTEN_HOST == true ]]; then
+      echo "%F{cyan}$(short_user)@$(short_host)%f "
+    elif [[ $PROMPT_ENABLE_SHORTEN_USER == true ]]; then
+      echo "%F{cyan}$(short_user)@${HOST}%f "
+    elif [[ $PROMPT_ENABLE_SHORTEN_HOST == true ]]; then
+      echo "%F{cyan}${USER}@$(short_host)%f "
+    else
+      echo "%F{cyan}${USER}@${HOST}%f "
+    fi
   else
     if [[ "$USER" != "luke" ]]; then
-      echo "%F{cyan}${USER}%f "
+      if [[ $PROMPT_ENABLE_SHORTEN_USER == true ]]; then
+        echo "%F{cyan}$(short_user)%f "
+      else
+        echo "%F{cyan}${USER}%f "
+      fi
     fi
   fi
 }
@@ -31,7 +50,6 @@ show_user_host() {
 typeset -g __GIT_INFO_CACHE_DIR=""
 typeset -g __GIT_INFO_CACHE_STR=""
 
-# --- ADDED: Clear cache on directory change ---
 autoload -Uz add-zsh-hook
 clear_git_cache() {
   __GIT_INFO_CACHE_DIR=""
@@ -40,16 +58,33 @@ clear_git_cache() {
 add-zsh-hook chpwd clear_git_cache
 
 # ========== Git Path Info ==========
+compress_relative_path() {
+  local max=3
+  local path=${1:-}
+  local parts=(${(s:/:)path})
+  local len=${#parts[@]}
+  if (( len > max )); then
+    # show first, ellipsis, then last 3 parts
+    local first=${parts[1]}
+    local last_parts=(${parts[-3,-1]})
+    echo "${first}/…/${(j:/)last_parts}"
+  else
+    echo "$path"
+  fi
+}
+
 git_info_path() {
   local toplevel repo branch relpath color
+    if [[ "$PWD" == "$HOME" ]]; then
+      echo "%F{245}~%f"
+      return
+    fi
 
-  # Guard: exit early if git is not installed
   if ! command -v git >/dev/null 2>&1; then
-    echo "%F{245}${PWD/#$HOME/~}%f"
+    echo "%F{245}$(compress_path "$PWD")%f"
     return
   fi
 
-  # Return cached result if same directory
   if [[ "$PWD" == "$__GIT_INFO_CACHE_DIR" && -n "$__GIT_INFO_CACHE_STR" ]]; then
     echo "$__GIT_INFO_CACHE_STR"
     return
@@ -72,25 +107,41 @@ git_info_path() {
       branch="DETACHED"
       color="red"
     fi
+
     relpath="${PWD#$toplevel}"
     relpath="${relpath#/}"
 
-    local dirty_flags=$(git_dirty_status)
+    # Compress relative path if enabled, *without* ~ replacement!
+    if [[ $PROMPT_ENABLE_PATH_COMPRESSION == true && -n $relpath ]]; then
+      relpath=$(compress_relative_path "$relpath")
+    fi
+
+    local dirty_flags=""
+    if [[ $PROMPT_ENABLE_GIT_STATUS == true ]]; then
+      dirty_flags=$(git_dirty_status)
+    fi
+
     local group="%F{245}${repo}%f%F{245}:%f%F{$color}${branch}%f${dirty_flags}"
+
+    # Only append slash+relpath if relpath is not empty
     if [[ -n $relpath ]]; then
       __GIT_INFO_CACHE_STR="${group}%F{245}/${relpath}%f"
     else
       __GIT_INFO_CACHE_STR="${group}"
     fi
+
   else
-    __GIT_INFO_CACHE_STR="%F{245}${PWD/#$HOME/~}%f"
+    # Outside git repo, compress absolute path normally
+    if [[ "$PWD" == "$HOME" ]]; then
+      __GIT_INFO_CACHE_STR="%F{245}~%f"
+    else
+      __GIT_INFO_CACHE_STR="%F{245}$(compress_path "$PWD")%f"
+    fi
   fi
 
   __GIT_INFO_CACHE_DIR="$PWD"
   echo "$__GIT_INFO_CACHE_STR"
 }
-
-
 # ========== Git porcelain status ==========
 git_dirty_status() {
   # Only run if inside a git repo
@@ -99,57 +150,64 @@ git_dirty_status() {
   fi
 
   local git_status staged untracked dirty flags=""
-  # Get short porcelain status to speed up
   git_status=$(git status --porcelain 2>/dev/null)
 
-  # Check staged files (lines starting with A, M, D, R, C in index)
   if echo "$git_status" | grep -qE '^[AMDRC]'; then
     staged="+"
   fi
 
-  # Check untracked files (lines starting with ??)
   if echo "$git_status" | grep -q '^??'; then
     untracked="?"
   fi
 
-  # Check modified but unstaged files (lines starting with ' ' in index, but changed in work tree)
   if echo "$git_status" | grep -qE '^.[MD]'; then
     dirty="*"
   fi
 
-  # Combine flags in order: staged, dirty, untracked
   flags="${staged}${dirty}${untracked}"
 
-  # Output with color (yellow) if any flags present
   if [[ -n $flags ]]; then
     echo "%F{yellow}${flags}%f"
   fi
 }
 
 
-# OPTIONAL: Compress deep paths like fish shell (disabled by default)
-# compress_path() {
-#   local max=3
-#   local path=${1:-$PWD}
-#   local parts=(${(s:/:)path})
-#   local len=${#parts[@]}
-#   if (( len > max )); then
-#     echo "~/${parts[1]}/…/${parts[-1]}"
-#   else
-#     echo "${path/#$HOME/~}"
-#   fi
-# }
+compress_path() {
+  local path=${1:-$PWD}
+  local home_prefix="$HOME/"
+  local is_home_prefix=false
 
-# ========== Container Display ==========
-container_indicator() {
-  if [[ -e /run/.containerenv ]]; then
-    if [[ -n $DISTROBOX_ENTER_PATH || -n $container ]]; then
-      echo " %F{magenta}%f"
+  # Check if path starts with $HOME/
+  if [[ $path == $home_prefix* ]]; then
+    is_home_prefix=true
+    path=${path#$HOME/}  # strip $HOME/ from path for compression
+  fi
+
+  local parts=(${(s:/:)path})
+  local len=${#parts[@]}
+  local max=8
+
+  if (( len > max )); then
+    local first_part="${(j:/:)parts[1,3]}"
+    local last_part="${(j:/:)parts[-3,-1]}"
+    if $is_home_prefix; then
+      echo "~/${first_part}/…/${last_part}"
     else
-      echo " %F{33}%f"
+      echo "/${first_part}/…/${last_part}"
+    fi
+  else
+    # Just show normal path, with ~ if home
+    if $is_home_prefix; then
+      echo "~/${path}"
+    else
+      echo "$path"
     fi
   fi
 }
+
+
+
+
 
 # ========== Optional Short Names ==========
 short_user() {
@@ -179,7 +237,6 @@ show_ssh_host() {
 }
 
 # ========== Exit Code Indicator ==========
-# Store last command exit code before the prompt is drawn
 typeset -g LAST_EXIT_CODE=0
 
 autoload -Uz add-zsh-hook
