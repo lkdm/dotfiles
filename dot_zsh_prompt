@@ -4,46 +4,59 @@
 #   A minimal, context-aware Zsh prompt that displays only relevant information.
 #
 # FEATURES:
-#   - Shows full current directory path when outside a Git repository.
-#   - When inside a Git repository:
-#       • Displays the current branch or HEAD state.
-#       • Uses colors to indicate branch status (e.g., main/master, detached, rebase).
-#       • Shows the path relative to the Git worktree root.
-#   - Displays prompt symbols based on environment:
-#       • '#' for root user outside containers.
-#       • '$' for normal user outside containers.
-#       • Blue hexagon (⬢) for Docker/Podman containers.
-#       • Magenta hexagon (⬢) for Distrobox containers.
-#   - Shows the remote host name when connected via SSH.
+#   - Shows the full path when outside Git, and path relative to repo root when inside.
+#   - Displays Git branch name or status (main/master, rebase, detached), with colors.
+#   - Shows prompt symbol based on context:
+#       • '$' for regular users
+#       • '#' for root
+#       • ⬢ (magenta) for Distrobox containers
+#       • ⬢ (blue) for Docker/Podman containers
+#   - Changes the prompt symbol to red on non-zero exit codes.
+#   - Shows `user@host` when connected via SSH, or username if not `luke`.
+#   - Caches Git info per directory for performance.
+#   - Omits spacing between prompt elements when not needed.
 
+# ========== SSH and User Display ==========
 show_user_host() {
   if [[ -n $SSH_CLIENT || -n $SSH_CONNECTION || -n $SSH_TTY ]]; then
-    # Show user@host when SSHing
     echo "%F{cyan}${USER}@${HOST}%f "
   else
-	# If the user is not `luke` (me, the author of this), then indicate the user
     if [[ "$USER" != "luke" ]]; then
       echo "%F{cyan}${USER}%f "
     fi
   fi
 }
 
-# Variables to hold cache
+# ========== Git Prompt Cache ==========
 typeset -g __GIT_INFO_CACHE_DIR=""
 typeset -g __GIT_INFO_CACHE_STR=""
 
+# --- ADDED: Clear cache on directory change ---
+autoload -Uz add-zsh-hook
+clear_git_cache() {
+  __GIT_INFO_CACHE_DIR=""
+  __GIT_INFO_CACHE_STR=""
+}
+add-zsh-hook chpwd clear_git_cache
+
+# ========== Git Path Info ==========
 git_info_path() {
   local toplevel repo branch relpath color
 
-  # If we are still in the same directory, return cached result
+  # --- ADDED: Early exit if git is not installed ---
+  if ! command -v git >/dev/null 2>&1; then
+    echo "%F{245}${PWD/#$HOME/~}%f"
+    return
+  fi
+
+  # Return cached result if same directory
   if [[ "$PWD" == "$__GIT_INFO_CACHE_DIR" && -n "$__GIT_INFO_CACHE_STR" ]]; then
     echo "$__GIT_INFO_CACHE_STR"
     return
   fi
 
   if toplevel=$(git rev-parse --show-toplevel 2>/dev/null); then
-    repo=${toplevel:t}  # basename of toplevel
-    # Branch/state detection
+    repo=${toplevel:t}
     if git rev-parse --abbrev-ref HEAD 2>/dev/null | grep -qv '^HEAD$'; then
       branch=$(git symbolic-ref --short HEAD 2>/dev/null)
       if [[ $branch == "main" || $branch == "master" ]]; then
@@ -61,6 +74,7 @@ git_info_path() {
     fi
     relpath="${PWD#$toplevel}"
     relpath="${relpath#/}"
+
     local group="%F{245}${repo}%f%F{245}:%f%F{$color}${branch}%f"
     if [[ -n $relpath ]]; then
       __GIT_INFO_CACHE_STR="${group}%F{245}/${relpath}%f"
@@ -75,19 +89,31 @@ git_info_path() {
   echo "$__GIT_INFO_CACHE_STR"
 }
 
+# OPTIONAL: Compress deep paths like fish shell (disabled by default)
+# compress_path() {
+#   local max=3
+#   local path=${1:-$PWD}
+#   local parts=(${(s:/:)path})
+#   local len=${#parts[@]}
+#   if (( len > max )); then
+#     echo "~/${parts[1]}/…/${parts[-1]}"
+#   else
+#     echo "${path/#$HOME/~}"
+#   fi
+# }
 
-
+# ========== Container Display ==========
 container_indicator() {
   if [[ -e /run/.containerenv ]]; then
-    # Check for Distrobox (it sets $DISTROBOX_ENTER_PATH or $container variable)
     if [[ -n $DISTROBOX_ENTER_PATH || -n $container ]]; then
-      echo " %F{magenta}%f"  # Nerd Font box icon for Distrobox
+      echo " %F{magenta}%f"
     else
-      echo " %F{33}%f"        # Nerd Font Docker icon in blue
+      echo " %F{33}%f"
     fi
   fi
 }
 
+# ========== Optional Short Names ==========
 short_user() {
   case "$USER" in
     root) echo "ro" ;;
@@ -107,34 +133,59 @@ short_host() {
     *) echo "${HOST:0:2}" ;;
   esac
 }
+
 show_ssh_host() {
   if [[ -n $SSH_CLIENT || -n $SSH_CONNECTION || -n $SSH_TTY ]]; then
     short_host
   fi
 }
 
-setopt PROMPT_SUBST
+# ========== Exit Code Indicator ==========
+# Store last command exit code before the prompt is drawn
+typeset -g LAST_EXIT_CODE=0
 
-# Function to show # for root, $ otherwise
-#
-prompt_symbol() {
-  if [[ -n $DISTROBOX_ENTER_PATH || -n $container ]]; then
-    # Distrobox: magenta hexagon
-    echo '%F{magenta}⬢%f'
-  elif [[ -e /run/.containerenv ]]; then
-    # Docker/Podman container (but not distrobox): blue hexagon
-    echo '%F{blue}⬢%f'
-  elif [ "$EUID" -eq 0 ]; then
-    # Root user: red #
-    echo '%F{red}#%f'
-  else
-    # Normal user: $
-    echo '$'
-  fi
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd update_last_exit_code
+
+update_last_exit_code() {
+  LAST_EXIT_CODE=$?
 }
 
-# prompt_symbol() {
-#   [[ $EUID -eq 0 ]] && echo "#" || echo "$"
-# }
-PS1='%F{245}$(show_user_host)%f $(git_info_path) %F{245}$(prompt_symbol)%f '
+# ========== Prompt Symbol ==========
+prompt_symbol() {
+  local symbol color
+
+  if [[ -n $DISTROBOX_ENTER_PATH || -n $container ]]; then
+    symbol='⬢'
+    color='magenta'
+  elif [[ -e /run/.containerenv ]]; then
+    symbol='⬢'
+    color='blue'
+  elif [ "$EUID" -eq 0 ]; then
+    symbol='#'
+    color='red'
+  else
+    symbol='$'
+    color='white'
+  fi
+
+  # 🔴 Error indicator: override with red if previous command failed
+  if (( LAST_EXIT_CODE != 0 )); then
+    color='red'
+  fi
+
+  echo "%F{$color}${symbol}%f"
+}
+
+# ========== Add conditional spacing =========
+spaced() {
+  local part="$($1)"
+  [[ -n $part ]] && echo " $part"
+}
+
+# ========== Enable Prompt Substitution ==========
+setopt PROMPT_SUBST
+
+# ========== Final Prompt ==========
+PS1='$(spaced show_user_host)$(git_info_path)$(spaced prompt_symbol) '
 
