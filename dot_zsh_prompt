@@ -43,7 +43,7 @@ add-zsh-hook chpwd clear_git_cache
 git_info_path() {
   local toplevel repo branch relpath color
 
-  # --- ADDED: Early exit if git is not installed ---
+  # Guard: exit early if git is not installed
   if ! command -v git >/dev/null 2>&1; then
     echo "%F{245}${PWD/#$HOME/~}%f"
     return
@@ -75,7 +75,8 @@ git_info_path() {
     relpath="${PWD#$toplevel}"
     relpath="${relpath#/}"
 
-    local group="%F{245}${repo}%f%F{245}:%f%F{$color}${branch}%f"
+    local dirty_flags=$(git_dirty_status)
+    local group="%F{245}${repo}%f%F{245}:%f%F{$color}${branch}%f${dirty_flags}"
     if [[ -n $relpath ]]; then
       __GIT_INFO_CACHE_STR="${group}%F{245}/${relpath}%f"
     else
@@ -88,6 +89,43 @@ git_info_path() {
   __GIT_INFO_CACHE_DIR="$PWD"
   echo "$__GIT_INFO_CACHE_STR"
 }
+
+
+# ========== Git porcelain status ==========
+git_dirty_status() {
+  # Only run if inside a git repo
+  if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+    return
+  fi
+
+  local git_status staged untracked dirty flags=""
+  # Get short porcelain status to speed up
+  git_status=$(git status --porcelain 2>/dev/null)
+
+  # Check staged files (lines starting with A, M, D, R, C in index)
+  if echo "$git_status" | grep -qE '^[AMDRC]'; then
+    staged="+"
+  fi
+
+  # Check untracked files (lines starting with ??)
+  if echo "$git_status" | grep -q '^??'; then
+    untracked="?"
+  fi
+
+  # Check modified but unstaged files (lines starting with ' ' in index, but changed in work tree)
+  if echo "$git_status" | grep -qE '^.[MD]'; then
+    dirty="*"
+  fi
+
+  # Combine flags in order: staged, dirty, untracked
+  flags="${staged}${dirty}${untracked}"
+
+  # Output with color (yellow) if any flags present
+  if [[ -n $flags ]]; then
+    echo "%F{yellow}${flags}%f"
+  fi
+}
+
 
 # OPTIONAL: Compress deep paths like fish shell (disabled by default)
 # compress_path() {
