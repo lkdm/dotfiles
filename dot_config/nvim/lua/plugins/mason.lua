@@ -14,7 +14,7 @@ return {
         -- install language servers
         "lua-language-server",
         "rust-analyzer",
-        "omnisharp",
+        -- "omnisharp", -- Omnisharp does not work through Mason, use plugins/lsp-roslyn.lua
         "typescript-language-server",
         "pyright",
         -- "gopls", -- Cannot get this one to install for some reason

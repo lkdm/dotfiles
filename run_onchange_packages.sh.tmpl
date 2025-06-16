@@ -23,8 +23,11 @@ dev_packages=(
   jq fd bat
   # Postgres
   postgresql
+  # Dotnet
+  omnisharp
 )
 brew tap oven-sh/bun
+brew tap omnisharp/omnisharp-roslyn
 for package in "${dev_packages[@]}"; do
   echo "Installing dev package: $package..."
   $(which brew) install --quiet "$package" || echo "Failed: $package"
@@ -173,10 +176,10 @@ for package in "${cargo_userscripts[@]}"; do
   cargo install --git https://github.com/lkdm/scripts $package --force 
 done
 
-#
 sh_userscripts=(
   fic
   git-reword
+  prose
 )
 for package in "${sh_userscripts[@]}"; do
   echo "Installing sh userscript: $package..."
