@@ -1,3 +1,5 @@
+if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+
 -- Fix: goto definition does not work
 vim.api.nvim_create_autocmd("LspAttach", {
   pattern = "*.cs",
