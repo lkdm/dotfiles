@@ -14,6 +14,8 @@ alias tmux='tmux -f ~/.config/tmux/tmux.conf' # Always open tmux using the custo
 [ -f ~/.zsh_utils ] && . ~/.zsh_utils
 [ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
 
+# Run motd
+prose
 
 # Fix Tmux issues with highlighting code comments
 # if [[ $TERM == xterm ]]; then TERM=xterm-256color; fi
