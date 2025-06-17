@@ -6,7 +6,7 @@ return {
     ---@diagnostic disable: missing-fields
     config = {
       omnisharp = {
-        cmd = { "omnisharp", "--languageserver" },
+        cmd = { "/var/home/luke/.local/bin/omnisharp", "--languageserver" },
         filetypes = { "cs", "vb" },
         init_options = {},
         root_markers = { ".sln", ".csproj", "omnisharp.json", "function.json" },
