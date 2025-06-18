@@ -29,6 +29,14 @@
 - [~] Install [Vim Markdown](https://github.com/preservim/vim-markdown)
 - [ ] Install [Fastfold](https://github.com/Konfekt/FastFold)
 
+Add visual first-line indentation to Neovim
+
+- [ ] Try using `:set breakindent` and `:set breakindentopt=shift:-4`. This
+      works, except relies on adding a left-margin on the first line, which I don't
+      believe is possible.
+- [ ] [Render markdown.vim](https://github.com/MeanderingProgrammer/render-markdown.nvim) could be used for this purpose, using the `paragraph.indent` option
+- [ ] [Check this thread](https://old.reddit.com/r/neovim/comments/1leak8d/is_visual_firstline_indentation_possible_in/)
+
 ## Git
 
 - [ ] Try delta as git diff handler
