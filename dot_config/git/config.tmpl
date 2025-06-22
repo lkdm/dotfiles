@@ -1,6 +1,7 @@
 [core]
        editor = "nvim"
        hooksPath = ~/.config/git/hooks
+       pager = delta
 [init]
        defaultBranch = main
 [user]
@@ -44,6 +45,12 @@
 [pull]
        # Should be the default Git pull strategy
        rebase = true
+[interactive]
+       diffFilter = delta --color-only
+[delta]
+       navigate = true    # use n and N to move between diff sections
+       # hyperlinks = true
+       # hyperlinks-file-link-format = "neovim://{path}:{line}"
 [diff]
        # Diff whole blocks of code, rather than line-by-line
        algorithm = histogram
@@ -69,8 +76,7 @@
        autoStash = true
 [merge]
        # Makes diffs 3-way, by including the code before either current or incoming change.
-       # TODO: Use zdiff3 after upgrading git
-       # conflictstyle diff3
+       conflictstyle = zdiff3
 [url "git@github.com:"]
        # Use SSH remote urls rather than http
        # You can use pushInsteadOf to only use SSH urls on push, so you can still use HTTP for public repos
