@@ -15,6 +15,8 @@ journals:
     journal: ~/Repos/lkdm/jrnl/
     # timeformat: "%H:%M"
     folder: true
+  fic:
+    journal: ~/Repos/lkdm/fic/jrnl.txt
 linewrap: 79
 tagsymbols: "@"
 template: false

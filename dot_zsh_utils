@@ -96,12 +96,19 @@ dci() {
 #
 # The function will skip committing and pushing if a rebase or merge conflict is detected,
 # ensuring that no actions are taken until the repository is in a clean state.
+
 jrnl() {
-    ~/.config/jrnl/scripts/pull.sh || exit
-    command jrnl "$@" || exit
-    ~/.config/jrnl/scripts/commit.sh
+    if [[ "$1" == "fic" ]]; then
+        export JRNL="$HOME/Repos/lkdm/fic"
+    else
+        export JRNL="$HOME/Repos/lkdm/jrnl"
+    fi
+    ~/.config/jrnl/scripts/pull.sh || return 1
+    command jrnl "$@" || return 1
+    ~/.config/jrnl/scripts/commit.sh || return 1
     ~/.config/jrnl/scripts/push.sh &
 }
+
 
 github() {
   if [ $# -ne 2 ]; then
