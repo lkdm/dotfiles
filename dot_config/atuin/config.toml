@@ -3,3 +3,4 @@ key_path = "~/.atuin-key"
 # dialect = "uk"
 keymap_mode="vim-normal"
 auto_sync = true
+history_filter = ["yt-dlp", "non-free_Linux_Distributions"]
