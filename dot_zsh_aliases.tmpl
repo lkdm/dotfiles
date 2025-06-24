@@ -10,8 +10,12 @@ alias l='ls -CF'
 
 # dev
 alias lg='lazygit'
-alias nv='nvim'
 alias cl='clear'
+
+# nvim
+alias nv='nvim'
+alias nvim-reset='echo "Wiping Neovim Lazy and Mason plugins..." && rm ~/.local/share/nvim/lazy -rf && rm ~/.local/share/nvim/mazon -rf'
+
 
 # jrnl
 alias jt='jrnl -to today'
