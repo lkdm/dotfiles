@@ -118,3 +118,58 @@ github() {
   git clone git@github.com:$1/$2.git
 }
 
+
+info() {
+  local userhost="$USER@$(hostname)"
+  if [[ -f /etc/os-release ]]; then
+    . /etc/os-release
+    local osname="$NAME $VERSION"
+  else
+    local osname="$(uname -s) $(uname -r)"
+  fi
+
+  # Detect if running in a Docker container
+  local container_info=""
+  if [[ -f "/.dockerenv" ]]; then
+    container_info="in container"
+  elif grep -q "/docker/" /proc/self/cgroup 2>/dev/null; then
+    container_info="in container"
+  fi
+
+  # Detect if running in distrobox
+  if [[ -n "$DISTROBOX_ENTER_PATH" ]] || [[ -n "$container_info" && -n "$(command -v distrobox)" ]]; then
+    # If already detected as docker, but distrobox is available, prefer distrobox
+    container_info="in distrobox"
+  fi
+
+  echo "HOST\n"
+  echo "\t$userhost running $osname $container_info; $(uptime -p)\n\n"
+
+  echo "CURRENT DIRECTORY\n\n\t$(pwd)\n"
+
+
+  # Git info
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    local git_root=$(git rev-parse --show-toplevel)
+    echo "GIT INFORMATION\n\n\tWorktree $git_root"
+    local branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
+
+    local git_status=$(git status --porcelain)
+    if [[ -z "$git_status" ]]; then
+      local gstatus="clean"
+    else
+      local gstatus="dirty"
+    fi
+    echo "\tBranch $branch ($gstatus)"
+
+    # Get porcelain status (v1 is widely supported)
+    if [[ -n "$git_status" ]]; then
+      echo "\nCHANGES\n"
+      echo "\t$git_status"
+    fi
+  else
+    echo "Not in a Git worktree"
+  fi
+}
+
+
