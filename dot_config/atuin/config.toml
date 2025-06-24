@@ -3,4 +3,40 @@ key_path = "~/.atuin-key"
 # dialect = "uk"
 keymap_mode="vim-normal"
 auto_sync = true
+workspaces = true
+dialect = "uk"
 history_filter = ["yt-dlp", "non-free_Linux_Distributions"]
+common_subcommands = [
+	"apt",
+	"cargo",
+	"composer",
+	"dnf",
+	"docker",
+	"git",
+	"go",
+	"ip",
+	"kubectl",
+	"nix",
+	"nmcli",
+	"npm",
+	"pecl",
+	"pnpm",
+	"podman",
+	"port",
+	"systemctl",
+	"tmux",
+	"yarn",
+	"zellij",
+	"chezmoi",
+	"mt",
+	"just",
+	"make",
+	"uv",
+	"bun",
+	"jrnl",
+	"cm",
+]
+common_prefix = [
+	"sudo",
+	"host"
+]
