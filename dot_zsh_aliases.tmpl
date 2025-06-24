@@ -1,13 +1,21 @@
 # Chezmoi
 alias cm='chezmoi'
+alias cma='echo "Patching dotfiles..." && chezmoi apply && source ~/.zshrc'
 
 # ls
 alias ls='eza'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
+# dev
 alias lg='lazygit'
 alias nv='nvim'
+alias cl='clear'
+
+# jrnl
+alias jt='jrnl -to today'
+alias j0='jrnl -n 1 --edit'
 
 if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     # In a Distrobox environment, we want some commands to reference the host
