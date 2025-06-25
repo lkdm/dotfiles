@@ -25,19 +25,21 @@ list_commands() {
 
 run_command() {
     local name="$1"
+    shift
     local script="$BIN_DIR/$name.sh"
     if [[ -f "$script" ]]; then
-        bash "$script"
+        bash "$script" "$@"
     else
         echo "Command not found: $name"
         exit 1
     fi
 }
 
+
 if [[ $# -eq 0 ]]; then
     printf "\033[1;4mAvailable commands:\033[0m\n\n"
     list_commands
 else
-    run_command "$1"
+    run_command "$@"
 fi
 
