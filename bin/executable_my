@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# my - my shell tools
+#
+# Lists the shell scripts in ~/bin that contain `@my` in the metadata comment.
+
+BIN_DIR="$HOME/bin"
+
+list_commands() {
+    for script in "$BIN_DIR"/*.sh; do
+        if [[ -f "$script" ]]; then
+            # Skip if @my is not present
+            if ! grep -q '^# @my' "$script"; then
+                continue
+            fi
+            name="$(basename "$script" .sh)"
+            about=$(grep -m1 '^# @about:' "$script" | cut -d: -f2- | sed 's/^[[:space:]]*//')
+            usage=$(grep -m1 '^# @usage:' "$script" | cut -d: -f2- | sed 's/^[[:space:]]*//')
+            echo "  $name"
+            printf "    \033[90mabout: %s\033[0m\n" "$about"
+            [[ -n "$usage" ]] && printf "    \033[90musage: %s\033[0m\n" "$usage"
+            echo
+        fi
+    done
+}
+
+run_command() {
+    local name="$1"
+    local script="$BIN_DIR/$name.sh"
+    if [[ -f "$script" ]]; then
+        bash "$script"
+    else
+        echo "Command not found: $name"
+        exit 1
+    fi
+}
+
+if [[ $# -eq 0 ]]; then
+    printf "\033[1;4mAvailable commands:\033[0m\n\n"
+    list_commands
+else
+    run_command "$1"
+fi
+
