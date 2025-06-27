@@ -2,11 +2,12 @@
 alias cm='chezmoi'
 alias cma='echo "Patching dotfiles..." && chezmoi apply && source ~/.zshrc'
 
+
 # ls
 alias ls='eza'
 alias ll='ls -alF'
 alias la='ls -A'
-alias l='ls -CF'
+alias tree="ls -T"
 
 # dev
 alias lg='lazygit'
@@ -16,6 +17,9 @@ alias cl='clear'
 alias nv='nvim'
 alias nvim-reset='echo "Wiping Neovim Lazy and Mason plugins..." && rm ~/.local/share/nvim/lazy -rf && rm ~/.local/share/nvim/mazon -rf'
 
+# less
+# Add `L` to the end of a command to use less
+alias -g L="| less -FRX"
 
 # jrnl
 alias jt='jrnl -to today'
@@ -30,6 +34,10 @@ if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     alias flatpak='host flatpak'
     alias rpm-ostree='host rpm-ostree'
     alias bootc='host bootc'
+    alias systemctl='host systemctl'
+    alias htop='host htop'
+    alias uptime='host uptime'
+    
 
     # Fedora atomic save location
     hash -d factorio=/var/home/luke/.var/app/com.valvesoftware.Steam/.factorio/saves

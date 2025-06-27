@@ -54,7 +54,7 @@ brew_packages=(
   # Drop-in replacement for ls
   eza
   {{- if (eq .sysarea "home")}}
-  ffmpeg pandoc tree
+  ffmpeg pandoc
   {{- end }}
   {{- if or (eq .sysarea "home") (eq .sysarea "work")}}
     btop
