@@ -3,3 +3,7 @@ git:
   paging:
     colorArg: always
     pager: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+keybinding:
+  files:
+    commitChanges: "" # disables the default inline commit on 'c'
+    commitChangesWithEditor: "c" # maps 'c' to open the commit editor
