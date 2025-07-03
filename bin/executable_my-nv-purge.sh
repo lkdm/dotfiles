@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# @my
-# @about: Purge nvim config and plugins
-# @usage: nvim-purge
+# @my nv-purge(editors) - Purge nvim config and plugins
 echo "Purging nvim config and plugins..."
 rm ~/.config/nvim -rf && echo "Purged config"
 rm ~/.local/share/nvim/lazy -rf && echo "Purged lazy packages"

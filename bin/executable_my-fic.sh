@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# @my
-# @about: Write to fiction jrnl in distraction-free typewriter mode
-# @usage: fic [-h|-w]
+# @my fic(fiction) - Append to fic jrnl
 
 WORDCOUNT_MODE=0
 

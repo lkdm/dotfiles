@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# @my
-# @about: Show a random prose snippet with attribution
-# @usage: prose
+# @my prose(fiction) - Show a random prose snippet with attribution
 
 # Pick a random line from the TSV
 line=$(shuf -n 1 ~/.prose.tsv)

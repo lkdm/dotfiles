@@ -1,44 +1,128 @@
 #!/usr/bin/env bash
-# my - my shell tools
-#
-# Lists the shell scripts in ~/bin that contain `@my` in the metadata comment.
+# usage [-h | --help]
+#       <command> [<args>]
+# 
+# These my-scripts were found in $PATH:
 
-BIN_DIR="$HOME/bin"
+# --- Category display names ---
+declare -A CATEGORY_NAMES=(
+    [fiction]="write and read fiction"
+    [editors]="editor management"
+    [utils]="utilities"
+    [misc]="miscellaneous"
+    # Add more as needed
+)
 
-list_commands() {
-    for script in "$BIN_DIR"/*.sh; do
-        if [[ -f "$script" ]]; then
-            # Skip if @my is not present
-            if ! grep -q '^# @my' "$script"; then
-                continue
+find_my_commands() {
+    local IFS=':'
+    local seen=()
+    for dir in $PATH; do
+        [[ -d "$dir" ]] || continue
+        for script in "$dir"/my-*; do
+            [[ -f "$script" && -x "$script" ]] || continue
+            local base="$(basename "$script")"
+            local name="${base#my-}"
+            name="${name%%.*}"
+            if [[ ! " ${seen[*]} " =~ " $name " ]]; then
+                seen+=("$name")
+                echo "$script|$name"
             fi
-            name="$(basename "$script" .sh)"
-            about=$(grep -m1 '^# @about:' "$script" | cut -d: -f2- | sed 's/^[[:space:]]*//')
-            usage=$(grep -m1 '^# @usage:' "$script" | cut -d: -f2- | sed 's/^[[:space:]]*//')
-            echo "  $name"
-            printf "    \033[90mabout: %s\033[0m\n" "$about"
-            [[ -n "$usage" ]] && printf "    \033[90musage: %s\033[0m\n" "$usage"
-            echo
+        done
+    done
+}
+
+summarise_commands_by_category() {
+    declare -A cats
+
+    while IFS='|' read -r script _; do
+        # Parse the @my line if present
+        local line cmd cat desc
+        line=$(grep -m1 '^# @my ' "$script")
+        if [[ -n "$line" ]]; then
+            cmd=$(echo "$line" | sed -E 's/^# @my ([^ (]+)\(.*\) - .*/\1/')
+            cat=$(echo "$line" | sed -E 's/^# @my [^ (]+\(([^)]+)\) - .*/\1/')
+            desc=$(echo "$line" | sed -E 's/^# @my [^ (]+\([^)]+\) - (.*)/\1/')
+            [[ -z "$cat" ]] && cat="misc"
+        else
+            cmd=$(basename "$script" | sed 's/^my-//' | sed 's/\..*$//')
+            cat="misc"
+            desc=""
         fi
+        cats["$cat"]+="$cmd|$desc"$'\n'
+    done < <(find_my_commands)
+
+    # Print sorted by category name, with misc last
+    local categories=()
+    for cat in "${!cats[@]}"; do
+        [[ "$cat" == "misc" ]] && continue
+        categories+=("$cat")
+    done
+    IFS=$'\n' categories=($(printf "%s\n" "${categories[@]}" | sort))
+    categories+=("misc") # misc always last
+
+    for cat in "${categories[@]}"; do
+        [[ -z "${cats[$cat]}" ]] && continue
+        echo
+        local display="${CATEGORY_NAMES[$cat]:-$cat}"
+        echo "$display"
+        # Find max command length for alignment
+        local maxlen=0
+        while IFS='|' read -r cmd desc; do
+            [[ -z "$cmd" ]] && continue
+            (( ${#cmd} > maxlen )) && maxlen=${#cmd}
+        done <<< "${cats[$cat]}"
+        # Print commands in this category with extra gap
+        while IFS='|' read -r cmd desc; do
+            [[ -z "$cmd" ]] && continue
+            local PAD_TO=12
+            local cmdlen=$((2 + ${#cmd}))
+            local pad=$((PAD_TO - cmdlen))
+            ((pad < 2)) && pad=2
+            printf "  %s%*s%s\n" "$cmd" "$pad" "" "$desc"
+        done <<< "${cats[$cat]}"
+
     done
 }
 
 run_command() {
     local name="$1"
     shift
-    local script="$BIN_DIR/$name.sh"
-    if [[ -f "$script" ]]; then
-        bash "$script" "$@"
+    local script
+    for ext in "" sh py pl rb php js ts rs; do
+        script=$(command -v "my-$name${ext:+.$ext}" 2>/dev/null)
+        [[ -n "$script" && -x "$script" ]] && break
+    done
+    if [[ -n "$script" && -x "$script" ]]; then
+        "$script" "$@"
     else
         echo "Command not found: $name"
         exit 1
     fi
 }
 
+print_my_description() {
+    # Print this script's own top comment block, skipping the shebang
+    awk 'NR > 1 && /^#/ { sub(/^# ?/, ""); print; next } NR > 1 && !/^#/ { exit }' "$0"
+    echo
+}
 
-if [[ $# -eq 0 ]]; then
-    printf "\033[1;4mAvailable commands:\033[0m\n\n"
-    list_commands
+print_help_footer() {
+    echo -e "\nguides: See 'my help <command>'"
+}
+
+if [[ $# -eq 0 || "$1" == "help" && $# -eq 1 ]]; then
+    print_my_description
+    printf "\033[1;4mAvailable commands:\033[0m\n"
+    summarise_commands_by_category
+    print_help_footer
+    exit 0
+elif [[ "$1" == "list" || "$1" == "--list" ]]; then
+    summarise_commands_by_category
+    exit 0
+elif [[ "$1" == "help" && $# -ge 2 ]]; then
+    run_command "$2" --help
+elif [[ $# -ge 2 && "$2" == "--help" ]]; then
+    run_command "$1" --help
 else
     run_command "$@"
 fi

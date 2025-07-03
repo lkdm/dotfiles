@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# @my
-# @about: Create a temporary directory, open a shell, then destroy it on exit
-# @usage: tmp
+# @my tmp(utils) - Open a shell in a tmp dir, destroying it on exit
 
 dir="$(mktemp -d "${TMPDIR:-/tmp}/$1.XXXXXX")" || { echo "mktemp failed"; return 1; }
 echo "Opening a new shell in $dir. Use command `exit` to return."
