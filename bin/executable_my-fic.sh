@@ -3,9 +3,8 @@
 
 WORDCOUNT_MODE=0
 
-show_help() {
-    cat <<EOF
-Usage: $(basename "$0") [OPTIONS]
+
+[[ " $* " == *" --help "* ]] && cat <<< "Usage: $(basename "$0") [OPTIONS]
 
 A simple journaling script that appends your input to a new jrnl entry.
 
@@ -14,15 +13,12 @@ Options:
   -h, --help Show this help message and exit.
 
 Examples:
-  $(basename "$0")        # Normal journaling mode
-  $(basename "$0") -w     # Word count mode (shows word count in prompt)
-EOF
-}
+  $(basename "$0")        Normal journaling mode
+  $(basename "$0") -w     Word count mode (shows word count in prompt)
+" && exit 0
 
-if [[ "$1" == "--help" || "$1" == "-h" ]]; then
-    show_help
-    exit 0
-elif [[ "$1" == "-w" ]]; then
+
+if [[ "$1" == "-w" ]]; then
     WORDCOUNT_MODE=1
 fi
 
