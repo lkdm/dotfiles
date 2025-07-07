@@ -30,14 +30,19 @@ function setup_linux() {
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
 
-    # If not in Distrobox
+    systemctl --user daemon-reload
+
+    # If not in a distrobox, enable automatically upgrades of all distrobox machines
     if [ -z "$DISTROBOX_ENTER_PATH" ]; then
-        # Create distrobox systemd
-        systemctl --user daemon-reload && systemctl --user enable --now distrobox-upgrade.timer
+        if ! systemctl --user is-enabled distrobox-upgrade.timer &>/dev/null; then
+            systemctl --user enable --now distrobox-upgrade.timer
+        fi
     fi
-    
-    # Regardless, create a service to update homebrew packages each day
-    systemctl --user daemon-reload && systemctl --user enable --now brew-upgrade.timer
+
+    # If not already enabled; automatically update brew and upgrade packages
+    if ! systemctl --user is-enabled brew-upgrade.timer &>/dev/null; then
+        systemctl --user enable --now brew-upgrade.timer
+    fi
 }
 
 # Create directories
