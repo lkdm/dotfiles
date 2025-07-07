@@ -29,6 +29,12 @@ function setup_linux() {
 
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
+
+    # If not in Distrobox
+    if [ -z "$DISTROBOX_ENTER_PATH" ]; then
+        # Create distrobox systemd
+        systemctl --user daemon-reload && systemctl --user enable --now distrobox-upgrade.timer
+    fi
 }
 
 # Create directories
