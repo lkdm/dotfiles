@@ -1,0 +1,9 @@
+[Unit]
+Description=work-cleanup Automated cleanup service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/bin
+ExecStart=/bin/bash -c './work-cleanup.sh'
+StandardOutput=null
+StandardError=null

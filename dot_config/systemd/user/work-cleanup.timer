@@ -1,0 +1,11 @@
+[Unit]
+Description=work-cleanup Automated Cleanup Trigger
+
+[Timer]
+OnBootSec=1min
+OnUnitInactiveSec=1d
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

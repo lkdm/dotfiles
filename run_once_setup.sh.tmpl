@@ -43,6 +43,15 @@ function setup_linux() {
     if ! systemctl --user is-enabled brew-upgrade.timer &>/dev/null; then
         systemctl --user enable --now brew-upgrade.timer
     fi
+
+    
+    {{ if eq .sysarea "work" }}
+        # If not already enabled; automatically comply with ISO requirements
+        if ! systemctl --user is-enabled work-cleanup.timer &>/dev/null; then
+            systemctl --user enable --now work-cleanup.timer
+        fi
+    {{ end }}
+
 }
 
 # Create directories
