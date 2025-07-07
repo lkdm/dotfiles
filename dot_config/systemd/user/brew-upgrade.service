@@ -1,0 +1,9 @@
+[Unit]
+Description=brew-upgrade Automatic Update
+
+[Service]
+Type=simple
+Environment="PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin"
+ExecStart=/bin/bash -c 'brew update && brew upgrade'
+StandardOutput=null
+

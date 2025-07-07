@@ -35,6 +35,9 @@ function setup_linux() {
         # Create distrobox systemd
         systemctl --user daemon-reload && systemctl --user enable --now distrobox-upgrade.timer
     fi
+    
+    # Regardless, create a service to update homebrew packages each day
+    systemctl --user daemon-reload && systemctl --user enable --now brew-upgrade.timer
 }
 
 # Create directories
