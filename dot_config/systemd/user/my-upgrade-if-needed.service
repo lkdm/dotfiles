@@ -1,0 +1,7 @@
+[Unit]
+Description=Run my-upgrade if not run in last 14 days
+
+[Service]
+Type=simple
+ExecStart=%h/.local/share/my-upgrade/my-upgrade-if-needed
+StandardOutput=null

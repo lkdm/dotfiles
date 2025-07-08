@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+LOG_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/my-upgrade/upgrade.log"
+THRESHOLD_DAYS=14
+THRESHOLD_SECONDS=$((THRESHOLD_DAYS * 86400))
+
+run_upgrade() {
+    # Replace this with the actual command to run your upgrade
+    my upgrade
+}
+
+if [[ -f "$LOG_FILE" ]]; then
+    LAST_RUN_DATE=$(tail -n 1 "$LOG_FILE" | awk '{print $1, $2}')
+    LAST_RUN_EPOCH=$(date -d "$LAST_RUN_DATE" +%s 2>/dev/null || gdate -d "$LAST_RUN_DATE" +%s)
+    NOW_EPOCH=$(date +%s)
+    AGE=$((NOW_EPOCH - LAST_RUN_EPOCH))
+    if (( AGE > THRESHOLD_SECONDS )); then
+        run_upgrade
+    fi
+else
+    run_upgrade
+fi

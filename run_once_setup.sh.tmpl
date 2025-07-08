@@ -32,18 +32,12 @@ function setup_linux() {
 
     systemctl --user daemon-reload
 
-    # If not in a distrobox, enable automatically upgrades of all distrobox machines
+    # If not in a distrobox, enable automatically upgrades if not done after 14 days
     if [ -z "$DISTROBOX_ENTER_PATH" ]; then
         if ! systemctl --user is-enabled distrobox-upgrade.timer &>/dev/null; then
             systemctl --user enable --now distrobox-upgrade.timer
         fi
     fi
-
-    # If not already enabled; automatically update brew and upgrade packages
-    if ! systemctl --user is-enabled brew-upgrade.timer &>/dev/null; then
-        systemctl --user enable --now brew-upgrade.timer
-    fi
-
     
     {{ if eq .sysarea "work" }}
         # If not already enabled; automatically comply with ISO requirements
