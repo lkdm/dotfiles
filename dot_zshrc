@@ -17,6 +17,7 @@ alias tmux='tmux -f ~/.config/tmux/tmux.conf' # Always open tmux using the custo
 # Run motd
 if [[ -z "$NO_MOTD" ]]; then
   my prose
+  [[ -x ~/.motd ]] && . ~/.motd
 fi
 
 

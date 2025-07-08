@@ -20,6 +20,10 @@ fi
 
 set -euo pipefail
 
+LOGDIR="${XDG_STATE_HOME:-$HOME/.local/state}/my-upgrade"
+mkdir -p "$LOGDIR"
+LOGFILE="$LOGDIR/upgrade.log"
+
 # --- Utility Functions ---
 
 run_on_host() {
@@ -147,5 +151,5 @@ upgrade_mas
 
 wait
 
-# --- Add more upgrade routines below as needed ---
+echo "$(date '+%Y-%m-%d %H:%M:%S') [INFO] Upgrade run completed" >> "$LOGFILE"
 

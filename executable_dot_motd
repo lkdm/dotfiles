@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+LOG_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/my-upgrade/upgrade.log"
+
+# Warn if more than 7 days (604800 seconds) since last run
+WARN_AGE_SECONDS=604800
+
+if [[ -f "$LOG_FILE" ]]; then
+    # Get the last run time from the last line of the log
+    LAST_RUN_DATE=$(tail -n 1 "$LOG_FILE" | awk '{print $1, $2}')
+    LAST_RUN_EPOCH=$(date -d "$LAST_RUN_DATE" +%s 2>/dev/null || gdate -d "$LAST_RUN_DATE" +%s)
+    NOW_EPOCH=$(date +%s)
+    AGE=$((NOW_EPOCH - LAST_RUN_EPOCH))
+    if (( AGE > WARN_AGE_SECONDS )); then
+        DAYS=$((AGE / 86400))
+        echo "⚠️  Your system upgrade script hasn't run in $DAYS days!"
+        echo "   Please run: my upgrade"
+    fi
+else
+    echo "⚠️  Your system upgrade script has never been run!"
+    echo "   Please run: my upgrade"
+fi
