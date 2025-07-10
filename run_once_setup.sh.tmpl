@@ -44,6 +44,9 @@ function setup_linux() {
         if ! systemctl --user is-enabled work-cleanup.timer &>/dev/null; then
             systemctl --user enable --now work-cleanup.timer
         fi
+        local brew_prefix=/home/linuxbrew/.linuxbrew
+        ln -sf "$HOME/.config/clamav/clamd.conf" "$brew_prefix/etc/clamav/clamd.conf"
+        ln -sf "$HOME/.config/clamav/freshclam.conf" "$brew_prefix/etc/clamav/freshclam.conf"
     {{ end }}
 
 }
