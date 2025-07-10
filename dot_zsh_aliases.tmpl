@@ -27,7 +27,17 @@ alias j0='jrnl -n 1 --edit'
 
 if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     # In a Distrobox environment, we want some commands to reference the host
-    alias host='distrobox-host-exec'
+    host() {
+        local host_zsh
+        host_zsh=$(distrobox-host-exec command -v zsh)
+        if [[ $# -eq 0 ]]; then
+            distrobox-host-exec -- env NO_MOTD=true "$host_zsh"
+        else
+            distrobox-host-exec -- env NO_MOTD=true "$host_zsh" -c "$*"
+        fi
+    }
+
+
     alias ujust='host ujust'
     alias open='host xdg-open'
     alias code='host code'
@@ -39,6 +49,7 @@ if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     alias uptime='host uptime'
     alias distrobox-upgrade='host distrobox-upgrade'
     alias distrobox='host distrobox' 
+    alias clamav='host clamav'
 
     # Fedora atomic save location
     hash -d factorio=/var/home/luke/.var/app/com.valvesoftware.Steam/.factorio/saves
