@@ -1,0 +1,16 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+format = """$character"""
+right_format = """$all"""
+scan_timeout = 10
+
+[container]
+# Made the container icon purple to match Distrobox
+style = 'bold purple dimmed'
+format = '[$symbol]($style) '
+
+[character]
+success_symbol = '[➜](bold green) '
+error_symbol = '[✗](bold red) '
+vimcmd_symbol = '[V](bold green) '
