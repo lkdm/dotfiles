@@ -24,13 +24,44 @@ zj() {
   fi
 }
 
-absolutions() {
-  echo "Homebrew"
-  brew update && brew upgrade
-  echo "Chezmoi"
-  chezmoi git pull
+# Helper for prefixing output (already defined in your shell config)
+prefix() {
+  local tag="$1"
+  awk -v tag="$tag" '{printf "%8s | %s\n", tag, $0}'
 }
 
+upgrade() {
+  {
+    echo "Starting system upgrade..." | prefix system
+    [ -f /etc/bluefin-release ] && {
+      echo "Upgrading Bluefin..." | prefix system
+      ujust upgrade 2>&1 | prefix system
+    }
+    [ -f /etc/debian_version ] && {
+      echo "Upgrading Debian..." | prefix system
+      sudo apt update && sudo apt upgrade -y 2>&1 | prefix system
+    }
+
+    command -v cargo &>/dev/null && {
+      {
+        echo "Starting cargo upgrade..."
+        command -v cargo-install-update &>/dev/null || {
+          echo "Installing cargo-update..."
+          cargo install cargo-update
+        }
+        command -v cargo-install-update &>/dev/null && cargo install-update -a
+      } 2>&1 | prefix cargo &
+    }
+
+    command -v flatpak &>/dev/null && flatpak update -y 2>&1 | prefix flatpak &
+    command -v brew &>/dev/null && brew update && brew upgrade 2>&1 | prefix brew &
+    command -v mas &>/dev/null && mas upgrade 2>&1 | prefix mas &
+    command -v chezmoi &>/dev/null && chezmoi git pull 2>&1 | prefix chezmoi &
+
+    wait
+    echo "✅ All updates completed." | prefix script
+  }
+}
 
 # View largest disk usage
 alias largest='du -h 2> /dev/null | sort -hr | head -n20'
@@ -69,3 +100,17 @@ jrnl() {
     ~/.config/jrnl/scripts/push.sh &
 }
 
+yt-audio () {
+    # Downloads the best audio quality stream from YouTube and extracts as mp3.
+    #
+    # For example:
+    #
+    # $ yt-audio 'https://www.youtube.com/watch?v=tVx3lt8ZKHw'
+    #
+    # This will make a tVx3lt8ZKHw.mp3 file after some processing.
+    yt-dlp -f 'ba' -x --audio-format mp3 "$1"  -o '%(id)s.%(ext)s'
+}
+
+fzf.aliases () {
+    egrep '^alias|\(\)\ {' ~/.zsh_aliases ~/.zsh_utils | awk -F: '{print $2}' | fzf;
+}
