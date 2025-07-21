@@ -24,6 +24,13 @@ zj() {
   fi
 }
 
+absolutions() {
+  echo "Homebrew"
+  brew update && brew upgrade
+  echo "Chezmoi"
+  chezmoi git pull
+}
+
 
 # View largest disk usage
 alias largest='du -h 2> /dev/null | sort -hr | head -n20'
