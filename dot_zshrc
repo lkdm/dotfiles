@@ -1,30 +1,11 @@
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-
-# By default, attach to the launchpad session
-#if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-#  tmux new-session -A -s launchpad
-#fi
-alias tmux='tmux -f ~/.config/tmux/tmux.conf' # Always open tmux using the custom tmux conf location
-
-#if command -v zellij >/dev/null && [ -z "$ZELLIJ" ] && [ -n "$PS1" ]; then
-#  zellij attach -c launchpad 2>/dev/null || zellij
-#fi
-
 [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
 [ -f ~/.zsh_utils ] && . ~/.zsh_utils
 [ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
 
 # Run motd
 if [[ -z "$NO_MOTD" ]]; then
-  my prose
   [[ -x ~/.local/share/my-upgrade/my-upgrade-motd ]] && . ~/.local/share/my-upgrade/my-upgrade-motd
 fi
-
-
-# Fix Tmux issues with highlighting code comments
-# if [[ $TERM == xterm ]]; then TERM=xterm-256color; fi
-
-source ~/.zsh_prompt
 
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY
@@ -32,11 +13,10 @@ unsetopt BG_NICE		# do NOT nice bg commands
 setopt CORRECT			# command CORRECTION
 setopt EXTENDED_HISTORY		# puts timestamps in the history
 setopt MENUCOMPLETE
-setopt ALL_EXPORT
 
 # ZSH Options
 # https://zsh.sourceforge.io/Intro/intro_16.html
-setopt   notify globdots correct pushdtohome cdablevars autolist
+setopt   notify globdots pushdtohome cdablevars autolist
 setopt   correctall autocd recexact longlistjobs
 setopt   autoresume histignoredups pushdsilent
 setopt   autopushd pushdminus extendedglob rcquotes mailwarning
@@ -48,26 +28,17 @@ zmodload -a zsh/zpty zpty
 zmodload -a zsh/zprof zprof
 # zmodload -ap zsh/mapfile map
 
-# Autocomplete
-autoload -U compinit
-compinit
-unsetopt ALL_EXPORT
+# Set terminal title automatically
+precmd() { print -Pn "\e]0;%n@%m: %~\a" }
 
-# Autocompletion options
-#
-# Autocompletion - NVM
-# export NVM_DIR="$HOME/.nvm"
-#   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-#   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-#
-# Autocompletion - UV
-# echo 'eval "$(uv generate-shell-completion zsh)"' >> ~/.zshrc
+# Vi mode
+# set -o vi
+# export KEYTIMEOUT=1
 
 # Atuin
 eval "$(atuin init zsh)"
 
-source ~/.config/zsh/plugins/zsh-zellij.zsh
-
+# source ~/.config/zsh/plugins/zsh-zellij.zsh
 
 # On slow systems, checking the cached .zcompdump file to see if it must be 
 # regenerated adds a noticable delay to zsh startup.  This little hack restricts 
@@ -87,3 +58,5 @@ else
 	compinit -C;
 fi;
 
+# Starship
+eval "$(starship init zsh)"

@@ -1,0 +1,63 @@
+# Set the default editor to Neovim
+VISUAL=nvim
+EDITOR="$VISUAL"
+GIT_EDITOR="$VISUAL"
+
+# Terminal settings
+TERM="screen-256color"
+COLORTERM=truecolor
+
+# Wipe path
+typeset -U path
+
+case "$(uname)" in
+  Darwin)
+  	# Mac OS 1Password socket
+    export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  	# Output of $ brew shellenv
+	export HOMEBREW_PREFIX="/opt/homebrew";
+	export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+	export HOMEBREW_REPOSITORY="/opt/homebrew";
+	export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+	export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
+	export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+    ;;
+  Linux)
+  	# Linux 1Password socket
+    export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+  	# Output of $ brew shellenv
+	export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
+	export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
+	export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
+	fpath[1,0]="/home/linuxbrew/.linuxbrew/share/zsh/site-functions";
+	export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}";
+	[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}";
+	export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:${INFOPATH:-}";
+    ;;
+esac
+
+# path is an array that zsh syncs with the PATH environment variable
+path=(
+	$path
+	~/.atuin/bin
+	~/.cargo/bin
+  	$HOMEBREW_PREFIX/opt/rustup/bin
+  	$HOMEBREW_PREFIX/opt/clamav/bin
+	$HOMEBREW_PREFIX/opt/omnisharp/bin
+	$HOMEBREW_PREFIX/opt/postgresql@17/bin
+	${$(command -v uv):+$(uv tool dir)}
+	~/.bun
+	$HOMEBREW_PREFIX/bin/bun
+	~/.local/bin
+	~/bin
+	/usr/local/go/bin
+	/snap/bin
+	/usr/bin
+	/usr/local/bin
+	# MacOS
+	/bin
+  	/usr/sbin
+  	/sbin
+)
+
+export SHELL="$HOMEBREW_PREFIX/bin/zsh"

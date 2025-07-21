@@ -25,58 +25,11 @@ zj() {
 }
 
 
-
-
 # View largest disk usage
 alias largest='du -h 2> /dev/null | sort -hr | head -n20'
 
-# # Simpler version of a man-page
-wtfis() { curl "https://cheat.sh/$1"; } # Example: wtfis curl
-
 # Copy to clipboard
 alias copy='xclip -selection clipboard' # Example: echo "Hello" | copy
-
-# Move 'up' so many directories instead of using several cd ../../, etc.
-up() { cd $(eval printf '../'%.0s {1..$1}) && pwd; }
-
-#Tail all logs in /var/log
-alias logs="find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
-
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-
-# Wikipedia article in less view
-wiki() {
-    w3m -B 1 -dump "https://en.m.wikipedia.org/wiki/$1" |
-    sed -n '/View source/,$p' |
-    awk 'NR>1{print last} {last=$0} END{print last}' |
-    less -R
-}
-
-cheatsrs() {
-    w3m "https://cheats.rs"
-}
-
-
-# Replaces @TMS with @TMS-ID
-dn() {
-  [[ $1 == "-h" || $1 == "--help" ]] && { echo 'Usage: dn "note with optional @TMS" (replaces @TMS with @TMS-{TMS_ID} from branch)'; return; }
-  tms_id="${$(git rev-parse --abbrev-ref HEAD 2>/dev/null)##*/}"
-  jrnl "$(echo "$1" | sed "s/@TMS/@TMS-$tms_id/g")"
-}
-
-cdgit() {
-  local root
-  root=$(git rev-parse --show-toplevel 2>/dev/null)
-  if [[ -n $root ]]; then
-    cd "$root" || return
-  else
-    echo "Not inside a Git repository." >&2
-  fi
-}
 
 # Opens a chooser that lets you inspect 
 dci() {
@@ -108,68 +61,4 @@ jrnl() {
     ~/.config/jrnl/scripts/commit.sh || return 1
     ~/.config/jrnl/scripts/push.sh &
 }
-
-
-github() {
-  if [ $# -ne 2 ]; then
-    echo "Usage: github <username> <repository>"
-    return 1
-  fi
-  git clone git@github.com:$1/$2.git
-}
-
-
-info() {
-  local userhost="$USER@$(hostname)"
-  if [[ -f /etc/os-release ]]; then
-    . /etc/os-release
-    local osname="$NAME $VERSION"
-  else
-    local osname="$(uname -s) $(uname -r)"
-  fi
-
-  # Detect if running in a Docker container
-  local container_info=""
-  if [[ -f "/.dockerenv" ]]; then
-    container_info="in container"
-  elif grep -q "/docker/" /proc/self/cgroup 2>/dev/null; then
-    container_info="in container"
-  fi
-
-  # Detect if running in distrobox
-  if [[ -n "$DISTROBOX_ENTER_PATH" ]] || [[ -n "$container_info" && -n "$(command -v distrobox)" ]]; then
-    # If already detected as docker, but distrobox is available, prefer distrobox
-    container_info="in distrobox"
-  fi
-
-  echo "HOST\n"
-  echo "\t$userhost running $osname $container_info; $(uptime -p)\n\n"
-
-  echo "CURRENT DIRECTORY\n\n\t$(pwd)\n"
-
-
-  # Git info
-  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    local git_root=$(git rev-parse --show-toplevel)
-    echo "GIT INFORMATION\n\n\tWorktree $git_root"
-    local branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
-
-    local git_status=$(git status --porcelain)
-    if [[ -z "$git_status" ]]; then
-      local gstatus="clean"
-    else
-      local gstatus="dirty"
-    fi
-    echo "\tBranch $branch ($gstatus)"
-
-    # Get porcelain status (v1 is widely supported)
-    if [[ -n "$git_status" ]]; then
-      echo "\nCHANGES\n"
-      echo "\t$git_status"
-    fi
-  else
-    echo "Not in a Git worktree"
-  fi
-}
-
 
