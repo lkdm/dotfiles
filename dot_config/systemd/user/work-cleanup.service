@@ -4,6 +4,6 @@ Description=work-cleanup Automated cleanup service
 [Service]
 Type=oneshot
 WorkingDirectory=%h/bin
-ExecStart=/bin/bash -c './work-cleanup.sh'
+ExecStart=/bin/zsh -c 'clean_temp_files('
 StandardOutput=null
 StandardError=null

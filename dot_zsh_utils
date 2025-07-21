@@ -63,6 +63,13 @@ upgrade() {
   }
 }
 
+nvim-purge() {
+  echo "Purging Neovim config and plugin directories"
+  rm ~/.config/nvim -rf && echo "Purged config"
+  rm ~/.local/share/nvim/lazy -rf && echo "Purged lazy packages"
+  rm ~/.local/share/nvim/mazon -rf && echo "Purged mason packages"
+}
+
 # View largest disk usage
 alias largest='du -h 2> /dev/null | sort -hr | head -n20'
 
@@ -76,6 +83,22 @@ dci() {
     fzf --no-multi --with-nth=3 --prompt='Service> ' --height=40% --reverse | cut -f1) || return
 
   docker inspect "$id" | jq '.[0]'
+}
+
+
+clean_temp_files() {
+  # Define the directories and safely expand globs using zsh glob qualifiers
+  local -a dirs=(
+    ~/"Downloads/"*(N)
+    ~/"Pictures/Screenshots/"*(N)
+    ~/"Desktop/"*(N)
+  )
+
+  for item in "${dirs[@]}"; do
+    if [[ -e "$item" ]]; then
+      gio trash "$item" || true
+    fi
+  done
 }
 
 # jrnl
