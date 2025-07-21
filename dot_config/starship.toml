@@ -30,4 +30,61 @@ tag_symbol = '🔖 '
 
 [git_status]
 stashed = ''
+disabled = true # WARN: You can disable this for perf
 style = 'bold red'
+
+[line_break]
+disabled = true
+
+[package]
+format = '[$symbol$version]($style) '
+symbol = ""
+style = "bold dimmed"
+
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+
+[nodejs]
+format = '[$symbol($version )]($style)'
+
+[bun]
+format = '[$symbol($version )]($style)'
+
+[deno]
+format = '[$symbol($version )]($style)'
+
+[rust]
+format = '[$symbol($version )]($style)'
+
+[dotnet]
+format = '[$symbol($version )(🎯 $tfm )]($style)'
+
+[golang]
+format = '[$symbol($version )]($style)'
+
+[zig]
+format = '[$symbol($version )]($style)'
+
+[odin]
+format = '[$symbol($version )]($style)'
+
+[ocaml]
+format = '[$symbol($version )(\($switch_indicator$switch_name\) )]($style)'
+
+[lua]
+format = '[$symbol($version )]($style)'
+
+[ruby]
+format = '[$symbol($version )]($style)'
+
+[php]
+format = '[$symbol($version )]($style)'
+
+[terraform]
+format = '[$symbol$workspace]($style)'
+
+[kotlin]
+format = '[$symbol($version )]($style)'
+
+[haskell]
+format = '[$symbol($version )]($style)'
