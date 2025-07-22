@@ -1,0 +1,7 @@
+# Global .gitignore file
+
+# Neovim seems to touch files named '\'
+\
+
+# Mac OS
+.DS_Store
