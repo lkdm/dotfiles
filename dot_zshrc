@@ -1,10 +1,9 @@
-[ -f ~/.zsh_utils ] && . ~/.zsh_utils
-[ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
+# .zshrc
+#
+# .zshrc is executed for interactive shells
 
-# Run motd
-if [[ -z "$NO_MOTD" ]]; then
-  [[ -x ~/.local/share/my-upgrade/my-upgrade-motd ]] && . ~/.local/share/my-upgrade/my-upgrade-motd
-fi
+[ -f ~/.zfunctions ] && . ~/.zfunctions
+[ -f ~/.zaliases ] && . ~/.zaliases
 
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY
