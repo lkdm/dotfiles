@@ -10,6 +10,8 @@ COLORTERM=truecolor
 # Wipe path
 typeset -U path
 
+export SYSAREA="{{ .sysarea }}"
+
 case "$(uname)" in
   Darwin)
   	# Mac OS 1Password socket
