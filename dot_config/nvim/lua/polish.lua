@@ -83,3 +83,31 @@ vim.api.nvim_create_user_command("ToggleProseMode", function()
     vim.notify "Prose mode OFF"
   end
 end, {})
+
+-- Chezmoi syntax highlighting passthrough
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*",
+  callback = function(args)
+    local filename = vim.fn.expand "<afile>"
+    -- Hardcoded file-to-filetype map for specific tmpl files without extensions
+    local special_map = {
+      ["dot_zprofile.tmpl"] = "zsh",
+      ["dot_zaliases"] = "zsh",
+      ["dot_zfunctions"] = "zsh",
+      ["dot_zshrc.tmpl"] = "zsh",
+      [".*/git/config%.tmpl$"] = "gitconfig",
+      -- add other explicit mappings here
+    }
+
+    if special_map[filename] then
+      vim.bo.filetype = special_map[filename]
+      return
+    end
+
+    -- General handler for *.*.tmpl files (e.g. config.toml.tmpl)
+    if filename:match ".+%..+%.tmpl$" then
+      local ft = filename:match "^.+%.(.+)%.tmpl$"
+      if ft then vim.bo.filetype = ft end
+    end
+  end,
+})
