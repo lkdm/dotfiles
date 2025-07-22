@@ -1,4 +1,3 @@
-[[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
 [ -f ~/.zsh_utils ] && . ~/.zsh_utils
 [ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
 
@@ -9,7 +8,7 @@ fi
 
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY
-unsetopt BG_NICE		# do NOT nice bg commands
+unsetopt BG_NICE		# Do not nice background commands
 setopt CORRECT			# command CORRECTION
 setopt EXTENDED_HISTORY		# puts timestamps in the history
 setopt MENUCOMPLETE

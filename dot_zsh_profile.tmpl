@@ -1,11 +1,16 @@
+# Make sure XDG Base Directory is defined
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+
 # Set the default editor to Neovim
-VISUAL=nvim
-EDITOR="$VISUAL"
-GIT_EDITOR="$VISUAL"
+export VISUAL="${VISUAL:-nvim}"
+export EDITOR="${EDITOR:-$VISUAL}"
+export GIT_EDITOR="${GIT_EDITOR:-$VISUAL}"
 
 # Terminal settings
-TERM="screen-256color"
-COLORTERM=truecolor
+export TERM="screen-256color"
+export COLORTERM=truecolor
 
 # Wipe path
 typeset -U path
@@ -20,7 +25,6 @@ case "$(uname)" in
 	export HOMEBREW_PREFIX="/opt/homebrew";
 	export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
 	export HOMEBREW_REPOSITORY="/opt/homebrew";
-	export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
 	export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
 	export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
     ;;
@@ -32,35 +36,43 @@ case "$(uname)" in
 	export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
 	export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
 	fpath[1,0]="/home/linuxbrew/.linuxbrew/share/zsh/site-functions";
-	export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}";
 	[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}";
 	export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:${INFOPATH:-}";
     ;;
 esac
 
+
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+
 # path is an array that zsh syncs with the PATH environment variable
 path=(
 	$path
-	~/.atuin/bin
+	~/.local/bin
+	~/bin
 	~/.cargo/bin
+	~/.bun
+	~/.atuin/bin
+	$XDG_DATA_HOME/uv/tools
+	$GOPATH/bin
   	$HOMEBREW_PREFIX/opt/rustup/bin
   	$HOMEBREW_PREFIX/opt/clamav/bin
 	$HOMEBREW_PREFIX/opt/omnisharp/bin
 	$HOMEBREW_PREFIX/opt/postgresql@17/bin
-	${$(command -v uv):+$(uv tool dir)}
-	~/.bun
-	$HOMEBREW_PREFIX/bin/bun
-	~/.local/bin
-	~/bin
+	$HOMEBREW_PREFIX/bin
+	$HOMEBREW_PREFIX/sbin
 	/usr/local/go/bin
 	/snap/bin
 	/usr/bin
 	/usr/local/bin
-	# MacOS
 	/bin
   	/usr/sbin
   	/sbin
 )
 
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker"
 export SHELL="$HOMEBREW_PREFIX/bin/zsh"
+
+export LANG="en_AU.UTF-8"
+export LC_ALL="en_AU.UTF-8"
