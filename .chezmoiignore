@@ -1,4 +1,8 @@
+run_once_setup.sh
+run_onchange_packages.sh.tmpl
+distrobox.sh
 README.md
+TODO.md
 install.sh
 dot_config/nvim/lazy-lock.json
 /my/
