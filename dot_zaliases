@@ -15,7 +15,6 @@ alias cl='clear'
 
 # nvim
 alias nv='nvim'
-alias nvim-reset='echo "Wiping Neovim Lazy and Mason plugins..." && rm ~/.local/share/nvim/lazy -rf && rm ~/.local/share/nvim/mazon -rf'
 
 # less
 # Add `L` to the end of a command to use less
