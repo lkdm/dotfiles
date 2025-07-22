@@ -51,7 +51,7 @@ if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     alias clamav='host clamav'
 
     # Fedora atomic save location
-    hash -d factorio=/var/home/luke/.var/app/com.valvesoftware.Steam/.factorio/saves
+    hash -d factorio=$HOME/.var/app/com.valvesoftware.Steam/.factorio/saves
 fi
 
 # Obsidian

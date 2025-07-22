@@ -1,13 +1,13 @@
 [core]
        editor = "nvim"
-       hooksPath = /home/luke/.config/git/hooks
+       hooksPath = {{ .home_path }}/.config/git/hooks
        pager = delta
-       excludesfile = /home/luke/.config/git/.gitignore
+       excludesfile = {{ .home_path }}/.config/git/.gitignore
 [init]
        defaultBranch = main
 [user]
-       name = Luke M
-       email = git@lukm.dev
+       name = {{ .name }}
+       email = {{ .email }}
        signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKakM1jaObw4q/jCgVUQsBX2sNbawG3kJPFpN+TK7HOI
 [gpg]
        format = ssh
@@ -27,7 +27,7 @@
        template = ~/.config/git/gitmessage
 [safe]
 {{ if eq .sysarea "work" }}
-       directory = /home/luke/github.com/SoftwareNorth/*
+       directory = {{ .home_path }}/Repos/SoftwareNorth/*
 {{ end }}
 [alias]
        o = log --oneline

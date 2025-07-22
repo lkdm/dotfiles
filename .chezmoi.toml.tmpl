@@ -21,6 +21,8 @@ sourceDir = {{ .chezmoi.config.sourceDir | quote }}
 name = "Luke M"
 email = "git@lukm.dev"
 hostname = {{ $hostname | quote }}
+username = "luke"
+home_path = "/var/home/luke"
 {{ if $isDevContainer }}
 sysarea = "devcontainer"
 {{ else if or (eq .chezmoi.hostname "macbook") (eq .chezmoi.hostname "polar") }}
