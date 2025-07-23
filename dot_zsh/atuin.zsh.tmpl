@@ -1,0 +1,6 @@
+# Atuin ZSH 
+#
+# Using Chezmoi templating, caches the evaluation of Atuin's init command for performance.
+{{- if lookPath "atuin" }}
+{{ output "zsh" "-c" "atuin init zsh" | trim }}
+{{- end }}

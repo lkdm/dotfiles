@@ -1,0 +1,6 @@
+# Starship ZSH
+#
+# Using Chezmoi templating, caches the evaluation of Starship's init command for performance
+{{- if lookPath "starship" -}}
+{{ output "starship" "init" "zsh" "--print-full-init" | trim }}
+{{- end -}}

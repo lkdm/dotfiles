@@ -29,17 +29,6 @@ zmodload -a zsh/zprof zprof
 # Set terminal title automatically
 precmd() { print -Pn "\e]0;%n@%m: %~\a" }
 
-# Vi mode
-# set -o vi
-# export KEYTIMEOUT=1
-
-# Initialise Atuin shell integration if available
-{{- if lookPath "atuin" }}
-{{ output "zsh" "-c" "atuin init zsh" | trim }}
-{{- end }}
-
-# source ~/.config/zsh/plugins/zsh-zellij.zsh
-
 # On slow systems, checking the cached .zcompdump file to see if it must be 
 # regenerated adds a noticable delay to zsh startup.  This little hack restricts 
 # it to once a day.  It should be pasted into your own completion file.
@@ -58,9 +47,5 @@ else
 	compinit -C;
 fi;
 
-# Starship
-# Cache the output of starship init zsh for performance
-# https://blog.mono0x.net/2023/04/29/optimize-rcfiles-using-chezmoi/
-{{- if lookPath "starship" -}}
-{{ output "starship" "init" "zsh" "--print-full-init" | trim }}
-{{- end -}}
+[[ -f ~/.zsh/atuin.zsh ]] && . ~/.zsh/atuin.zsh
+[[ -f ~/.zsh/starship.zsh ]] && . ~/.zsh/starship.zsh

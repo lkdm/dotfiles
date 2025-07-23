@@ -21,31 +21,9 @@ export COLORTERM=truecolor
 # Wipe path
 typeset -U path
 
-export SYSAREA="{{ .sysarea }}"
-
-case "$(uname)" in
-  Darwin)
-  	# Mac OS 1Password socket
-    export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-    ;;
-  Linux)
-  	# Linux 1Password socket
-    export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
-    ;;
-esac
-
-# Cache the output of Homebrew
-# https://github.com/twpayne/chezmoi/discussions/2971
-#
-# Will try the Mac OS location then the Linux location
-{{- if lookPath "/opt/homebrew/bin/brew" }}
-{{ output "/opt/homebrew/bin/brew" "shellenv" | trim }}
-{{- end }}
-{{- if lookPath "/home/linuxbrew/.linuxbrew/bin/brew" }}
-{{ output "/home/linuxbrew/.linuxbrew/bin/brew" "shellenv" | trim }}
-{{- end }}
-
-# Caches the output of Homebrew
+[[ -f ~/.zsh/1password.zsh ]] && . ~/.zsh/1password.zsh
+[[ -f ~/.zsh/chezmoi.zsh ]] && . ~/.zsh/chezmoi.zsh
+[[ -f ~/.zsh/homebrew.zsh ]] && . ~/.zsh/homebrew.zsh
 
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 
