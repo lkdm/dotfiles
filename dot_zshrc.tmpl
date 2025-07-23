@@ -57,4 +57,8 @@ else
 fi;
 
 # Starship
-eval "$(starship init zsh)"
+# Cache the output of starship init zsh for performance
+# https://blog.mono0x.net/2023/04/29/optimize-rcfiles-using-chezmoi/
+{{- if lookPath "starship" -}}
+{{ output "starship" "init" "zsh" "--print-full-init" | trim }}
+{{- end -}}
