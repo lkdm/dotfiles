@@ -1,0 +1,107 @@
+packages:
+  std:
+    tap:
+      - jesseduffield/lazygit
+      - "nikitabobko/tap"
+    brew:
+      - zsh
+      - atuin
+      - git
+      - curl
+      - fzf
+      - neovim
+      - ripgrep
+      - zellij
+      - jrnl
+      - eza
+      - btop
+      - mosh
+      - sevenzip
+{{- if (eq .sysarea "home")}}
+      - ffmpeg
+      - pandoc
+{{- end }}
+{{- if eq .chezmoi.os "linux" }}
+  {{- if or (eq .sysarea "server") (eq .sysarea "devcontainer")}}
+      - xsel
+  {{- else }}
+      - xclip
+      - clamav
+  {{- end }}
+{{- end }}
+    uv:
+    cargo:
+      - cargo-update
+      - starship
+      - rusty-man
+      - bacon
+      - wiki-tui
+      - yazi
+      - hyperfine
+      - xh
+      - dua
+      - ncspot
+      - wiki-tui
+  gui:
+    brew-cask:
+      - ghostty
+      - firefox
+      - 1password
+      - 1password-cli
+      - iina
+      - freedom
+      - localsend
+      - discord
+      - obsidian
+{{- if eq .sysarea "home"}}
+      - scrivener
+      - calibre
+      - cryptomator
+{{- end }}
+    mas:
+      - 904280696    # Things 3
+      - 937984704    # Amphetamine
+      - 1464122853   # NextDNS
+    flatpak:
+      - com.discordapp.Discord
+      - com.spotify.Client
+      - org.localsend.localsend_app
+      - it.mijorus.gearlever
+      - com.libreoffice.LibreOffice
+      - org.telegram.desktop
+      - org.remmina.Remmina
+      - org.chromium.Chromium
+      - it.fabiodistasio.AntaresSQL
+  dev:
+    tap:
+      - oven-sh/bun
+      - omnisharp/omnisharp-roslyn
+    brew:
+      - lua
+      - luarocks
+      - bun
+      - nvm
+      - docker
+      - docker-compose
+      - rustup
+      - uv
+      - pipx
+      - python
+      - go
+      - gopls
+      - jesseduffield/lazygit/lazygit
+      - git-delta
+      - jq
+      - fd
+      - bat
+      - postgresql
+      - omnisharp
+      - otel-cli
+  scripts:
+    cargo:
+      - mt
+    uv:
+      - baca
+    sh:
+      - git-reword
+
