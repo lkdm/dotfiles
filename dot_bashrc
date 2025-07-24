@@ -1,0 +1,5 @@
+# For non-login shells, source ~/.profile if it exists and hasn't been sourced already
+# Allows bash scripts to source environment vars from ~/.profile
+if [ -f ~/.profile ] && ! shopt -q login_shell; then
+  . ~/.profile
+fi

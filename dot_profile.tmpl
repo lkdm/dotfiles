@@ -1,0 +1,73 @@
+# ~/.profile is a shell-agnostic environment variables file that can be sourced by any shell
+
+# Make sure XDG Base Directory is defined
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+
+export VISUAL="${VISUAL:-nvim}"
+export EDITOR="${EDITOR:-$VISUAL}"
+export GIT_EDITOR="${GIT_EDITOR:-$VISUAL}"
+
+export LANG="en_AU.UTF-8"
+export LC_ALL="en_AU.UTF-8"
+
+export TERM="screen-256color"
+export COLORTERM="truecolor"
+
+# Chezmoi
+#
+# Exports the SYSAREA variable for consumption in scripts
+export SYSAREA="{{ .sysarea }}"
+
+# 1Password
+#
+# Sets the location for the 1Password socket in a cross-platform way
+{{- if eq .chezmoi.os "darwin" -}}
+# Mac OS 1Password socket
+export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+{{- else }}
+# Linux 1Password socket
+export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+{{- end }}
+
+# Homebrew
+#
+# Using Chezmoi templating, caches the evaluation of Homebrew's init command for performance.
+# It is cross platform; it checks for the Mac OS install location then Linux install location.
+{{- if lookPath "/opt/homebrew/bin/brew" }}
+{{ output "/opt/homebrew/bin/brew" "shellenv" | trim }}
+{{- end }}
+{{- if lookPath "/home/linuxbrew/.linuxbrew/bin/brew" }}
+{{ output "/home/linuxbrew/.linuxbrew/bin/brew" "shellenv" | trim }}
+{{- end }}
+
+# Go toolchain env
+export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
+
+# Rust toolchain env
+export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
+export CARGO_HOME="${XDG_DATA_HOME}/cargo"
+
+# Docker config
+export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
+
+# PATH
+#
+# Add user bin directories then tools next
+PATH="$HOME/.local/bin:$HOME/bin:$HOME/.cargo/bin:$HOME/.bun:$HOME/.atuin/bin:$XDG_CONFIG_HOME/git/bin:$XDG_DATA_HOME/uv/tools:$GOPATH/bin"
+
+# Then add Homebrew-related directories if HOMEBREW_PREFIX is set
+if [ -n "$HOMEBREW_PREFIX" ]; then
+  PATH="$PATH:$HOMEBREW_PREFIX/opt/rustup/bin"
+  PATH="$PATH:$HOMEBREW_PREFIX/opt/clamav/bin"
+  PATH="$PATH:$HOMEBREW_PREFIX/opt/omnisharp/bin"
+  PATH="$PATH:$HOMEBREW_PREFIX/opt/postgresql@17/bin"
+  PATH="$PATH:$HOMEBREW_PREFIX/bin"
+  PATH="$PATH:$HOMEBREW_PREFIX/sbin"
+fi
+
+# Common system paths last
+PATH="$PATH:/usr/local/go/bin:/snap/bin:/usr/bin:/usr/local/bin:/bin:/usr/sbin:/sbin"
+
+export PATH

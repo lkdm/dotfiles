@@ -91,10 +91,11 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     local filename = vim.fn.expand "<afile>"
     -- Hardcoded file-to-filetype map for specific tmpl files without extensions
     local special_map = {
-      ["dot_zprofile.tmpl"] = "zsh",
+      ["dot_profile.tmpl"] = "bash",
+      ["dot_zprofile"] = "zsh",
       ["dot_zaliases"] = "zsh",
       ["dot_zfunctions"] = "zsh",
-      ["dot_zshrc.tmpl"] = "zsh",
+      ["dot_zshrc"] = "zsh",
       [".*/git/config%.tmpl$"] = "gitconfig",
       -- add other explicit mappings here
     }

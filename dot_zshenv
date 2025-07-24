@@ -1,0 +1,5 @@
+# ~/.zshenv
+# Source the portable environment variables from ~/.profile
+if [[ -f ~/.profile ]]; then
+  emulate sh -c 'source ~/.profile'
+fi

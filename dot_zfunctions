@@ -58,6 +58,8 @@ upgrade() {
     command -v mas &>/dev/null && mas upgrade 2>&1 | prefix mas &
     command -v chezmoi &>/dev/null && chezmoi git pull 2>&1 | prefix chezmoi &
 
+    command -v distrobox-host-exec &>/dev/null && distrobox-host-exec zsh -c upgrade 2>&1 | prefix host &
+      
     wait
     echo "✅ All updates completed." | prefix script
   }
