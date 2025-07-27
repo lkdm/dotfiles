@@ -50,7 +50,7 @@ export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"
 # PATH
 #
 # Add user bin directories then tools next
-PATH="$HOME/.local/bin:$HOME/bin:$HOME/.cargo/bin:$HOME/.bun:$HOME/.atuin/bin:$XDG_CONFIG_HOME/git/bin:$XDG_DATA_HOME/uv/tools:$GOPATH/bin"
+PATH="$HOME/.local/bin:$HOME/bin:$XDG_DATA_HOME/cargo/bin:$HOME/.bun:$HOME/.atuin/bin:$XDG_CONFIG_HOME/git/bin:$XDG_DATA_HOME/uv/tools:$GOPATH/bin"
 
 # Then add Homebrew-related directories if HOMEBREW_PREFIX is set
 if [ -n "$HOMEBREW_PREFIX" ]; then
