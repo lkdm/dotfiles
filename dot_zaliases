@@ -2,6 +2,10 @@
 alias cm='chezmoi'
 alias cma='echo "Patching dotfiles..." && chezmoi apply && source ~/.zshrc'
 
+# xdg aliases
+hash -d config=$XDG_CONFIG_HOME
+hash -d cache=$XDG_CACHE_HOME
+hash -d data=$XDG_DATA_HOME
 
 # ls
 alias ls='eza'
