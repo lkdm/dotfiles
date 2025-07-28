@@ -144,8 +144,8 @@ yt-audio () {
 aliases () {
   # Finds and runs defined aliases and functions
   local cmd=$({
-    grep '^alias ' ~/.zaliases 2>/dev/null | sed -E "s/^alias +([^=]+)=.*/\1/"
-    grep '^[a-zA-Z0-9_]\+ *() *{' ~/.zfunctions 2>/dev/null | sed -E 's/^([a-zA-Z0-9_]+).*/\1/'
+    grep '^alias ' $XDG_CONFIG_HOME/zsh/.zaliases 2>/dev/null | sed -E "s/^alias +([^=]+)=.*/\1/"
+    grep '^[a-zA-Z0-9_]\+ *() *{' $XDG_CONFIG_HOME/zsh/.zfunctions 2>/dev/null | sed -E 's/^([a-zA-Z0-9_]+).*/\1/'
   } | sort | fzf)
 
   [[ -n "$cmd" ]] && print -z "$cmd"  # put in command buffer

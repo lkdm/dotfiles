@@ -2,8 +2,8 @@
 #
 # .zshrc is executed for interactive shells
 
-[ -f ~/.zfunctions ] && . ~/.zfunctions
-[ -f ~/.zaliases ] && . ~/.zaliases
+[ -f $XDG_CONFIG_HOME/zsh/.zfunctions ] && . $XDG_CONFIG_HOME/zsh/.zfunctions
+[ -f $XDG_CONFIG_HOME/zsh/.zaliases ] && . $XDG_CONFIG_HOME/zsh/.zaliases
 
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY
