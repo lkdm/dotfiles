@@ -68,15 +68,8 @@ hash -d scripts=~lkdm/scripts
 hash -d lab=~lkdm/lab
 
 # Work aliases
-hash -d sn=~/Repos/SoftwareNorth
 hash -d tol=~/Repos/SoftwareNorth/TriOnline
-hash -d staging=~tol/staging
-hash -d betab=~tol/betab
-hash -d betap=~tol/betap
-hash -d betah=~tol/betah
-hash -d sbrc=~tol/sbrc
-hash -d feature=~tol/feature
-hash -d hotfix=~tol/hotfix
+hash -d trunk="$HOME/Repos/SoftwareNorth/TriOnline/trunk"
 
 # Fix dotnet
 # alias omnisharp='OmniSharp'
