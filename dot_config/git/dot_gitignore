@@ -1,7 +1,75 @@
-# Global .gitignore file
+# Personal .gitignore file
+#
+# Principles:
+# 1. No build artifacts
+# 2. No personal files
+# 3. No secrets
+# 4. Only what is needed
 
-# Neovim seems to touch files named '\'
-\
+# Hide most dot directories in the worktree root
+/.*/
+!.devcontainer/
+!.github/
+!.gitignore
 
-# Mac OS
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+desktop.ini
+*.cab
+*.msi
+*.msm
+*.msp
+*.pdb
+
+# Linux
+.directory # KDE directory
+*~ # Some editors (Vim, Emacs, gedit) create backup files by appending tilde
+#*~ # (not a comment) ignores certain Emacs temporary backup files
+
+# VIM
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+# *~
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+*.bak
+.nvimlog
+\ # NeoVim keeps creating files named \
+
+# Development
+*.db
+*.secrets
+*.env
+.env.local
+*.sqlite
+*.sqlite3
+
+# Caches
+.cache/
+.pytest_cache/
+.mypy_cache/
+__pycache__/
+
+**/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
