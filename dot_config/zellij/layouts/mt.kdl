@@ -1,0 +1,18 @@
+layout {
+	tab name="mt" {
+		pane size=1 borderless=true {
+    		plugin location="zellij:tab-bar"
+		}
+		pane split_direction="vertical" {
+			pane command="mt" start_suspended=true {
+    			args "start";
+			}
+			pane command="mt" start_suspended=true {
+    			args "sh";
+			}
+		}
+		pane size=2 borderless=true {
+    		plugin location="zellij:status-bar"
+		}
+	}
+}

@@ -1,0 +1,13 @@
+layout {
+	tab name="git" {
+		pane size=1 borderless=true {
+    		plugin location="zellij:tab-bar"
+		}
+		pane {
+    		command "lazygit"
+		}
+		pane size=2 borderless=true {
+    		plugin location="zellij:status-bar"
+		}
+	}
+}
