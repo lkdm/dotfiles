@@ -1,0 +1,6 @@
+# fnm zsh
+#
+# Using Chezmoi templating, caches the evaluation of fnm's init command for performance.
+{{- if lookPath "fnm" }}
+{{ output "zsh" "-c" "fnm env --use-on-cd --shell zsh --version-file-strategy=recursive" | trim }}
+{{- end }}

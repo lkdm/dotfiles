@@ -8,7 +8,7 @@ dev_packages=(
   # Lua
   lua luarocks
   # JavaScript
-  bun nvm
+  fnm bun
   # Docker
   docker docker-compose
   # Rust
@@ -36,7 +36,11 @@ for package in "${dev_packages[@]}"; do
 done
 
 rustup update && rustup default stable
-nvm install node
+
+# Install the latest version of Node
+NODE_LATEST="$(fnm list-remote | tail -1 | sed 's/^v//')"
+fnm install "$NODE_LATEST"
+fnm default "$NODE_LATEST"
 
 # Symlink Omnnisharp
 ln -s $(which OmniSharp) ~/.local/bin/omnisharp

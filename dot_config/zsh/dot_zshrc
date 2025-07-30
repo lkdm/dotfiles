@@ -49,3 +49,4 @@ fi;
 
 [[ -f ~/.zsh/atuin.zsh ]] && . ~/.zsh/atuin.zsh
 [[ -f ~/.zsh/starship.zsh ]] && . ~/.zsh/starship.zsh
+[[ -f ~/.zsh/fnm.zsh ]] && . ~/.zsh/fnm.zsh
