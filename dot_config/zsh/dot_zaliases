@@ -43,7 +43,9 @@ if [ -n "$DISTROBOX_ENTER_PATH" ]; then
             distrobox-host-exec -- env NO_MOTD=true "$host_zsh" -c "$*"
         fi
     }
-
+   
+    # Execute op on host
+    ln -s /usr/bin/distrobox-host-exec ~/.local/bin/op
 
     alias ujust='host ujust'
     alias open='host xdg-open'
