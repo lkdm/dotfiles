@@ -59,6 +59,7 @@ if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     alias distrobox-upgrade='host distrobox-upgrade'
     alias distrobox='host distrobox' 
     alias clamav='host clamav'
+    alias trip='host sudo ~/.local/share/cargo/bin/trip'
 
     # Fedora atomic save location
     hash -d factorio=$HOME/.var/app/com.valvesoftware.Steam/.factorio/saves
