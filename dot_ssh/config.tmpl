@@ -2,6 +2,7 @@
 Host *
   # For using SSH daemon over SSH
   ForwardAgent yes
+  IdentityAgent ~/.1password/agent.sock
 {{ else }}
   {{ if eq .chezmoi.os "darwin" }}
 Host *
