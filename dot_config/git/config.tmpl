@@ -8,27 +8,15 @@
 [user]
        name = {{ .name }}
        email = {{ .email }}
-       signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKakM1jaObw4q/jCgVUQsBX2sNbawG3kJPFpN+TK7HOI
+       signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJyX2hhR7bXAo93xmnbmF2seccaovplyIK9tWkwBOmIn 44519853+lkdm@users.noreply.github.com
 [gpg]
        format = ssh
-[gpg "ssh"]
-{{ if or (eq .sysarea "home") (eq .sysarea "work") }}
-{{   if eq .chezmoi.os "darwin" }}
-       program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-{{   else if eq .chezmoi.os "linux" }}
-       program = "/opt/1Password/op-ssh-sign"
-{{   end }}
-{{end}}
 [commit]
        gpgsign = true
        verbose = true
        # When using git-commit, show my git message
        # In this case, I've written a summary of conventional commits.
        template = ~/.config/git/gitmessage
-[safe]
-{{ if eq .sysarea "work" }}
-       directory = {{ .home_path }}/Repos/SoftwareNorth/*
-{{ end }}
 [alias]
        o = log --oneline
        adog = log --all --decorate --oneline --graph
