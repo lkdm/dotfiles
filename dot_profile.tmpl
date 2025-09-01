@@ -22,17 +22,6 @@ export LC_ALL="en_AU.UTF-8"
 export TERM="screen-256color"
 export COLORTERM="truecolor"
 
-# 1Password
-#
-# Sets the location for the 1Password socket in a cross-platform way
-{{- if eq .chezmoi.os "darwin" -}}
-# Mac OS 1Password socket
-export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-{{- else }}
-# Linux 1Password socket
-export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
-{{- end }}
-
 # Homebrew
 #
 # Using Chezmoi templating, caches the evaluation of Homebrew's init command for performance.
