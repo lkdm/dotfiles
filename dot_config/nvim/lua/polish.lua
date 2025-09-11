@@ -31,7 +31,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.opt.termguicolors = true
 vim.opt.scrolloff = 12
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -42,47 +41,6 @@ vim.bo.shiftwidth = 4
 vim.bo.tabstop = 4
 vim.bo.softtabstop = 4
 vim.opt.cmdheight = 1 -- Make notifications 2 lines
-
--- My functions
---
---
--- Prose
-local ns_id = vim.api.nvim_create_namespace "prose-mode"
-local prose_mode_enabled = false
-
-local function update_visual_indent(buf)
-  vim.api.nvim_buf_clear_namespace(buf, ns_id, 0, -1)
-  if not prose_mode_enabled then return end
-  for i = 0, vim.api.nvim_buf_line_count(buf) - 1 do
-    vim.api.nvim_buf_set_extmark(buf, ns_id, i, 0, {
-      virt_text = { { "  ", "NonText" } },
-      virt_text_pos = "inline",
-      hl_mode = "combine",
-    })
-  end
-end
-
-vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "TextChanged", "TextChangedI", "InsertLeave" }, {
-  callback = function(args) update_visual_indent(args.buf) end,
-})
-
-vim.api.nvim_create_user_command("ToggleProseMode", function()
-  prose_mode_enabled = not prose_mode_enabled
-  local buf = vim.api.nvim_get_current_buf()
-  update_visual_indent(buf)
-  if prose_mode_enabled then
-    vim.opt_local.linebreak = true
-    vim.opt_local.breakindent = true
-    vim.opt_local.breakindentopt = { "shift:-2" }
-    vim.cmd "vertical resize 80"
-    vim.notify "Prose mode ON"
-  else
-    vim.opt_local.linebreak = false
-    vim.opt_local.breakindent = false
-    vim.opt_local.breakindentopt = {}
-    vim.notify "Prose mode OFF"
-  end
-end, {})
 
 -- Chezmoi syntax highlighting passthrough
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
