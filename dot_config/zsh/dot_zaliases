@@ -32,39 +32,6 @@ alias tm='tmux a || tmux || tmux ls'
 alias jt='jrnl -to today'
 alias j0='jrnl -n 1 --edit'
 
-if [ -n "$DISTROBOX_ENTER_PATH" ]; then
-    # In a Distrobox environment, we want some commands to reference the host
-    host() {
-        local host_zsh
-        host_zsh=$(distrobox-host-exec command -v zsh)
-        if [[ $# -eq 0 ]]; then
-            distrobox-host-exec -- env NO_MOTD=true "$host_zsh"
-        else
-            distrobox-host-exec -- env NO_MOTD=true "$host_zsh" -c "$*"
-        fi
-    }
-   
-    # Execute op on host
-    ln -sf /usr/bin/distrobox-host-exec ~/.local/bin/op
-
-    alias ujust='host ujust'
-    alias open='host xdg-open'
-    alias code='host code'
-    alias flatpak='host flatpak'
-    alias rpm-ostree='host rpm-ostree'
-    alias bootc='host bootc'
-    alias systemctl='host systemctl'
-    alias htop='host htop'
-    alias uptime='host uptime'
-    alias distrobox-upgrade='host distrobox-upgrade'
-    alias distrobox='host distrobox' 
-    alias clamav='host clamav'
-    alias trip='host sudo ~/.local/share/cargo/bin/trip'
-
-    # Fedora atomic save location
-    hash -d factorio=$HOME/.var/app/com.valvesoftware.Steam/.factorio/saves
-fi
-
 # Obsidian
 hash -d vault=~/Documents/Brain
 alias notes='cd ~/Documents/Brain && nvim .'

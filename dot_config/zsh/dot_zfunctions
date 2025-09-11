@@ -37,11 +37,6 @@ upgrade() {
 
     wait
     echo "✅ All updates completed." | prefix script
-
-    if command -v distrobox-host-exec &>/dev/null; then
-      echo "⚠️  Warning: You are inside a Distrobox/container." | prefix script
-      echo "Please run this on the host *as well*." | prefix script
-    fi
   }
 }
 

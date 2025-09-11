@@ -3,7 +3,6 @@
 # This file declaratively installs packages. If it has changed between chezmoi applications,
 # this script will be executed.
 #
-{{- if eq .sysarea "devcontainer" }}
 dev_packages=(
   # Lua
   lua luarocks
@@ -42,7 +41,6 @@ fnm default "$NODE_LATEST"
 
 # Symlink Omnnisharp
 ln -s $(which OmniSharp) ~/.local/bin/omnisharp
-{{- end }}
 #
 # Brew packages
 brew_packages=(
