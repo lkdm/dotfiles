@@ -28,10 +28,6 @@ alias -g L="| less -FRX"
 alias jt='jrnl -to today'
 alias j0='jrnl -n 1 --edit'
 
-# Zellij
-alias zj-git='nocorrect zellij action new-tab --name git --layout git'
-alias zj-mt='nocorrect zellij action new-tab --name mt --layout mt'
-
 if [ -n "$DISTROBOX_ENTER_PATH" ]; then
     # In a Distrobox environment, we want some commands to reference the host
     host() {
