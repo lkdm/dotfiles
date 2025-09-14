@@ -1,0 +1,13 @@
+# clamd.service — User-level ClamAV Daemon using LocalSocket
+#
+# Runs the clamdscan daemon which is required to run clamscan with the daemon. It is recommended to run it with the daemon because it is much faster.
+[Unit]
+Description=User ClamAV Daemon (clamd)
+After=network.target
+
+[Service]
+ExecStart=/home/linuxbrew/.linuxbrew/sbin/clamd --config=%h/.config/clamav/clamd.conf
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
