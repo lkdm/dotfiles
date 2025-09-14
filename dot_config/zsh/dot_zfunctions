@@ -1,5 +1,6 @@
 
-# Helper for prefixing output (already defined in your shell config)
+# Helper for prefixing output
+# Used to prefix logs with a label
 prefix() {
   local tag="$1"
   awk -v tag="$tag" '{printf "%8s | %s\n", tag, $0}'
@@ -11,6 +12,11 @@ upgrade() {
     echo "Starting system upgrade..." | prefix system
     if [ "$OS_RELEASE" = "bluefin" ]; then
       echo "Upgrading Bluefin..." | prefix system
+      ujust upgrade 2>&1 | prefix system
+    fi
+
+    if [ "$OS_RELEASE" = "bazzite" ]; then
+      echo "Upgrading Bazzite..." | prefix system
       ujust upgrade 2>&1 | prefix system
     fi
 
@@ -36,7 +42,7 @@ upgrade() {
     command -v chezmoi &>/dev/null && chezmoi git pull 2>&1 | prefix chezmoi &
 
     wait
-    echo "✅ All updates completed." | prefix script
+    echo "✅ All updates completed.\n\nIf you have appimages, use gearlever to upgrade them." | prefix script
   }
 }
 
