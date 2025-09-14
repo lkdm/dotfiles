@@ -38,6 +38,7 @@ alias notes='cd ~/Documents/Brain && nvim .'
 
 hash -d lkdm=~/Repos/lkdm
 hash -d dotfiles=~lkdm/dotfiles
+hash -d snippets=~lkdm/snippets
 hash -d scripts=~lkdm/scripts
 hash -d lab=~lkdm/lab
 

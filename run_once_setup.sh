@@ -16,10 +16,6 @@ setup_macos() {
 }
 
 setup_linux() {
-    if [[ "$SYSAREA" == "home" || "$SYSAREA" == "work" ]]; then
-        command -v gsettings &>/dev/null && gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
-    fi
-
     if ! command -v brew &>/dev/null; then
         if [[ -f "/etc/debian_version" ]]; then
             # On Debian, some things must be installed first

@@ -1,6 +1,5 @@
 # https://docs.atuin.sh/configuration/config/
 key_path = "~/.atuin-key"
-# dialect = "uk"
 keymap_mode="vim-normal"
 auto_sync = true
 workspaces = true
@@ -9,6 +8,7 @@ history_filter = ["yt-dlp", "non-free_Linux_Distributions"]
 common_subcommands = [
 	"apt",
 	"cargo",
+	"cm",
 	"composer",
 	"dnf",
 	"docker",
@@ -21,6 +21,7 @@ common_subcommands = [
 	"npm",
 	"pecl",
 	"pnpm",
+	"dotnet",
 	"podman",
 	"port",
 	"systemctl",
@@ -34,7 +35,6 @@ common_subcommands = [
 	"uv",
 	"bun",
 	"jrnl",
-	"cm",
 ]
 common_prefix = [
 	"sudo",
