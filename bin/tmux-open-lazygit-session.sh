@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# tmux-new-lazygit
-# Create a new tmux window and run lazygit in it (or focus existing window named the same).
+# tmux-open-lazygit-session - open or create a tmux window running lazygit
 set -euo pipefail
 
 win_name="${1:-lazygit}"

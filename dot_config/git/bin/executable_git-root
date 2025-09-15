@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-# Print the top level working directory
-git rev-parse --show-toplevel

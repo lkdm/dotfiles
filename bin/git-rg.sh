@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-# If you add this script to path, it can be run using `git rg`
+# git-rg PATTERN - search tracked files for occurrences of pattern
 git ls-files -z | xargs -0 -- grep --color "$@"

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# tmux-new-from-repo.sh
-# Show repos/worktrees under ~/Repos with fzf (display-popup), create/attach tmux session named after selection.
+# tmux-open-repo-as-session - create a tmux session from a local git repository in ~/Repos
 set -euo pipefail
 
 root="$HOME/Repos"

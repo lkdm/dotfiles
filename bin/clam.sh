@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Scans home directory for viruses on POSIX systems
+# clam - run clamdscan and cleanup after
 
 scan() {
   set -e
