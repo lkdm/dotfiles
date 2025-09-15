@@ -6,6 +6,15 @@ prefix() {
   awk -v tag="$tag" '{printf "%8s | %s\n", tag, $0}'
 }
 
+scan() {
+  set -e
+  trap "systemctl --user stop clamd" EXIT INT TERM
+  systemctl --user start clamd
+  sleep 15 # Wait for the socket to be created
+  /home/luke/Repos/lkdm/scripts/scan.sh
+  pkill clamd
+}
+
 upgrade() {
   {
     local OS_RELEASE=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
