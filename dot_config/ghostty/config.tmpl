@@ -1,6 +1,6 @@
 # Start ZSH
 {{ if eq .chezmoi.os "darwin" -}}
-command = /opt/homebrew/bin/zsh --login --interactive
+command = /bin/zsh --login --interactive
 font-size = 12
 {{ else if eq .chezmoi.os "linux" -}}
 # Optional: Adjust font size
