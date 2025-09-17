@@ -17,6 +17,12 @@ while IFS= read -r d; do
   candidates+=("$d")
 done < <(find "$root" -maxdepth 3 -type d 2>/dev/null)
 
+# add Obsidian vault explicitly
+brain="$HOME/Documents/Brain"
+if [ -d "$brain" ]; then
+  candidates+=("$brain")
+fi
+
 [ ${#candidates[@]} -gt 0 ] || exit 0
 
 declare -A map
@@ -53,10 +59,19 @@ repo="$(basename "$sel_abs")"
 case "$topdir" in
   TriOnline|TriOnline*|SoftwareNorth|tol) prefix="tol" ;;
   lkdm) prefix="lkdm" ;;
+  obsidian|Brain) prefix="obsidian" ;;
   *) prefix="$(printf '%s' "$topdir" | tr '[:upper:]' '[:lower:]')" ;;
 esac
 
-session_name="${prefix}-${repo}"
+
+
+if [ "$repo" = "Brain" ]; then
+  session_name="vault-brain"
+else
+  session_name="${prefix}-${repo}"
+fi
+
+# echo "session_name=$session_name prefix=$prefix topdir=$topdir repo=$repo sel_abs=$sel_abs" >&2
 
 if tmux has-session -t "$session_name" 2>/dev/null; then
   tmux switch-client -t "$session_name"
