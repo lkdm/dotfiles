@@ -53,9 +53,13 @@ brew_packages=(
   ripgrep
   tmux
   jrnl
+  # trippy - ping and traceroute in one
   trippy
-  # Drop-in replacement for ls
+  # eza - drop-in replacement for ls
   eza
+  # asciinema - used to create a textual video of a terminal sesssion
+  # agg - used to convert asciicast format to gif
+  asciinema agg
   {{- if (eq .sysarea "home")}}
   ffmpeg pandoc
   {{- end }}
@@ -153,7 +157,9 @@ done
 
 
 cargo_packages=(
+  # cargo-update - update cargo tools in one command
   cargo-update
+  # starship - fast, configurable terminal prompt written in Rust
   starship
   rusty-man
   bacon
@@ -170,17 +176,16 @@ for package in "${cargo_packages[@]}"; do
   cargo install --locked $package
 done
 
-
 #### USER SCRIPTS
-cargo_userscripts=(
-{{- if eq .sysarea "work"}}
-  mt
-{{- end }}
-)
+cargo_userscripts=()
 for package in "${cargo_userscripts[@]}"; do
   echo "Installing Cargo userscript: $package..."
   cargo install --git https://github.com/lkdm/scripts $package --force 
 done
+
+{{- if eq .sysarea "work"}}
+cargo install --git https://github.com/lkdm/mt --force
+{{- end }}
 
 #
 sh_userscripts=(
