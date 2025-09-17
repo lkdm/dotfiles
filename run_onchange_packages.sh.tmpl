@@ -10,8 +10,6 @@ dev_packages=(
   fnm bun
   # Docker
   docker docker-compose
-  # Rust
-  rustup
   # Python
   uv pipx python
   # Go
@@ -32,7 +30,7 @@ for package in "${dev_packages[@]}"; do
   $(which brew) install --quiet "$package" || echo "Failed: $package"
 done
 
-rustup update && rustup default stable
+rustup update && rustup default nightly
 
 # Install the latest version of Node
 NODE_LATEST="$(fnm list-remote | tail -1 | sed 's/^v//')"

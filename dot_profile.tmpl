@@ -52,7 +52,7 @@ export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
 # PATH
 #
 # Add user bin directories then tools next
-PATH="$HOME/.local/bin:$HOME/bin:$XDG_DATA_HOME/cargo/bin:$HOME/.bun:$HOME/.atuin/bin:$XDG_CONFIG_HOME/git/bin:$XDG_DATA_HOME/uv/tools:$GOPATH/bin"
+PATH="$HOME/.local/bin:$HOME/bin:$CARGO_HOME/bin:$HOME/.bun:$HOME/.atuin/bin:$XDG_CONFIG_HOME/git/bin:$XDG_DATA_HOME/uv/tools:$GOPATH/bin"
 
 # Then add Homebrew-related directories if HOMEBREW_PREFIX is set
 if [ -n "$HOMEBREW_PREFIX" ]; then
@@ -66,5 +66,7 @@ fi
 
 # Common system paths last
 PATH="$PATH:/usr/local/go/bin:/snap/bin:/usr/bin:/usr/local/bin:/bin:/usr/sbin:/sbin"
+
+source $CARGO_HOME/env
 
 export PATH
