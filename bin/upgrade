@@ -36,6 +36,7 @@ command -v cargo &>/dev/null && {
     } 2>&1 | prefix cargo &
 }
 
+command -v rustup &>/dev/null && rustup update -y 2>&1 | prefix rustup &
 command -v flatpak &>/dev/null && flatpak update -y 2>&1 | prefix flatpak &
 command -v brew &>/dev/null && brew update && brew upgrade 2>&1 | prefix brew &
 command -v mas &>/dev/null && mas upgrade 2>&1 | prefix mas &
