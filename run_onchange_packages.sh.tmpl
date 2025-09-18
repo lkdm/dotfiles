@@ -30,8 +30,6 @@ for package in "${dev_packages[@]}"; do
   $(which brew) install --quiet "$package" || echo "Failed: $package"
 done
 
-rustup update && rustup default nightly
-
 # Install the latest version of Node
 NODE_LATEST="$(fnm list-remote | tail -1 | sed 's/^v//')"
 fnm install "$NODE_LATEST"
@@ -146,7 +144,6 @@ done
 {{- end }}
 
 python_packages=(
-  baca
 )
 for package in "${python_packages[@]}"; do
   echo "Installing Python tool through uv: $package..."
@@ -155,19 +152,8 @@ done
 
 
 cargo_packages=(
-  # cargo-update - update cargo tools in one command
-  cargo-update
   # starship - fast, configurable terminal prompt written in Rust
   starship
-  rusty-man
-  bacon
-  wiki-tui
-  yazi
-  hyperfine
-  xh
-  dua
-  ncspot
-  wiki-tui
 )
 for package in "${cargo_packages[@]}"; do
   echo "Installing Cargo tool: $package..."
@@ -185,9 +171,8 @@ done
 cargo install --git https://github.com/lkdm/mt --force
 {{- end }}
 
-#
 sh_userscripts=(
-  git-reword
+  # git-reword
 )
 for package in "${sh_userscripts[@]}"; do
   echo "Installing sh userscript: $package..."

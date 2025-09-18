@@ -13,9 +13,11 @@
        format = ssh
 [commit]
        gpgsign = true
+       # verbose mode opens the $EDITOR when making a commit
        verbose = true
        # When using git-commit, show my git message
        # In this case, I've written a summary of conventional commits.
+       # This will not show when editing the commit
        template = ~/.config/git/gitmessage
 [alias]
        o = log --oneline

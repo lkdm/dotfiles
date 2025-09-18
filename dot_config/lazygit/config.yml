@@ -9,5 +9,12 @@ git:
     - staging
 keybinding:
   files:
+    # Use the default editor for writing commit messages
     commitChanges: "" # disables the default inline commit on 'c'
     commitChangesWithEditor: "c" # maps 'c' to open the commit editor
+customCommands:
+  # verbose rename - opens editor to change commit message, which also shows file changes
+  - key: R
+    context: commits
+    command: git commit --allow-empty --amend --no-verify --message
+    subprocess: true
