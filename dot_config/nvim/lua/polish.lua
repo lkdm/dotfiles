@@ -47,6 +47,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = "*",
   callback = function(args)
     local filename = vim.fn.expand "<afile>"
+    local filepath = vim.fn.expand "<amatch>" or vim.fn.expand "<afile>"
     -- Hardcoded file-to-filetype map for specific tmpl files without extensions
     local special_map = {
       ["dot_profile.tmpl"] = "bash",
@@ -54,12 +55,17 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
       ["dot_zaliases"] = "zsh",
       ["dot_zfunctions"] = "zsh",
       ["dot_zshrc"] = "zsh",
-      [".*/git/config%.tmpl$"] = "gitconfig",
       -- add other explicit mappings here
     }
 
     if special_map[filename] then
       vim.bo.filetype = special_map[filename]
+      return
+    end
+
+    -- For files with path-specific patterns, use Lua string matching
+    if filepath:match "git/config%.tmpl$" then
+      vim.bo.filetype = "ini"
       return
     end
 

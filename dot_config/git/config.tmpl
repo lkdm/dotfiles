@@ -1,16 +1,35 @@
-[core]
-       editor = "nvim"
-       hooksPath = {{ .home_path }}/.config/git/hooks
-       pager = delta
-       excludesfile = {{ .home_path }}/.config/git/.gitignore
-[init]
-       defaultBranch = main
 [user]
        name = {{ .name }}
        email = {{ .email }}
        signingKey = ~/.ssh/id_ed25519.pub
+
+[core]
+
+       editor = "nvim"
+       pager = delta
+       excludesfile = {{ .home_path }}/.config/git/.gitignore
+
+
+       # disable using git hooks completely.
+       # - sometimes other developers add hooks that are slow. Sometimes it's me.
+       # - some implementations of git hooks do not work at all when legacy projects
+       #   when hooks are included from submodules or parent repositories
+       # - some hook implementations don't work at all when rebasing
+       # - git gui/tui wrappers don't make it clear when hooks are running
+       # - I like creating many commits quickly and squashing them later. Hooks
+       #   prevent this workflow.
+       # - good projects should put important checks in CI pipelines/tests anyway,
+       #   so the benefit is questionable
+       # - many hooks can also be disabled with the `--no-verify` flag, so they are
+       #   not a reliable way to enforce checks
+       hooksPath = /dev/null
+
+[init]
+       defaultBranch = main
+
 [gpg]
        format = ssh
+
 [commit]
        gpgsign = true
        # verbose mode opens the $EDITOR when making a commit
@@ -19,40 +38,64 @@
        # In this case, I've written a summary of conventional commits.
        # This will not show when editing the commit
        template = ~/.config/git/gitmessage
+
 [alias]
        o = log --oneline
        adog = log --all --decorate --oneline --graph
+
+       ; How to stash changes while keeping the changes in the working directory? (Git)
+       ; https://stackoverflow.com/a/60557208/1336788
+       stash-keep = "!f() { git stash store --message \"$(date +'%Y-%m-%d %H:%M:%S')\" \"$1\"; }; f $(git stash create)"
+
+       ; quickly create a backup of the current branch
+       backup-branch = !git branch $(git rev-parse --abbrev-ref HEAD)--backup-$(date +%Y%m%d%H%M%S)
+
 [log]
        # Use YYYY-MM-DD dates
        date = iso
+       
 [tag]
        # Had to turn this off due to lazygit never creating a tag
        gpgsign = false
+
 [format]
        signoff = true
+
 [push]
        # Automatically set up a remote branch if it doesn't exist
        autoSetupRemote = true
+
 [pull]
        # Should be the default Git pull strategy
        rebase = true
+       
 [interactive]
        diffFilter = delta --color-only
+
 [delta]
        navigate = true    # use n and N to move between diff sections
+       features = decorations
+       tabs = 4
+       side-by-side = true
+       line-numbers-left-format = ""
+       line-numbers-right-format = "│ "
        # hyperlinks = true
        # hyperlinks-file-link-format = "neovim://{path}:{line}"
+
 [diff]
        # Diff whole blocks of code, rather than line-by-line
        algorithm = histogram
        colorMoved = plain
        mnemonicPrefix = true
        renames = true
+
 [fetch]
        # Prune branches deleted on origin upon fetch
        prune = true
+
 [help]
        autocorrect = prompt
+
 [rerere]
        # Re-use recorded resolution
        #
@@ -60,18 +103,22 @@
        # repeat that resolution.
        enabled = true
        autoupdate = true
+
 [rebase]
        # Automatically squashes commits marked with `fixup!` or `squash!`
        autoSquash = true
        # Automatically stash on rebase, then pop. Allows you to rebase on dirty worktree
        autoStash = true
+
 [merge]
        # Makes diffs 3-way, by including the code before either current or incoming change.
        conflictstyle = zdiff3
+
 [url "git@github.com:"]
        # Use SSH remote urls rather than http
        # You can use pushInsteadOf to only use SSH urls on push, so you can still use HTTP for public repos
        insteadOf = "https://github.com/"
+
 [apply]
        # Remote trailing whitespaces
        whitespace = fix
