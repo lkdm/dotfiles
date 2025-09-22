@@ -4,7 +4,8 @@ keymap_mode="vim-normal"
 auto_sync = true
 workspaces = true
 dialect = "uk"
-history_filter = ["yt-dlp", "non-free_Linux_Distributions"]
+history_filter = ["^yt-dlp", "^yd-dlp"]
+cwd_filter = ["non-free_Linux_Distributions"]
 common_subcommands = [
 	"apt",
 	"cargo",
