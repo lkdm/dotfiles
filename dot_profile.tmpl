@@ -67,6 +67,7 @@ fi
 # Common system paths last
 PATH="$PATH:/usr/local/go/bin:/snap/bin:/usr/bin:/usr/local/bin:/bin:/usr/sbin:/sbin"
 
-source $CARGO_HOME/env
+# Source Cargo environment vars if it exists (created by rustup)
+[ -f "$CARGO_HOME/env" ] && source "$CARGO_HOME/env"
 
 export PATH

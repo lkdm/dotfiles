@@ -40,6 +40,7 @@ ln -s $(which OmniSharp) ~/.local/bin/omnisharp
 #
 # Brew packages
 brew_packages=(
+  bash
   zsh
   atuin
   git
@@ -49,6 +50,8 @@ brew_packages=(
   ripgrep
   tmux
   jrnl
+  # starship - fast, configurable terminal prompt written in Rust
+  starship
   # trippy - ping and traceroute in one
   trippy
   # eza - drop-in replacement for ls
@@ -152,8 +155,6 @@ done
 
 
 cargo_packages=(
-  # starship - fast, configurable terminal prompt written in Rust
-  starship
 )
 for package in "${cargo_packages[@]}"; do
   echo "Installing Cargo tool: $package..."
