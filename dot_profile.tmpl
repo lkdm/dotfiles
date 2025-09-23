@@ -1,26 +1,9 @@
 # ~/.profile is a shell-agnostic environment variables file that can be sourced by any shell
 
-
 # Make sure XDG Base Directory is defined
-{{- if eq .chezmoi.os "darwin" }}
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/Library/Caches}"
-export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/Library/Application Support}"
-{{- else }}
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-{{- end }}
-
-export VISUAL="${VISUAL:-nvim}"
-export EDITOR="${EDITOR:-$VISUAL}"
-export GIT_EDITOR="${GIT_EDITOR:-$VISUAL}"
-
-export LANG="en_AU.UTF-8"
-export LC_ALL="en_AU.UTF-8"
-
-export TERM="xterm-256color"
-export COLORTERM="truecolor"
 
 # Homebrew
 #
@@ -32,6 +15,16 @@ export COLORTERM="truecolor"
 {{- if lookPath "/home/linuxbrew/.linuxbrew/bin/brew" }}
 {{ output "/home/linuxbrew/.linuxbrew/bin/brew" "shellenv" | trim }}
 {{- end }}
+
+export VISUAL="${VISUAL:-nvim}"
+export EDITOR="${EDITOR:-$VISUAL}"
+export GIT_EDITOR="${GIT_EDITOR:-$VISUAL}"
+
+export LANG="en_AU.UTF-8"
+export LC_ALL="en_AU.UTF-8"
+
+export TERM="xterm-256color"
+export COLORTERM="truecolor"
 
 # Force some applications to use XDG spec
 export RUSTUP_HOME="${XDG_DATA_HOME}/rustup"
@@ -60,8 +53,11 @@ if [ -n "$HOMEBREW_PREFIX" ]; then
   PATH="$PATH:$HOMEBREW_PREFIX/opt/clamav/bin"
   PATH="$PATH:$HOMEBREW_PREFIX/opt/omnisharp/bin"
   PATH="$PATH:$HOMEBREW_PREFIX/opt/postgresql@17/bin"
-  PATH="$PATH:$HOMEBREW_PREFIX/bin"
-  PATH="$PATH:$HOMEBREW_PREFIX/sbin"
+  # Prioritise Homebrew packages over existing ones
+  # Useful on Mac OS which ships with outdated bash and git
+  PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
+  # PATH="$PATH:$HOMEBREW_PREFIX/bin"
+  # PATH="$PATH:$HOMEBREW_PREFIX/sbin"
 fi
 
 # Common system paths last

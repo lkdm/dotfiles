@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # tmux-open-repo-as-session - create a tmux session from a local git repository in ~/Repos
 set -euo pipefail
+set -x
+source ~/.profile
 
 root="$HOME/Repos"
 [ -d "$root" ] || exit 0
