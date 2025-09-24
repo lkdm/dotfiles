@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Install Repository GPG key
+curl https://downloads.1password.com/linux/keys/1password.asc | sudo tee /etc/pki/rpm-gpg/RPM-GPG-KEY-1password
+
+# Add the repository
+sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=0\ngpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-1password" > /etc/yum.repos.d/1password.repo'
+
+# Install 1Password
+rpm-ostree install 1password 1password-cli
+
+# To update, add the new repository GPG key, re-add the repository, then run:
+ujust update
