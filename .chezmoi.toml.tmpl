@@ -35,3 +35,12 @@ sysarea = "server"
 
 
 
+[templates]
+[files."~/.ssh/id_provisioned"]
+  type = "file"
+  mode = "0600"
+  template = true
+[files."~/.ssh/id_provisioned.pub"]
+  type = "file"
+  mode = "0644"
+  template = true

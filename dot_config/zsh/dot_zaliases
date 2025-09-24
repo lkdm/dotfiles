@@ -1,6 +1,6 @@
 # Chezmoi
 alias cm='chezmoi'
-alias cma='echo "Patching dotfiles..." && chezmoi apply && source $XDG_CONFIG_HOME/zsh/.zshrc'
+alias cma='eval $(op signin --account my.1password.com) && echo "Patching dotfiles..." && chezmoi apply && source $XDG_CONFIG_HOME/zsh/.zshrc'
 
 # xdg aliases
 hash -d config=$XDG_CONFIG_HOME
