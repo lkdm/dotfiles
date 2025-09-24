@@ -1,0 +1,15 @@
+# Limits CPU usage so it doesn't starve the render thread
+# This prevents the work-issued laptop from lagging
+services:
+  app_minitol:
+    cpus: 4
+  html2pdf:
+    cpus: 1
+  reports-v4-pdf:
+    cpus: 1
+  mariadb:
+    cpus: 1
+  storage:
+    cpus: 1
+  weaviate:
+    cpus: 1
