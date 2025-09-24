@@ -62,6 +62,8 @@ local function find_file_in_dir()
   require("telescope.builtin").find_files { search_dirs = { path } }
 end
 
+require("neoconf").setup()
+
 return {
   {
     "AstroNvim/astrocore",
@@ -91,41 +93,13 @@ return {
           -- quick save
           -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
           ["<Leader>O"] = { desc = "Obsidian" },
-          ["<Leader>Ob"] = { ":Obsidian backlinks<CR>", desc = "Backlinks" },
-          ["<Leader>Ol"] = { ":Obsidian links<CR>", desc = "Links in this buffer" },
+          ["<Leader>Ob"] = { ":ObsidianBacklinks<CR>", desc = "Backlinks" },
+          ["<Leader>Ol"] = { ":ObsidianLinks<CR>", desc = "Links in this buffer" },
           -- ["<Leader>Od"] = { ":ObsidianToggleCheckbox<CR>", desc = "Toggle checkbox" },
           -- ["<Leader>Of"] = { ":ObsidianQuickSwitch<CR>", desc = "Open a note by filename" },
           -- ["<Leader>Ow"] = { ":ObsidianSearch<CR>", desc = "Search notes" },
           -- ["<Leader>On"] = { ":ObsidianNew ", desc = "New note" },
           -- ["<Leader>Ot"] = { ":ObsidianToday<CR>", desc = "Today's note" },
-
-          -- Opens or creates a TMS note for a given branch
-          ["<Leader>OT"] = {
-            function()
-              -- Get current branch safely
-              local branch = vim.fn.system("git branch --show-current"):gsub("%s+", "")
-
-              -- Strict pattern matching
-              local tms = branch:match "^dev/[^/]+/([^/]+)$"
-
-              if not tms then
-                vim.notify("❌ Not a valid TMS branch: " .. branch, vim.log.levels.ERROR)
-                return
-              end
-
-              -- Option 1: Using command with explicit path
-              vim.cmd(("ObsidianNew company/tms/tms-%s.md"):format(tms))
-
-              -- Option 2: Using API (preferred)
-              -- local ok, obsidian = pcall(require, "obsidian")
-              -- if ok then
-              --   obsidian.new_note({ id = tms, dir = "company/tms" })
-              -- else
-              --   vim.notify("Obsidian.nvim not loaded", vim.log.levels.ERROR)
-              -- end
-            end,
-            desc = "TMS note from branch",
-          },
         },
         t = {
           -- setting a mapping to false will disable it
