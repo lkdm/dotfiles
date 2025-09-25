@@ -11,8 +11,24 @@ setup_macos() {
     fi
 
     echo "Configuring Mac OS with sane defaults..."
+
+    # Show hidden files
     defaults write com.apple.Finder AppleShowAllFiles true
+
+    # Do not show recents
+    defaults write com.apple.dock "show-recents" -bool "false"
+
+    # Autohide dock
+    defaults write com.apple.dock "autohide" -bool "true"
+
+    # Show all file extensions
+    defaults write NSGlobalDomain "AppleShowAllExtensions" -bool "true"
+
+    # Don't show files on Desktop
+    defaults write com.apple.finder "CreateDesktop" -bool "false"
+
     killall Finder
+    killall Dock
 }
 
 setup_linux() {
