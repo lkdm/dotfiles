@@ -1,8 +1,3 @@
--- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- Must be run before lspconfig setups
-require("neoconf").setup()
-
 ---@type LazySpec
 return {
   -- use mason-tool-installer for automatically installing Mason packages
@@ -36,6 +31,9 @@ return {
   -- configure lspconfig (including rust-analyzer)
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "folke/neoconf.nvim",
+    },
     config = function()
       local lspconfig = require "lspconfig"
 
