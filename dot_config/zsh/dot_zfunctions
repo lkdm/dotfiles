@@ -28,6 +28,15 @@ dci() {
   docker inspect "$id" | jq '.[0]'
 }
 
+# If there are tmux sessions, attach to them
+tm() {
+  if tmux ls &>/dev/null; then
+    tmux a
+  else
+    tmux
+  fi
+}
+
 
 clean_temp_files() {
   # Define the directories and safely expand globs using zsh glob qualifiers

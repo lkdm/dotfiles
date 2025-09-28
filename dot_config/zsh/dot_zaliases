@@ -24,10 +24,6 @@ alias nv='nvim'
 # Add `L` to the end of a command to use less
 alias -g L="| less -FRX"
 
-# tmux
-# attach to a session if it exists or create a new one
-alias tm='tmux a || tmux || tmux ls'
-
 # jrnl
 alias jt='jrnl -to today'
 alias j0='jrnl -n 1 --edit'
