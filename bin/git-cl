@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# git-cl - shortcut to clone a repository from common remotes
+
+# Check for correct number of arguments
+if [ $# -ne 3 ]; then
+  echo "Usage: git-cl <platform> <user> <repo>"
+  echo "Platforms: github, gitlab, bitbucket, gitea"
+  exit 1
+fi
+
+PLATFORM=$1
+USER=$2
+REPO=$3
+
+# Function to clone using SSH based on the platform
+case $PLATFORM in
+  github)
+    git clone git@github.com:$USER/$REPO.git
+    ;;
+  gitlab)
+    git clone git@gitlab.com:$USER/$REPO.git
+    ;;
+  bitbucket)
+    git clone git@bitbucket.org:$USER/$REPO.git
+    ;;
+  gitea)
+    git clone git@gitea.com:$USER/$REPO.git
+    ;;
+  *)
+    echo "Unknown platform: $PLATFORM"
+    echo "Supported platforms: github, gitlab, bitbucket, gitea"
+    exit 1
+    ;;
+esac

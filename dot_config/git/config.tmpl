@@ -50,8 +50,6 @@
        ; quickly create a backup of the current branch
        backup-branch = !git branch $(git rev-parse --abbrev-ref HEAD)--backup-$(date +%Y%m%d%H%M%S)
 
-       lkdm = !git clone git@github.com:lkdm/$1.git
-
 [log]
        # Use YYYY-MM-DD dates
        date = iso
@@ -120,6 +118,15 @@
        # Use SSH remote urls rather than http
        # You can use pushInsteadOf to only use SSH urls on push, so you can still use HTTP for public repos
        insteadOf = "https://github.com/"
+
+[url "git@gitlab.com:"]
+       insteadOf = "https://gitlab.com/"
+
+[url "git@bitbucket.org:"]
+       insteadOf = "https://bitbucket.org/"
+
+[url "git@gitea.com:"]
+       insteadOf = "https://gitea.com/"
 
 [apply]
        # Remote trailing whitespaces
