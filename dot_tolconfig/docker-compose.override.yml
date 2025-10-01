@@ -3,6 +3,9 @@
 services:
   app_minitol:
     cpus: 4
+    # Fixes issues with storage while developing locally
+    environment:
+      storage: https://storage.trionline.com.au
   html2pdf:
     cpus: 1
   reports-v4-pdf:
