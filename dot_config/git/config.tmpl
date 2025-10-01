@@ -50,6 +50,8 @@
        ; quickly create a backup of the current branch
        backup-branch = !git branch $(git rev-parse --abbrev-ref HEAD)--backup-$(date +%Y%m%d%H%M%S)
 
+       lkdm = !git clone git@github.com:lkdm/$1.git
+
 [log]
        # Use YYYY-MM-DD dates
        date = iso
