@@ -29,59 +29,59 @@ return {
   },
 
   -- configure lspconfig (including rust-analyzer)
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "folke/neoconf.nvim",
-    },
-    config = function()
-      local lspconfig = require "lspconfig"
-
-      -- WARN: if goto definition not working, try commenting this out
-      lspconfig.rust_analyzer.setup {
-        settings = {
-          ["rust-analyzer"] = {
-            server = {
-              extraEnv = {
-                ["CHALK_OVERFLOW_DEPTH"] = "100000000",
-                ["CHALK_SOLVER_MAX_SIZE"] = "100000000",
-              },
-            },
-            lru = {
-              capacity = 64,
-            },
-            cargo = {
-              allFeatures = true,
-              loadOutDirsFromCheck = true,
-              buildScripts = {
-                enable = true,
-              },
-            },
-            checkOnSave = {
-              enable = true,
-              command = "clippy",
-            },
-            procMacro = {
-              enable = true,
-            },
-            files = {
-              excludeDirs = { "target", "tests" },
-            },
-            imports = {
-              granularity = {
-                group = "module",
-              },
-              prefix = "self",
-            },
-            diagnostics = {
-              enable = true,
-              experimental = {
-                enable = true,
-              },
-            },
-          },
-        },
-      }
-    end,
-  },
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   dependencies = {
+  --     "folke/neoconf.nvim",
+  --   },
+  --   config = function()
+  --     local lspconfig = require "lspconfig"
+  --
+  --     -- WARN: if goto definition not working, try commenting this out
+  --     lspconfig.rust_analyzer.setup {
+  --       settings = {
+  --         ["rust-analyzer"] = {
+  --           server = {
+  --             extraEnv = {
+  --               ["CHALK_OVERFLOW_DEPTH"] = "100000000",
+  --               ["CHALK_SOLVER_MAX_SIZE"] = "100000000",
+  --             },
+  --           },
+  --           lru = {
+  --             capacity = 64,
+  --           },
+  --           cargo = {
+  --             allFeatures = true,
+  --             loadOutDirsFromCheck = true,
+  --             buildScripts = {
+  --               enable = true,
+  --             },
+  --           },
+  --           checkOnSave = {
+  --             enable = true,
+  --             command = "clippy",
+  --           },
+  --           procMacro = {
+  --             enable = true,
+  --           },
+  --           files = {
+  --             excludeDirs = { "target", "tests" },
+  --           },
+  --           imports = {
+  --             granularity = {
+  --               group = "module",
+  --             },
+  --             prefix = "self",
+  --           },
+  --           diagnostics = {
+  --             enable = true,
+  --             experimental = {
+  --               enable = true,
+  --             },
+  --           },
+  --         },
+  --       },
+  --     }
+  --   end,
+  -- },
 }
