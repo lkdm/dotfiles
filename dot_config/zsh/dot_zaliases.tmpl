@@ -42,6 +42,15 @@ hash -d lab=~lkdm/lab
 hash -d tol=~/Repos/SoftwareNorth/TriOnline
 hash -d trunk="$HOME/Repos/SoftwareNorth/TriOnline/trunk"
 
+# Application aliases
+{{ if eq .chezmoi.os "darwin" }}
+alias chromium='"/Applications/Chromium.app/Contents/MacOS/Chromium"'
+{{ else }}
+alias libreoffice='flatpak run org.libreoffice.LibreOffice'
+alias chromium='flatpak run org.chromium.Chromium'
+{{ end }}
+
+
 # Fix dotnet
 # alias omnisharp='OmniSharp'
 
