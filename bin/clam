@@ -23,10 +23,10 @@ scan() {
   mkdir -p "$LOG_DIR"
 
   echo "Updating virus database..."
-  freshclam
+  freshclam --config-file=$XDG_CONFIG_HOME/clamav/freshclam.conf
 
   echo "Starting virus scan..."
-  clamdscan --fdpass --multiscan --log="$LOG_DIR/scan.log" "${SCAN_PATHS[@]}" &
+  clamdscan --config-file=$XDG_CONFIG_HOME/clamav/clamd.conf --fdpass --multiscan --log="$LOG_DIR/scan.log" "${SCAN_PATHS[@]}" &
   scan_pid=$!
 
   spinner="/|\-/|\-"
