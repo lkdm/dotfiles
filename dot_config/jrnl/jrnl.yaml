@@ -17,6 +17,7 @@ journals:
     folder: true
   fic:
     journal: ~/Repos/lkdm/fic/jrnl.txt
+    encrypt: true
 linewrap: 79
 tagsymbols: "@"
 template: false
