@@ -8,6 +8,10 @@ git:
     - master
     - staging
 keybinding:
+  commits:
+    # When using lazygit inside of tmux with nvim binds the default binds to move commits up and down clash
+    moveUpCommit: <f2>
+    moveDownCommit: <f3>
   files:
     # Use the default editor for writing commit messages
     commitChanges: "" # disables the default inline commit on 'c'
