@@ -1,4 +1,10 @@
 
+# Make a directory then cd inside of it
+mkcd () {
+  \mkdir -p "$1"
+  cd "$1"
+}
+
 # Helper for prefixing output
 # Used to prefix logs with a label
 prefix() {
