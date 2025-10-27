@@ -11,6 +11,7 @@ A simple journaling script that appends your input to a new jrnl entry.
 
 Options:
   -w         Show word count in the prompt and clear the screen for each entry.
+  -y         Yank the last entry to clipboard
   -h, --help Show this help message and exit.
 
 Examples:
@@ -24,6 +25,9 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
     exit 0
 elif [[ "$1" == "-w" ]]; then
     WORDCOUNT_MODE=1
+elif [[ "$1" == "-y" ]]; then
+    jrnl fic -n 1 --format txt | copy
+    exit 0
 fi
 
 TMPFILE=$(mktemp)
@@ -52,6 +56,7 @@ while true; do
         echo "Exiting journal mode."
         break
     fi
+
     echo "$INPUT" >> "$TMPFILE"
 done
 
