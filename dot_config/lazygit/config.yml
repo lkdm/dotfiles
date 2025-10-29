@@ -22,3 +22,12 @@ customCommands:
     context: commits
     command: git commit --allow-empty --amend --no-verify --message
     subprocess: true
+  # - key: P
+  #   context: "global"
+  #   command: "git fetch && git push"
+  #   subprocess: true
+  - key: S
+    description: "Run branch-sync in Minitol container"
+    context: "global"
+    command: "mt sh branch-sync"
+    subprocess: true
