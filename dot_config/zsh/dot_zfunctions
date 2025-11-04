@@ -14,9 +14,9 @@ prefix() {
 
 nvim-purge() {
   echo "Purging Neovim config and plugin directories"
-  rm ~/.config/nvim -rf && echo "Purged config"
-  rm ~/.local/share/nvim/lazy -rf && echo "Purged lazy packages"
-  rm ~/.local/share/nvim/mazon -rf && echo "Purged mason packages"
+  rm -rf ~/.config/nvim && echo "Purged config"
+  rm -rf ~/.local/share/nvim/lazy && echo "Purged lazy packages"
+  rm -rf ~/.local/share/nvim/mazon && echo "Purged mason packages"
 }
 
 # View largest disk usage
