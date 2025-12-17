@@ -17,9 +17,6 @@ alias tree="ls -T"
 alias lg='lazygit'
 alias cl='clear'
 
-# nvim
-alias nv='nvim'
-
 # less
 # Add `L` to the end of a command to use less
 alias -g L="| less -FRX"
@@ -40,7 +37,16 @@ hash -d lab=~lkdm/lab
 
 # Work aliases
 hash -d tol=~/Repos/SoftwareNorth/TriOnline
-hash -d trunk="$HOME/Repos/SoftwareNorth/TriOnline/trunk"
+hash -d trunk=~/Repos/SoftwareNorth/TriOnline/trunk
+
+{{- if and (eq .chezmoi.os "linux") (eq .sysarea "work") }}
+# On work computer, tells nvim to use P-cores, because it often defaults to E-cores
+nvim() {
+  taskset -c 0-3 /home/linuxbrew/.linuxbrew/bin/nvim "$@"
+}
+{{- end }}
+# nvim
+alias nv='nvim'
 
 # Application aliases
 {{ if eq .chezmoi.os "darwin" }}

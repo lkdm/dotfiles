@@ -1,4 +1,3 @@
-
 # Make a directory then cd inside of it
 mkcd () {
   \mkdir -p "$1"

@@ -11,7 +11,7 @@ CPUAffinity=8-13
 # Limit clamd (100% is one core)
 # This prevents overall CPU saturation and lag.
 # 200% seems to be the sweet spot on my rusty laptop
-CPUQuota=300%
+CPUQuota=400%
 # Give it the lowest possible CPU priority
 Nice=19
 # 3. I/O Priority: Give ClamAV the minimum possible slice of disk bandwidth
