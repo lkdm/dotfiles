@@ -20,23 +20,17 @@ scan() {
     "/tmp"
   )
 
-  IGNORE_PATHS=(
-    "/var/home/luke/.var/app/com.usebottles.bottles/data/bottles"
-    "/sysroot/ostree/repo/objects"
-    "/tmp/.X11-unix"
-    "/tmp/.ICE-unix"
-  )
-
-  # TODO: Use rsync filter scan_paths, removing ignore_paths.
-  # Then save that to tmp file, read it back into clamdscan command
-
   mkdir -p "$LOG_DIR"
 
   echo "Updating virus database..."
   freshclam --config-file=$XDG_CONFIG_HOME/clamav/freshclam.conf
 
   echo "Starting virus scan..."
-  clamdscan --config-file=$XDG_CONFIG_HOME/clamav/clamd.conf --fdpass --multiscan --log="$LOG_DIR/scan.log" "${SCAN_PATHS[@]}" &
+  clamdscan --config-file="$XDG_CONFIG_HOME/clamav/clamd.conf" \
+    --fdpass \
+    --multiscan \
+    --log="$LOG_DIR/scan.log" \
+    "${SCAN_PATHS[@]}" 2> >(grep -v 'LibClamAV Warning: cli_realpath' >&2) &
   scan_pid=$!
 
   spinner="/|\-/|\-"
