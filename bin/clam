@@ -26,7 +26,7 @@ scan() {
   freshclam --config-file=$XDG_CONFIG_HOME/clamav/freshclam.conf
 
   echo "Starting virus scan..."
-  clamdscan --config-file="$XDG_CONFIG_HOME/clamav/clamd.conf" \
+  taskset -c 1-3 clamdscan --config-file="$XDG_CONFIG_HOME/clamav/clamd.conf" \
     --fdpass \
     --multiscan \
     --log="$LOG_DIR/scan.log" \

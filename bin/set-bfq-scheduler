@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Sometimes bfq scheduler can help with prioritising input instructions over background instructions
+
+# Define the rule
+RULE_PATH="/etc/udev/rules.d/60-scheduler.rules"
+RULE_CONTENT='ACTION=="add|change", KERNEL=="nvme0n1", ATTR{queue/scheduler}="bfq"'
+
+# Check if the rule is already there to avoid unnecessary sudo prompts
+if [ ! -f "$RULE_PATH" ] || [ "$(cat $RULE_PATH)" != "$RULE_CONTENT" ]; then
+    echo "Setting up BFQ I/O scheduler udev rule..."
+    echo "$RULE_CONTENT" | sudo tee "$RULE_PATH" > /dev/null
+    sudo udevadm control --reload-rules
+    sudo udevadm trigger
+fi
