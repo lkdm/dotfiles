@@ -37,6 +37,15 @@ fnm default "$NODE_LATEST"
 
 # Symlink Omnnisharp
 ln -s $(which OmniSharp) ~/.local/bin/omnisharp
+
+
+{{- if eq .chezmoi.os "linux" }}
+# Install 1Password on Linux
+brew tap "ublue-os/tap"
+brew install --cask 1password-gui-linux
+{{- end }}
+
+
 #
 # Brew packages
 brew_packages=(
