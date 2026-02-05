@@ -12,19 +12,13 @@ dev_packages=(
   docker docker-compose
   # Python
   uv pipx python
-  # Go
-  go gopls
   # Git
   jesseduffield/lazygit/lazygit git-delta
   # Data
-  jq fd bat
-  # Postgres
-  postgresql
-  # Dotnet
-  omnisharp
+  jq xsv
 )
 brew tap oven-sh/bun
-brew tap omnisharp/omnisharp-roslyn
+# brew tap omnisharp/omnisharp-roslyn
 for package in "${dev_packages[@]}"; do
   echo "Installing dev package: $package..."
   $(which brew) install --quiet "$package" || echo "Failed: $package"
@@ -36,8 +30,7 @@ fnm install "$NODE_LATEST"
 fnm default "$NODE_LATEST"
 
 # Symlink Omnnisharp
-ln -s $(which OmniSharp) ~/.local/bin/omnisharp
-
+# ln -s $(which OmniSharp) ~/.local/bin/omnisharp
 
 {{- if eq .chezmoi.os "linux" }}
 # Install 1Password on Linux
@@ -45,20 +38,18 @@ brew tap "ublue-os/tap"
 brew install --cask 1password-gui-linux
 {{- end }}
 
-
 #
 # Brew packages
 brew_packages=(
-  bash
-  zsh
-  atuin
-  git
-  curl
-  fzf
-  neovim
-  ripgrep
-  tmux
-  jrnl
+  # shells
+  bash zsh
+  # shell enhancements
+  atuin fzf fd bat ripgrep
+  # development
+  git neovim tmux jrnl
+  # xh - great curl alternative
+  # https://github.com/ducaale/xh
+  xh
   # starship - fast, configurable terminal prompt written in Rust
   starship
   # trippy - ping and traceroute in one
@@ -67,7 +58,7 @@ brew_packages=(
   eza
   # asciinema - used to create a textual video of a terminal sesssion
   # agg - used to convert asciicast format to gif
-  asciinema agg
+  # asciinema agg
   {{- if (eq .sysarea "home")}}
   ffmpeg pandoc
   {{- end }}
