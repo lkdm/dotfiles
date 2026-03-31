@@ -25,6 +25,8 @@ alias -g L="| less -FRX"
 alias jt='jrnl -to today'
 alias j0='jrnl -n 1 --edit'
 
+alias tz='tz -m'
+
 # Obsidian
 hash -d vault=~/Documents/Brain
 alias notes='cd ~/Documents/Brain && nvim .'
@@ -36,8 +38,7 @@ hash -d scripts=~lkdm/scripts
 hash -d lab=~lkdm/lab
 
 # Work aliases
-hash -d tol=~/Repos/SoftwareNorth/TriOnline
-hash -d trunk=~/Repos/SoftwareNorth/TriOnline/trunk
+hash -d work=~/Repos/bitbucket.org/invastglobal/
 
 {{- if and (eq .chezmoi.os "linux") (eq .sysarea "work") }}
 # On work computer, tells nvim to use P-cores, because it often defaults to E-cores
@@ -47,6 +48,9 @@ nvim() {
 {{- end }}
 # nvim
 alias nv='nvim'
+
+# kubernetes, and autocompletion
+alias kb='kubectl'
 
 # Application aliases
 {{ if eq .chezmoi.os "darwin" }}

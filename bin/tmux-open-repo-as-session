@@ -17,7 +17,7 @@ declare -a candidates rels
 while IFS= read -r d; do
   [ -d "$d/.git" ] || [ -f "$d/.git" ] || continue
   candidates+=("$d")
-done < <(find "$root" -maxdepth 3 -type d 2>/dev/null)
+done < <(find "$root" -maxdepth 5 -type d 2>/dev/null)
 
 # add Obsidian vault explicitly
 brain="$HOME/Documents/Brain"
@@ -59,7 +59,7 @@ topdir="$(printf '%s' "$sel" | cut -d'/' -f1)"
 repo="$(basename "$sel_abs")"
 
 case "$topdir" in
-  TriOnline|TriOnline*|SoftwareNorth|tol) prefix="tol" ;;
+  TriOnline|TriOnline*|invastglobal) prefix="26dgm" ;;
   lkdm) prefix="lkdm" ;;
   obsidian|Brain) prefix="obsidian" ;;
   *) prefix="$(printf '%s' "$topdir" | tr '[:upper:]' '[:lower:]')" ;;
