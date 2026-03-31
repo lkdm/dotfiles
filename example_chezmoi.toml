@@ -1,3 +1,5 @@
+sourceDir = {{ .chezmoi.config.sourceDir | quote }}
+
 [data]
 name = "Luke M"
 hostname = "home"

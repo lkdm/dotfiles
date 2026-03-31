@@ -2,4 +2,4 @@
 /.chezmoidata
 !/.chezmoi*
 dot_aws/config
-.chezmoi.toml
+.chezmoi.toml.tmpl
