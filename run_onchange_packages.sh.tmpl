@@ -87,7 +87,6 @@ brew_packages=(
       xsel
     {{- else }}
       xclip
-      clamav
     {{- end }}
   {{- end }}
 
@@ -124,19 +123,21 @@ for package in "${brew_casks[@]}"; do
   $(which brew) install --cask --quiet "$package" || echo "Failed: $package"
 done
 
-# # Install apps from the MacOS app store
-# apps=(
-#   904280696    # Things 3
-#   937984704    # Amphetamine
-#   1464122853   # NextDNS
-# )
-# brew install mas
-# for package in "${apps[@]}"; do
-#   echo "Installing App store app: $package..."
-#   mas install "$package"
-# done
-{{- end }}
 
+{{- if eq .sysarea "home"}}
+# # Install apps from the MacOS app store
+apps=(
+  904280696    # Things 3
+  937984704    # Amphetamine
+  1464122853   # NextDNS
+)
+brew install mas
+for package in "${apps[@]}"; do
+  echo "Installing App store app: $package..."
+  mas install "$package"
+done
+{{- end }}
+{{- end }}
 
 {{- if eq .chezmoi.os "linux" }}
 # Flatpak packages on Linux
