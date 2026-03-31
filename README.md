@@ -9,40 +9,27 @@ Chezmoi](https://lukm.dev/shell/speed-up-zsh/).
 - **Shell-agnostic**: Sets environment variables in `~/.profile` for login and
 non-login shells.
 
-Install with:
+## Setup
 
 ```sh
+mkdir -p ~/Repos/lkdm
+```
+
+First, clone the repository or download it and put it in the correct location:
+
+```sh
+cd ~/Repos/lkdm
 git clone git@github.com:lkdm/dotfiles.git
+```
+
+Rename `example_chezmoi.toml` to `.chezmoi.toml`, fill it in, then initiate chezmoi:
+
+```sh
 chezmoi init --source=~/path/to/dotfiles
 ```
 
-## Chezmoi
-
-Chezmoi is a CLI tool that patches dotfiles from a Git repository.
-
-**Features**
-
-- **Patching**: On `apply`, patches files from repo onto system (ie.
-`dot_bashrc` -> `~/.bashrc`)
-- **Executable files**: Files prefixed with `executable_` are made executable.
-- **One-time runs**: Files prefixed with `run_once_` executes only once on
-`init`.
-- **Run scripts**: Files prefixed with `run_` are executed on each `apply`
-- **Templates**: Files ending with `.tmpl` are rendered on `apply` using Go
-templating syntax.
-
-**Usage**
+Run chezmoi apply:
 
 ```sh
 chezmoi apply
 ```
-
-## Applications & tools
-
-- **GhosTTY**: Default terminal emulator
-- **Homebrew**: Package manager on both macOS and Linux
-- **1Password**: For secure secrets management
-- **Tmux**: Terminal multiplexer
-- **Neovim**: IDE/editor
-- **Atuin**: Shell history syncronisation and fuzzy search
-- **LazyGit**: TUI Git client
