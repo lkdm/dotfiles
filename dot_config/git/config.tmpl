@@ -1,7 +1,18 @@
 [user]
        name = {{ .name }}
-       email = {{ .email }}
-       signingKey = ~/.ssh/id_ed25519.pub
+       email = {{ .email | quote }}
+
+       signingKey = ~/.ssh/work.pub
+       # Prevents Git from guessing an email if the configs below fail
+       useConfigOnly = true
+
+[includeIf "hasconfig:remote.*.url:bitbucket.org"]
+       # If the remote is bitbucket, it's a work repo
+       path = {{ .home_path }}/.config/git/config-work
+
+[includeIf "hasconfig:remote.*.url:github.com"]
+       # If the remote is github, it's a personal repo
+       path = {{ .home_path }}/.config/git/config-personal
 
 [core]
 

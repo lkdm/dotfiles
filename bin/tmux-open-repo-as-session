@@ -59,7 +59,7 @@ topdir="$(printf '%s' "$sel" | cut -d'/' -f1)"
 repo="$(basename "$sel_abs")"
 
 case "$topdir" in
-  TriOnline|TriOnline*|invastglobal) prefix="26dgm" ;;
+  TriOnline|TriOnline*|invastglobal) prefix="work" ;;
   lkdm) prefix="lkdm" ;;
   obsidian|Brain) prefix="obsidian" ;;
   *) prefix="$(printf '%s' "$topdir" | tr '[:upper:]' '[:lower:]')" ;;

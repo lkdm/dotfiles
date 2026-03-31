@@ -1,3 +1,5 @@
 !/.gitignore
 /.chezmoidata
 !/.chezmoi*
+dot_aws/config
+.chezmoi.toml

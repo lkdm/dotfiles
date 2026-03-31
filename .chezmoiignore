@@ -2,5 +2,6 @@ distrobox.sh
 README.md
 TODO.md
 install.sh
+example_chezmoi.toml
 dot_config/nvim/lazy-lock.json
 /my/
