@@ -42,6 +42,14 @@ run_upgrade() {
     command -v brew &>/dev/null && brew update && brew upgrade 2>&1 | prefix brew &
     command -v mas &>/dev/null && mas upgrade 2>&1 | prefix mas &
     command -v chezmoi &>/dev/null && chezmoi git pull 2>&1 | prefix chezmoi &
+    command -v uv &>/dev/null && uv tool upgrade --all 2>&1 | prefix uv &
+    command -v pipx &>/dev/null && pipx upgrade-all 2>&1 | prefix pipx &
+    command -v mise &>/dev/null && mise upgrade 2>&1 | prefix mise &
+    command -v asdf &>/dev/null && asdf plugin update --all 2>&1 | prefix asdf &
+    command -v kubectl &>/dev/null && kubectl krew version &>/dev/null && kubectl krew upgrade 2>&1 | prefix krew &
+    command -v bun &>/dev/null && bun upgrade 2>&1 | prefix bun &
+    command -v npm &>/dev/null && npm -g update 2>&1 | prefix npm &
+    command -v pnpm &>/dev/null && pnpm -g update 2>&1 | prefix pnpm &
 
     wait
     echo "✅ All updates completed.\n\nIf you have appimages, use gearlever to upgrade them." | prefix script
