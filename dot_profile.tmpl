@@ -49,24 +49,31 @@ export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
 # PATH
 #
 # Add user bin directories then tools next
+#
 PATH="$HOME/.local/bin:$HOME/bin:$CARGO_HOME/bin:$HOME/.bun:$HOME/.atuin/bin:$XDG_CONFIG_HOME/git/bin:$XDG_DATA_HOME/uv/tools:$GOPATH/bin:$XDG_DATA_HOME/npm/lib:$XDG_DATA_HOME/npm/bin"
+PATH="$HOME/Repos/bitbucket.org/invastglobal/devtools-misc/bin:$PATH"
+PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 
+HOMEBREW_PREFIX=/opt/homebrew
 # Then add Homebrew-related directories if HOMEBREW_PREFIX is set
 if [ -n "$HOMEBREW_PREFIX" ]; then
   PATH="$PATH:$HOMEBREW_PREFIX/opt/rustup/bin"
   PATH="$PATH:$HOMEBREW_PREFIX/opt/clamav/bin"
   PATH="$PATH:$HOMEBREW_PREFIX/opt/omnisharp/bin"
   PATH="$PATH:$HOMEBREW_PREFIX/opt/postgresql@17/bin"
+  PATH="$PATH:$HOMEBREW_PREFIX/opt/mysql-client/bin"
+
+  # Adds Python stuff to path
+  # eval "$(/opt/homebrew/bin/pyenv init --path)"
+
   # Prioritise Homebrew packages over existing ones
   # Useful on Mac OS which ships with outdated bash and git
   PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
   # PATH="$PATH:$HOMEBREW_PREFIX/bin"
   # PATH="$PATH:$HOMEBREW_PREFIX/sbin"
 fi
-
 # Common system paths last
 PATH="$PATH:/usr/local/go/bin:/snap/bin:/usr/bin:/usr/local/bin:/bin:/usr/sbin:/sbin"
-
 
 
 # Source Cargo environment vars if it exists (created by rustup)

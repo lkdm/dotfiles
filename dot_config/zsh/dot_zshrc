@@ -47,6 +47,13 @@ else
 	compinit -C;
 fi;
 
+# AWS autocomplete
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+complete -C 'aws_completer' aws
+
 [[ -f ~/.zsh/atuin.zsh ]] && . ~/.zsh/atuin.zsh
 [[ -f ~/.zsh/starship.zsh ]] && . ~/.zsh/starship.zsh
 [[ -f ~/.zsh/fnm.zsh ]] && . ~/.zsh/fnm.zsh
+[[ -f ~/.zsh/mise.zsh ]] && . ~/.zsh/mise.zsh
+[[ -f ~/.zsh/kubectl.zsh ]] && . ~/.zsh/kubectl.zsh

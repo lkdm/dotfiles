@@ -1,0 +1,37 @@
+[[zones]]
+id = "Australia/Sydney"
+name = "Sydney"
+
+[[zones]]
+id = "UTC"
+name = "UTC"
+
+[[zones]]
+id = "America/New_York"
+name = "New York"
+
+[[zones]]
+id = "Europe/London"
+name = "London"
+
+[keymaps]
+prev_minute = ["-"]
+next_minute = ["+"]
+zero_minute = ["0"]
+prev_hour = ["h", "left"]
+next_hour = ["l", "right"]
+prev_day = ["k", "up"]
+next_day = ["j", "down"]
+prev_week = ["L", "<"]
+next_week = ["H", ">"]
+prev_line_select = [","]
+next_line_select = ["."]
+next_format_style = ["f"]
+prev_format_style = ["F"]
+next_zone_style = ["z"]
+prev_zone_style = ["Z"]
+toggle_date = ["d"]
+open_web = ["o", "x"]
+now = ["n", "t"]
+help = ["?"]
+quit = ["q", "esc", "ctrl+c"]

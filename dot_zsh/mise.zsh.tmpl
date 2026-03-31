@@ -1,0 +1,6 @@
+# Mise.ZSH 
+#
+# Using Chezmoi templating, caches the evaluation of Mise's activate command for performance.
+{{- if lookPath "mise" }}
+{{ output "zsh" "-c" "mise activate zsh" | trim }}
+{{- end }}

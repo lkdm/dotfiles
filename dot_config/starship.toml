@@ -2,7 +2,7 @@
 
 add_newline = false
 format = """$directory$character"""
-right_format = """$all"""
+right_format = """${custom.uv}${env_var.APP_ENV}$all"""
 scan_timeout = 10
 
 [container]
@@ -41,8 +41,37 @@ format = '[$symbol$version]($style) '
 symbol = ""
 style = "bold dimmed"
 
+[env_var.APP_ENV]
+default = ''
+format = '[$env_value]($style) '
+style = "bold gray"
+
 [python]
-format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+# format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+#
+# format = """
+# ${custom.python_fallback}\
+# ${custom.uv}\
+# """
+disabled = true
+
+[custom.uv]
+detect_files = ['.python-version']
+command = 'uv python find --show-version'
+format = '[uv $symbol$output]($style) '
+symbol = "\ue73c "
+style = "bold #22C55E"
+description = 'uv python'
+
+# [custom.python_fallback]
+# # detect_extensions = ['py']
+# detect_files = ['pyproject.toml', 'requirements.txt', '!uv.lock']
+# when = 'test ! -f uv.lock'
+# symbol = "\ue73c "
+# command = 'python3 --version'
+# format = '[$symbol$output]($style) '
+# style = "bold yellow"
+# description = 'python fallback'
 
 [nodejs]
 format = '[$symbol($version )]($style)'
@@ -88,3 +117,10 @@ format = '[$symbol($version )]($style)'
 
 [haskell]
 format = '[$symbol($version )]($style)'
+
+[aws]
+format = 'on [$symbol$profile]($style) '
+style = 'bold blue'
+symbol = '🅰 '
+[aws.profile_aliases]
+Enterprise_Naming_Scheme-voidstars = 'void**'

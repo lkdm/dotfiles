@@ -21,9 +21,6 @@ nvim-purge() {
 # View largest disk usage
 alias largest='du -h 2> /dev/null | sort -hr | head -n20'
 
-# Copy to clipboard
-alias copy='xclip -selection clipboard' # Example: echo "Hello" | copy
-
 # Opens a chooser that lets you inspect 
 dci() {
   local id
@@ -100,3 +97,7 @@ aliases () {
 
   [[ -n "$cmd" ]] && print -z "$cmd"  # put in command buffer
 }
+
+# AWS
+alias aws-login='aws sso login --profile "$AWS_PROFILE"'
+alias aws-who='aws sts get-caller-identity'
