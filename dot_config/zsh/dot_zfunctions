@@ -101,3 +101,7 @@ aliases () {
 # AWS
 alias aws-login='aws sso login --profile "$AWS_PROFILE"'
 alias aws-who='aws sts get-caller-identity'
+
+# Open man page in a browser
+alias manb="PAGER=\"col -b  | open -a /Applications/Safari.app -f\" man"
+
