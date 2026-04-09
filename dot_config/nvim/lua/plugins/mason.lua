@@ -1,34 +1,23 @@
 ---@type LazySpec
 return {
-  -- use mason-tool-installer for automatically installing Mason packages
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     opts = {
       ensure_installed = {
-        -- install language servers
         "lua-language-server",
         "rust-analyzer",
-        "omnisharp", -- does not work through Mason, see plugins/lsp-roslyn.lua
+        "omnisharp",
         "typescript-language-server",
-        "pyright",
-
-        -- linters
+        -- "pyright", -- install via uv tool install pyright
         "eslint-lsp",
-
-        -- formatters
         "stylua",
         "prettierd",
-
-        -- debuggers
         "debugpy",
-
-        -- other tools
         "tree-sitter-cli",
       },
     },
   },
 
-  -- configure lspconfig (including rust-analyzer)
   -- {
   --   "neovim/nvim-lspconfig",
   --   dependencies = {
@@ -36,48 +25,27 @@ return {
   --   },
   --   config = function()
   --     local lspconfig = require "lspconfig"
+  --     local util = require "lspconfig.util"
   --
-  --     -- WARN: if goto definition not working, try commenting this out
-  --     lspconfig.rust_analyzer.setup {
+  --     lspconfig.pyright.setup {
+  --       before_init = function(_, config)
+  --         local root = config.root_dir
+  --         if not root then return end
+  --
+  --         local venv_python = root .. "/.venv/bin/python"
+  --         if vim.fn.executable(venv_python) == 1 then
+  --           config.settings = config.settings or {}
+  --           config.settings.python = config.settings.python or {}
+  --           config.settings.python.pythonPath = venv_python
+  --         end
+  --       end,
   --       settings = {
-  --         ["rust-analyzer"] = {
-  --           server = {
-  --             extraEnv = {
-  --               ["CHALK_OVERFLOW_DEPTH"] = "100000000",
-  --               ["CHALK_SOLVER_MAX_SIZE"] = "100000000",
-  --             },
-  --           },
-  --           lru = {
-  --             capacity = 64,
-  --           },
-  --           cargo = {
-  --             allFeatures = true,
-  --             loadOutDirsFromCheck = true,
-  --             buildScripts = {
-  --               enable = true,
-  --             },
-  --           },
-  --           checkOnSave = {
-  --             enable = true,
-  --             command = "clippy",
-  --           },
-  --           procMacro = {
-  --             enable = true,
-  --           },
-  --           files = {
-  --             excludeDirs = { "target", "tests" },
-  --           },
-  --           imports = {
-  --             granularity = {
-  --               group = "module",
-  --             },
-  --             prefix = "self",
-  --           },
-  --           diagnostics = {
-  --             enable = true,
-  --             experimental = {
-  --               enable = true,
-  --             },
+  --         python = {
+  --           analysis = {
+  --             typeCheckingMode = "basic",
+  --             autoSearchPaths = true,
+  --             useLibraryCodeForTypes = true,
+  --             diagnosticMode = "openFilesOnly",
   --           },
   --         },
   --       },

@@ -3,33 +3,65 @@ return {
   "AstroNvim/astrolsp",
   ---@type AstroLSPOpts
   opts = {
-    ---@diagnostic disable: missing-fields
+    servers = {
+      "pyright",
+    },
     config = {
-      omnisharp = {
-        cmd = { "/var/home/luke/.local/bin/omnisharp", "--languageserver" },
-        filetypes = { "cs", "vb" },
-        init_options = {},
-        root_markers = { ".sln", ".csproj", "omnisharp.json", "function.json" },
+      pyright = {
+        cmd = { "pyright-langserver", "--stdio" },
+        before_init = function(_, config)
+          local root = config.root_dir
+          if not root then return end
+
+          local venv_python = root .. "/.venv/bin/python"
+          if vim.fn.executable(venv_python) == 1 then
+            config.settings = config.settings or {}
+            config.settings.python = config.settings.python or {}
+            config.settings.python.pythonPath = venv_python
+          end
+        end,
         settings = {
-          FormattingOptions = {
-            EnableEditorConfigSupport = true,
-          },
-          MsBuild = {},
-          RenameOptions = {},
-          RoslynExtensionsOptions = {},
-          Sdk = {
-            IncludePrereleases = true,
-          },
-        },
-        capabilities = {
-          workspace = {
-            workspaceFolders = false,
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "openFilesOnly",
+            },
           },
         },
       },
     },
   },
 }
+
+---@diagnostic disable: missing-fields
+-- config = {
+--   omnisharp = {
+--     cmd = { "/var/home/luke/.local/bin/omnisharp", "--languageserver" },
+--     filetypes = { "cs", "vb" },
+--     init_options = {},
+--     root_markers = { ".sln", ".csproj", "omnisharp.json", "function.json" },
+--     settings = {
+--       FormattingOptions = {
+--         EnableEditorConfigSupport = true,
+--       },
+--       MsBuild = {},
+--       RenameOptions = {},
+--       RoslynExtensionsOptions = {},
+--       Sdk = {
+--         IncludePrereleases = true,
+--       },
+--     },
+--     capabilities = {
+--       workspace = {
+--         workspaceFolders = false,
+--       },
+--     },
+--   },
+-- },
+--   },
+-- }
 
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
