@@ -42,12 +42,13 @@ vim.bo.tabstop = 4
 vim.bo.softtabstop = 4
 vim.opt.cmdheight = 1 -- Make notifications 2 lines
 vim.opt.expandtab = false -- AstronVim has a plugin that tries to infer whether to indent with tabs or spaces. It doesn't work well with Python files, specifically
+vim.o.exrc = true -- Allows .nvim.lua files to be executed
 
 -- Fix Python overriding tab settings
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "python",
   callback = function()
-    vim.bo.expandtab = false
+    vim.bo.expandtab = true
     vim.bo.shiftwidth = 4
     vim.bo.tabstop = 4
     vim.bo.softtabstop = 4
