@@ -27,6 +27,13 @@ setup_macos() {
     # Don't show files on Desktop
     defaults write com.apple.finder "CreateDesktop" -bool "false"
 
+    # TextEdit.app default settings
+    # force TextEdit settings (plain text + wrap)
+    defaults write com.apple.TextEdit RichText -bool false
+    defaults write com.apple.TextEdit PlainTextEncoding -int 4
+    defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
+    defaults write com.apple.TextEdit WrapToWindow -bool true
+
     killall Finder
     killall Dock
 }
