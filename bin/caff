@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# caff - provides friendly shell syntax for caffeinate binary
+
+caff() {
+  local total=0
+  local args=()
+
+  for arg in "$@"; do
+    if [[ $arg == -* ]]; then
+      args+=("$arg")
+      continue
+    fi
+
+    # remove spaces just in case
+    local rest="${arg// /}"
+
+    # parse things like 1h30m10s
+    while [[ $rest =~ ^([0-9]+)([hms]) ]]; do
+      local val=${BASH_REMATCH[1]}
+      local unit=${BASH_REMATCH[2]}
+
+      case $unit in
+        h) total=$((total + val * 3600)) ;;
+        m) total=$((total + val * 60)) ;;
+        s) total=$((total + val)) ;;
+      esac
+
+      rest=${rest#*"${BASH_REMATCH[0]}"}
+    done
+
+    # if anything is left over, it's invalid
+    if [[ -n $rest ]]; then
+      # allow plain numbers (seconds)
+      if [[ $rest =~ ^[0-9]+$ ]]; then
+        total=$((total + rest))
+      else
+        echo "caff: invalid argument '$arg'" >&2
+        return 1
+      fi
+    fi
+  done
+
+  if (( total == 0 )); then
+	cmd=$(basename "$0")
+	desc=$(sed -n '2p' "$0" | sed 's/^# *//')
+	echo $desc
+    echo "Usage: caff <duration> [flags]"
+  	echo "  $cmd 1h30m"
+  	echo "  $cmd 2h 15m"
+  	echo "  $cmd 3600"
+  	echo "  $cmd 1h"
+    return 1
+  fi
+
+  caffeinate "${args[@]}" -t "$total"
+}
+
+caff "$@"
