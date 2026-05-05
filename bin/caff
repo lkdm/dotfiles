@@ -52,6 +52,9 @@ caff() {
     return 1
   fi
 
+  start=$(date "+%H:%M:%S")
+  end=$(date -v+${total}S "+%H:%M:%S")
+  echo "Awake from $start → $end"
   caffeinate "${args[@]}" -t "$total"
 }
 
