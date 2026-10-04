@@ -64,18 +64,18 @@ clean_temp_files() {
 #
 # The function will skip committing and pushing if a rebase or merge conflict is detected,
 # ensuring that no actions are taken until the repository is in a clean state.
-
-jrnl() {
-    if [[ "$1" == "fic" ]]; then
-        export JRNL="$HOME/Repos/lkdm/fic"
-    else
-        export JRNL="$HOME/Repos/lkdm/jrnl"
-    fi
-    ~/.config/jrnl/scripts/pull.sh || return 1
-    command jrnl "$@" || return 1
-    ~/.config/jrnl/scripts/commit.sh || return 1
-    ~/.config/jrnl/scripts/push.sh &
-}
+#
+# jrnl() {
+#     if [[ "$1" == "fic" ]]; then
+#         export JRNL="$HOME/Repos/lkdm/fic"
+#     else
+#         export JRNL="$HOME/Repos/lkdm/jrnl"
+#     fi
+#     ~/.config/jrnl/scripts/pull.sh || return 1
+#     command jrnl "$@" || return 1
+#     ~/.config/jrnl/scripts/commit.sh || return 1
+#     ~/.config/jrnl/scripts/push.sh &
+# }
 
 yt-audio () {
     # Downloads the best audio quality stream from YouTube and extracts as mp3.
@@ -97,10 +97,6 @@ aliases () {
 
   [[ -n "$cmd" ]] && print -z "$cmd"  # put in command buffer
 }
-
-# AWS
-alias aws-login='aws sso login --profile "$AWS_PROFILE"'
-alias aws-who='aws sts get-caller-identity'
 
 # Open man page in a browser
 alias manb="PAGER=\"col -b  | open -a /Applications/Safari.app -f\" man"
